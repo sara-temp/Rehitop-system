@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input } from '@angular/core';
-import { product } from '../../models/product.model';
+import { Product } from '../../models/product.model';
 
 @Component({
   selector: 'product-list',
@@ -12,7 +12,7 @@ import { product } from '../../models/product.model';
 export class ProductListComponent {
   @Input() 
   category: string = 'ספות';
-  products: product[] = [];
+  products: Product[] = [];
 
   constructor(private http: HttpClient) {}
   
@@ -21,7 +21,7 @@ export class ProductListComponent {
   }
 
   loadProducts() {
-    this.http.get<product[]>('assets/products.json').subscribe(
+    this.http.get<Product[]>('assets/products.json').subscribe(
       (data) => {
         this.products = data.filter(product => product.category === this.category);
       },

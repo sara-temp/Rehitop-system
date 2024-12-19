@@ -1,0 +1,15 @@
+<ng-container *ngIf="imageObject != null">
+    <div class="backdrop" (click)="closeImage()"></div>
+    <div class="fullscreen-image">
+      <img [src]="imageObject.image" [alt]="imageObject.name" />
+      <div class="details">
+        <h2>{{ imageObject.name }}</h2>
+        <p>{{ imageObject.describe }}</p>
+        <p><strong>Category:</strong> {{ imageObject.category }}</p>
+        <p><strong>Price:</strong> ${{ imageObject.price }}</p>
+        <p *ngIf="imageObject.colors"><strong>Colors:</strong> {{ imageObject.colors }}</p>
+        <p *ngIf="imageObject.company"><strong>Company:</strong> {{ imageObject.company }}</p>
+      </div>
+    </div>
+  </ng-container>
+  
