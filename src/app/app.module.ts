@@ -4,8 +4,7 @@ import { BrowserModule, provideClientHydration, withEventReplay } from '@angular
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
-import { SystemModule } from './system/system.module';
+import { SystemModule } from "./system/system.module";
 
 @NgModule({
   declarations: [
@@ -15,7 +14,7 @@ import { SystemModule } from './system/system.module';
     BrowserModule,
     AppRoutingModule,
     SystemModule
-  ],
+],
   providers: [
     provideClientHydration(withEventReplay()), importProvidersFrom(HttpClientModule)
   ],
