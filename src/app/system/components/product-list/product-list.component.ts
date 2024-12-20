@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Input } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { Product } from '../../../models/product.model';
 
 @Component({
@@ -11,7 +11,7 @@ import { Product } from '../../../models/product.model';
 })
 export class ProductListComponent {
   @Input() 
-  category: string = 'ספות';
+  category: string = '';
   products: Product[] = [];
   selectedProduct: Product | null = null;
 
@@ -19,6 +19,12 @@ export class ProductListComponent {
   
   ngOnInit() {
     this.loadProducts();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['category'] && changes['category'].currentValue) {
+      this.loadProducts();
+    }
   }
 
   loadProducts() {
@@ -33,9 +39,7 @@ export class ProductListComponent {
     )
   }
 
-
   openViewer(product: Product): void {
     this.selectedProduct = product;
   }
-
 }

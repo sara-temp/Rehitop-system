@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SystemModule } from "./system/system.module";
+import { HeaderComponent } from './system/components/header/header.component';
 
 @NgModule({
   declarations: [

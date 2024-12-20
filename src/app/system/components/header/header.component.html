@@ -1,0 +1,13 @@
+<div class="header-toolbar">
+  <nav class="categories-nav">
+    <ul>
+      <li *ngFor="let category of categories" (click)="onCategoryClick(category)">
+        {{ category }}
+      </li>
+    </ul>
+  </nav>
+</div>
+
+<div class="products">
+  <product-list [category]="categorySelected"></product-list> 
+</div>
