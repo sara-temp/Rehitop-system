@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Input } from '@angular/core';
-import { Product } from '../../models/product.model';
+import { Component, Input, SimpleChanges } from '@angular/core';
+import { Product } from '../../../models/product.model';
 
 @Component({
   selector: 'product-list',
@@ -11,7 +11,7 @@ import { Product } from '../../models/product.model';
 })
 export class ProductListComponent {
   @Input() 
-  category: string = 'ספות';
+  category: string = '';
   products: Product[] = [];
 
   constructor(private http: HttpClient) {}
@@ -20,10 +20,16 @@ export class ProductListComponent {
     this.loadProducts();
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['category'] && changes['category'].currentValue) {
+      this.loadProducts();
+    }
+  }
+
   loadProducts() {
     this.http.get<Product[]>('assets/products.json').subscribe(
-      (data) => {
-        this.products = data.filter(product => product.category === this.category);
+      (data) => {                
+        this.products = data.filter(product => product.category == this.category);
       },
       (error) => {
         console.log('Failed to load products:', error);

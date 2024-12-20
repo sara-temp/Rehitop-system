@@ -1,0 +1,44 @@
+/* עיצוב לתפריט הניווט */
+.header-toolbar {
+  background-color: #f8f9fa; /* רקע בהיר */
+  border-bottom: 1px solid #ddd; /* גבול תחתון */
+  padding: 10px 15px;
+}
+
+.categories-nav {
+  display: flex;
+  justify-content: center; /* ממרכז את הפריטים */
+}
+
+.categories-nav ul {
+  list-style: none; /* מסיר נקודות */
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 15px; /* מרווח בין הפריטים */
+}
+
+.categories-nav li {
+  cursor: pointer;
+  padding: 8px 12px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  transition: background-color 0.3s, border-color 0.3s; /* מעבר חלק */
+}
+
+.categories-nav li:hover {
+  background-color: #e9ecef; /* רקע בהיר יותר בהובר */
+  border-color: #ccc; /* גבול אפור בהובר */
+}
+
+.categories-nav li.active {
+  background-color: #007bff; /* רקע כחול לפריט פעיל */
+  color: white; /* טקסט לבן לפריט פעיל */
+  border-color: #007bff;
+}
+
+.products {
+  display: block;
+  margin: 20px auto; /* ריווח עליון ותחתון ומרכז אופקי */
+  padding: 10px; /* רווח פנימי */
+}

@@ -1,0 +1,10 @@
+<div class="grid-list">
+  <mat-card class="example-card" appearance="outlined" *ngFor="let product of products">
+    <img mat-card-image [src]="product.image" alt="Photo of closet">
+    <mat-card-content>
+      <div>{{ product.name}}</div>
+      <div>{{ product.price }} ₪</div>
+      <div>red blue yellow</div>
+    </mat-card-content>
+  </mat-card>
+</div>
