@@ -39,7 +39,12 @@ export class ProductListComponent {
     )
   }
 
+  closeViewer(): void {
+    this.selectedProduct = null;
+  }
+
   openViewer(product: Product): void {
+    console.log('in open viewer', product)
     this.selectedProduct = product;
   }
 }

@@ -9,4 +9,4 @@
   </mat-card>
 </div>
 
-<product-card *ngIf="selectedProduct" [productObject]="selectedProduct" />
+<product-card *ngIf="selectedProduct" [productObject]="selectedProduct" (click)="closeViewer()" />
