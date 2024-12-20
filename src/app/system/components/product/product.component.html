@@ -1,15 +1,25 @@
-<ng-container *ngIf="imageObject != null">
-    <div class="backdrop" (click)="closeImage()"></div>
-    <div class="fullscreen-image">
-      <img [src]="imageObject.image" [alt]="imageObject.name" />
-      <div class="details">
-        <h2>{{ imageObject.name }}</h2>
-        <p>{{ imageObject.describe }}</p>
-        <p><strong>Category:</strong> {{ imageObject.category }}</p>
-        <p><strong>Price:</strong> ${{ imageObject.price }}</p>
-        <p *ngIf="imageObject.colors"><strong>Colors:</strong> {{ imageObject.colors }}</p>
-        <p *ngIf="imageObject.company"><strong>Company:</strong> {{ imageObject.company }}</p>
+<ng-container *ngIf="productObject">
+  <div class="backdrop" (click)="closeImage()">
+    <mat-card class="example-card" appearance="outlined">
+
+      <div class="card-container">
+
+        <div class="card-details">
+          <mat-card-content>
+          <h2>{{ productObject.name }}</h2>
+          <p><strong>מחיר:</strong> ${{ productObject.price }}</p>
+            <p>{{ productObject.describe }}</p>
+            <p><strong>קטגוריה:</strong> {{ productObject.category }}</p>
+            <p *ngIf="productObject.colors"><strong>צבעים:</strong> {{ productObject.colors }}</p>
+            <p *ngIf="productObject.company"><strong>חברה:</strong> {{ productObject.company }}</p>
+          </mat-card-content>
+        </div>
+
+        <div class="card-image">
+          <img mat-card-xl-image [src]="productObject.image" alt="Example Image">
+        </div>
+        
       </div>
-    </div>
-  </ng-container>
-  
+    </mat-card>
+  </div>
+</ng-container>

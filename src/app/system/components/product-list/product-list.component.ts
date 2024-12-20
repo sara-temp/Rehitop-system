@@ -13,6 +13,7 @@ export class ProductListComponent {
   @Input() 
   category: string = '';
   products: Product[] = [];
+  selectedProduct: Product | null = null;
 
   constructor(private http: HttpClient) {}
   
@@ -28,13 +29,17 @@ export class ProductListComponent {
 
   loadProducts() {
     this.http.get<Product[]>('assets/products.json').subscribe(
-      (data) => {                
-        this.products = data.filter(product => product.category == this.category);
+      (data) => {
+        this.products = data.filter(product => product.category === this.category);
       },
       (error) => {
         console.log('Failed to load products:', error);
         
       }
     )
+  }
+
+  openViewer(product: Product): void {
+    this.selectedProduct = product;
   }
 }

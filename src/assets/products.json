@@ -1,7 +1,7 @@
 [
     {
         "Id": 1,
-        "image": "assets/product-images/sofa1.jpg",
+        "image": "assets/product-images/tbi/8_0_20210705_124845_6f075bd0-0d64-4bca-aaca-f675e46307b1.jpg",
         "name": "ספה 1",
         "category": "ספות",
         "price": 1200,
@@ -11,7 +11,7 @@
     },
     {
         "Id": 2,
-        "image": "assets/product-images/sofa2.jpg",
+        "image": "assets/product-images/tbi/8_0_20210705_124845_6f075bd0-0d64-4bca-aaca-f675e46307b1.jpg",
         "name": "ספה 2",
         "category": "ספות",
         "price": 1400,
@@ -40,7 +40,7 @@
         "company": "חברת רהיטים D"
     },{
         "Id": 1,
-        "image": "assets/product-images/sofa1.jpg",
+        "image": "assets/product-images/tbi/DAVID.png",
         "name": "ספה 1",
         "category": "ספות",
         "price": 1200,
