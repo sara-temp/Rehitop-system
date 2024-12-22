@@ -35,5 +35,4 @@ export enum Category {
   Beds = 'מיטות',
   Closets = 'ארונות חדר ילדים',
   Chairs = 'כיסאות'
-
 }

@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SystemModule } from "./system/system.module";
 import { HeaderComponent } from './system/components/header/header.component';
+import { ManagerModule } from './manager/manager.module';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { HeaderComponent } from './system/components/header/header.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    SystemModule
+    SystemModule,
+    ManagerModule
 ],
   providers: [
     provideClientHydration(withEventReplay()), provideHttpClient(withFetch()), importProvidersFrom(HttpClientModule)
