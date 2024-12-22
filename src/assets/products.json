@@ -1,121 +1,182 @@
 [
-    {
-        "Id": 1,
-        "image": "assets/product-images/tbi/8_0_20210705_124845_6f075bd0-0d64-4bca-aaca-f675e46307b1.jpg",
-        "name": "ספה 1",
-        "category": "ספות",
-        "price": 1200,
-        "describe": "ספה נוחה ומרווחת",
-        "colors": "כחול, אפור",
-        "company": "חברת רהיטים A"
-    },
-    {
-        "Id": 2,
-        "image": "assets/product-images/tbi/8_0_20210705_124845_6f075bd0-0d64-4bca-aaca-f675e46307b1.jpg",
-        "name": "ספה 2",
-        "category": "ספות",
-        "price": 1400,
-        "describe": "ספה מודרנית עם עיצוב יוקרתי",
-        "colors": "שחור, אפור",
-        "company": "חברת רהיטים B"
-    },
-    {
-        "Id": 3,
-        "image": "assets/product-images/chair1.jpg",
-        "name": "כיסא 1",
-        "category": "כיסאות",
-        "price": 300,
-        "describe": "כיסא נוח ומעוצב",
-        "colors": "אדום, כחול",
-        "company": "חברת רהיטים C"
-    },
-    {
-        "Id": 4,
-        "image": "assets/product-images/closet1.jpg",
-        "name": "ארון 1",
-        "category": "ארונות חדר ילדים",
-        "price": 2500,
-        "describe": "ארון מרווח עם מקום אחסון נוסף",
-        "colors": "לבן, שמנת",
-        "company": "חברת רהיטים D"
-    },{
-        "Id": 1,
-        "image": "assets/product-images/tbi/DAVID.png",
-        "name": "ספה 1",
-        "category": "ספות",
-        "price": 1200,
-        "describe": "ספה נוחה ומרווחת",
-        "colors": "כחול, אפור",
-        "company": "חברת רהיטים A"
-    },
-    {
-        "Id": 2,
-        "image": "assets/product-images/sofa2.jpg",
-        "name": "ספה 2",
-        "category": "ספות",
-        "price": 1400,
-        "describe": "ספה מודרנית עם עיצוב יוקרתי",
-        "colors": "שחור, אפור",
-        "company": "חברת רהיטים B"
-    },
-    {
-        "Id": 3,
-        "image": "assets/product-images/chair1.jpg",
-        "name": "כיסא 1",
-        "category": "כיסאות",
-        "price": 300,
-        "describe": "כיסא נוח ומעוצב",
-        "colors": "אדום, כחול",
-        "company": "חברת רהיטים C"
-    },
-    {
-        "Id": 4,
-        "image": "assets/product-images/closet1.jpg",
-        "name": "ארון 1",
-        "category": "ארונות חדר ילדים",
-        "price": 2500,
-        "describe": "ארון מרווח עם מקום אחסון נוסף",
-        "colors": "לבן, שמנת",
-        "company": "חברת רהיטים D"
-    },
-    {
-        "Id": 1,
-        "image": "assets/product-images/sofa1.jpg",
-        "name": "ספה 1",
-        "category": "ספות",
-        "price": 1200,
-        "describe": "ספה נוחה ומרווחת",
-        "colors": "כחול, אפור",
-        "company": "חברת רהיטים A"
-    },
-    {
-        "Id": 2,
-        "image": "assets/product-images/sofa2.jpg",
-        "name": "ספה 2",
-        "category": "ספות",
-        "price": 1400,
-        "describe": "ספה מודרנית עם עיצוב יוקרתי",
-        "colors": "שחור, אפור",
-        "company": "חברת רהיטים B"
-    },
-    {
-        "Id": 3,
-        "image": "assets/product-images/chair1.jpg",
-        "name": "כיסא 1",
-        "category": "כיסאות",
-        "price": 300,
-        "describe": "כיסא נוח ומעוצב",
-        "colors": "אדום, כחול",
-        "company": "חברת רהיטים C"
-    },
-    {
-        "Id": 4,
-        "image": "assets/product-images/closet1.jpg",
-        "name": "ארון 1",
-        "category": "ארונות חדר ילדים",
-        "price": 2500,
-        "describe": "ארון מרווח עם מקום אחסון נוסף",
-        "colors": "לבן, שמנת",
-        "company": "חברת רהיטים D"
-    }
+  {
+    "Id": "1",
+    "image": "https://example.com/images/sofa1.jpg",
+    "name": "Sofa XYZ",
+    "categories": [
+      "ספות"
+    ],
+    "price": 1500,
+    "describe": "Comfortable sofa for your living room.",
+    "colors": "Gray, Blue",
+    "company": "ComfortCo"
+  },
+  {
+    "Id": "2",
+    "image": "https://example.com/images/bed1.jpg",
+    "name": "King Size Bed",
+    "categories": [
+      "מיטות"
+    ],
+    "price": 1200,
+    "describe": "Spacious bed for a good night's sleep.",
+    "colors": "Brown, White",
+    "company": "DreamSleep"
+  },
+  {
+    "Id": "3",
+    "image": "https://example.com/images/closet1.jpg",
+    "name": "Wooden Closet",
+    "categories": [
+      "ארונות חדר ילדים"
+    ],
+    "price": 800,
+    "describe": "Wooden closet with multiple shelves.",
+    "colors": "Natural Wood",
+    "company": "KidsRoom"
+  },
+  {
+    "Id": "4",
+    "image": "https://example.com/images/chair1.jpg",
+    "name": "Ergonomic Office Chair",
+    "categories": [
+      "כיסאות"
+    ],
+    "price": 250,
+    "describe": "Ergonomic office chair for comfort during work hours.",
+    "colors": "Black, Gray",
+    "company": "OfficePlus"
+  },
+  {
+    "Id": "5",
+    "image": "https://example.com/images/sofa2.jpg",
+    "name": "Modern Sofa",
+    "categories": [
+      "ספות"
+    ],
+    "price": 2000,
+    "describe": "Stylish sofa for modern living rooms.",
+    "colors": "Black, Red",
+    "company": "StyleCo"
+  },
+  {
+    "Id": "6",
+    "image": "https://example.com/images/bed2.jpg",
+    "name": "Double Bed",
+    "categories": [
+      "מיטות"
+    ],
+    "price": 950,
+    "describe": "Cozy double bed with comfortable mattress.",
+    "colors": "White, Black",
+    "company": "RestWell"
+  },
+  {
+    "Id": "7",
+    "image": "https://example.com/images/closet2.jpg",
+    "name": "Children's Closet",
+    "categories": [
+      "ארונות חדר ילדים"
+    ],
+    "price": 600,
+    "describe": "Colorful closet for children's room with fun designs.",
+    "colors": "Pink, Blue",
+    "company": "KidsSpace"
+  },
+  {
+    "Id": "8",
+    "image": "https://example.com/images/chair2.jpg",
+    "name": "Recliner Chair",
+    "categories": [
+      "כיסאות"
+    ],
+    "price": 350,
+    "describe": "Recliner chair with adjustable positions for relaxation.",
+    "colors": "Brown, Beige",
+    "company": "RelaxCo"
+  },
+  {
+    "Id": "9",
+    "image": "https://example.com/images/sofa3.jpg",
+    "name": "L-Shaped Sofa",
+    "categories": [
+      "ספות"
+    ],
+    "price": 1800,
+    "describe": "L-shaped sofa perfect for large living spaces.",
+    "colors": "Beige, Brown",
+    "company": "HomeComfort"
+  },
+  {
+    "Id": "10",
+    "image": "https://example.com/images/bed3.jpg",
+    "name": "Storage Bed",
+    "categories": [
+      "מיטות"
+    ],
+    "price": 1300,
+    "describe": "Bed with built-in storage compartments.",
+    "colors": "Dark Wood",
+    "company": "SpaceSaver"
+  },
+  {
+    "Id": "11",
+    "image": "https://example.com/images/closet3.jpg",
+    "name": "Metal Closet",
+    "categories": [
+      "ארונות חדר ילדים"
+    ],
+    "price": 500,
+    "describe": "Durable metal closet with secure locks.",
+    "colors": "Gray",
+    "company": "SafeRoom"
+  },
+  {
+    "Id": "12",
+    "image": "https://example.com/images/chair3.jpg",
+    "name": "Dining Chair",
+    "categories": [
+      "כיסאות"
+    ],
+    "price": 150,
+    "describe": "Stylish dining chair for elegant meals.",
+    "colors": "White, Black",
+    "company": "DineCo"
+  },
+  {
+    "Id": "13",
+    "image": "https://example.com/images/sofa4.jpg",
+    "name": "Luxury Sofa",
+    "categories": [
+      "ספות"
+    ],
+    "price": 2500,
+    "describe": "Premium quality sofa for the ultimate comfort.",
+    "colors": "Gray, Brown",
+    "company": "LuxuryLiving"
+  },
+  {
+    "Id": "14",
+    "image": "https://example.com/images/bed4.jpg",
+    "name": "Platform Bed",
+    "categories": [
+      "מיטות"
+    ],
+    "price": 1100,
+    "describe": "Platform bed with a sleek, modern design.",
+    "colors": "Black, White",
+    "company": "ModernSleep"
+  },
+  {
+    "Id": "5",
+    "image": "https://example.com/images/sofa2.jpg",
+    "name": "Modern Sofa",
+    "categories": [
+      "ספות"
+    ],
+    "price": 2000,
+    "describe": "Stylish sofa for modern living rooms.",
+    "colors": "Black, Red",
+    "company": "StyleCo"
+  }
 ]

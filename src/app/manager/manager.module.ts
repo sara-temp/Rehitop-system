@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
     DataTableComponent
   ],
   imports: [
+
     CommonModule,
     MaterialModule,
     FormsModule

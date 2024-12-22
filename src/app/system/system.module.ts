@@ -5,7 +5,7 @@ import { Product } from '../models/product.model'
 import { ProductListComponent } from './components/product-list/product-list.component';
 import { MaterialModule } from '../material/material.module';
 import { HeaderComponent } from './components/header/header.component';
-
+import { ManagerService } from '../manager/manager.service'
 
 
 @NgModule({
@@ -16,8 +16,9 @@ import { HeaderComponent } from './components/header/header.component';
   ],
   imports: [
     CommonModule,
-    MaterialModule
+    MaterialModule,
   ],
+  providers: [ManagerService],
   exports: [
     ProductListComponent,
     ProductComponent,

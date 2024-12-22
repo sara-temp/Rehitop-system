@@ -1,18 +1,18 @@
 export class Product {
-  Id: number
+  Id: string
   image: string
   name: string
-  category: Category
+  categories: [Category]
   price: number
   describe?: string
   colors?: string
   company?: string
 
   constructor(
-    Id: number,
+    Id: string,
     image: string,
     name: string,
-    category: Category,
+    categories: [Category],
     price: number,
     describe?: string,
     colors?: string,
@@ -21,7 +21,7 @@ export class Product {
     this.Id = Id
     this.image = image
     this.name = name
-    this.category = category
+    this.categories = categories
     this.price = price
     this.describe = describe
     this.colors = colors
