@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, SimpleChanges } from '@angular/core';
 import { Product } from '../../../models/product.model';
-
+import { ManagerService} from '../../../manager/manager.service'
 @Component({
   selector: 'product-list',
   standalone: false,
@@ -15,7 +15,7 @@ export class ProductListComponent {
   products: Product[] = [];
   selectedProduct: Product | null = null;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private _ManagerService:ManagerService) {}
   
   ngOnInit() {
     this.loadProducts();
@@ -26,18 +26,15 @@ export class ProductListComponent {
       this.loadProducts();
     }
   }
-
+  
   loadProducts() {
-    this.http.get<Product[]>('assets/products.json').subscribe(
-      (data) => {
-        this.products = data.filter(product => product.category === this.category);
-      },
-      (error) => {
-        console.log('Failed to load products:', error);
-        
-      }
-    )
+    this._ManagerService.getByCategory(this.category).subscribe(
+      (data) => this.products = data,
+      (error) => console.log('Failed to load products:', error)
+    );
   }
+  
+  
 
   closeViewer(): void {
     this.selectedProduct = null;
