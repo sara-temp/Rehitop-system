@@ -20,7 +20,6 @@ export class ManagerService {
   getByCategory = (category: string): Observable<Product[]> => {
     return this.http.get<Product[]>(this.jsonUrl).pipe(
       map((products) => {
-        console.log(products);
         if (products) {
           return products.filter((prod) =>
             prod.categories.some((cat) => cat === category)
