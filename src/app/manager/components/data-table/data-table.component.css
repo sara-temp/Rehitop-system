@@ -1,0 +1,162 @@
+/* הגדרת הטבלה */
+table.mat-table {
+  width: 100%; /* רוחב הטבלה מותאם באופן יחסי */
+  table-layout: fixed; /* כל העמודות באותו רוחב */
+  border-collapse: collapse; /* מבטיח שאין רווחים בין התאים */
+  direction: rtl; /* מיקום הטבלה מימין לשמאל */
+  margin: 0 auto; /* מיקום הטבלה במרכז */
+}
+
+/* הגדרת רוחב אחיד לכל הכותרות והסלילים */
+th.mat-header-cell, td.mat-cell {
+  width: 12%; /* רוחב אחיד לכל העמודות */
+  padding: 1vw 2vw; /* רווח פנימי בין התוכן לקצוות */
+  text-align: right; /* יישור תוכן לימין */
+  white-space: nowrap; /* מניעת קפיצת שורות */
+}
+
+/* עיצוב כותרות */
+th.mat-header-cell {
+  background-color: #f4f4f4; /* צבע רקע לכותרות */
+  font-weight: bold; /* הדגשת כותרות */
+  text-align: right; /* יישור כותרת לימין */
+}
+
+/* עיצוב שורות */
+tr.mat-row, tr.mat-header-row {
+  border-bottom: 0.05vw solid #e0e0e0; /* קו תחתון דק לשורות */
+}
+
+/* עיצוב התמונה שיהיה קטנה בגובה השורה */
+.product-image {
+  max-width: 100%; /* רוחב מקסימלי של התמונה לפי רוחב התא */
+  height: 7vh; /* גובה התמונה נמוך בגובה השורה */
+  margin: 0.2vw;
+  border-radius: 0.1vw;
+  object-fit: contain; /* שומר על פרופורציות התמונה */
+  display: block; /* מבטל רווחים מסביב לתמונה */
+}
+
+/* אם יש תמונה בטבלה, מקטינים את הגובה שלה לשורת הטבלה */
+td.mat-cell img {
+  max-width: 15vw; /* רוחב מקסימלי לתמונה */
+  height: 4vh; /* גובה קטן לשורה */
+  object-fit: contain; /* שומר על פרופורציות התמונה */
+}
+
+/* עיצוב הדפסת הטבלה */
+.mat-paginator {
+  margin-top: 1.5vh;
+  text-align: center;
+}
+
+/* עיצוב הקונטיינר של הטבלה */
+.custom-table-container {
+  margin: 2vh auto;
+  max-width: 85vw; /* רוחב מרבי של הטבלה */
+}
+
+/* יישור תוכן בכל העמודות לימין */
+td.mat-cell, th.mat-header-cell {
+  text-align: right; /* יישור לכל העמודות לימין */
+}
+
+/* תיקון סדר העמודות מימין לשמאל */
+.mat-header-row, .mat-row {
+  direction: rtl; /* כיוון העמודות מימין לשמאל */
+}
+
+/* תיקון יישור עבור עמודת ה-ID (תצוגה בסדר מימין לשמאל) */
+th.mat-header-cell:first-child, td.mat-cell:first-child {
+  text-align: right; /* יישור תוכן לימין */
+}
+
+.minimal-toggle-group {
+  margin-bottom: 1vw;
+}
+
+.minimal-toggle {
+  background-color: transparent;
+  color: #333;
+  border: 0.1vw solid #ddd;
+  font-size: 1vw;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.minimal-toggle.mat-button-toggle-checked {
+  background-color: #e0e0e0; /* צבע רקע עדין כאשר נבחר */
+  color: #008cba;
+  border-color: #008cba;
+}
+
+.minimal-toggle:hover {
+  background-color: #f5f5f5;
+}
+
+
+/* עיצוב כללי לפאגינציה */
+.pagination-container {
+  display: flex;
+  justify-content: center;  /* ממקם את ה-pagination במרכז */
+  margin-top: 20px;  /* רווח עליון */
+  margin-bottom: 20px;  /* רווח תחתון */
+}
+
+/* עיצוב ה-mat-paginator עצמו */
+::ng-deep .mat-paginator {
+  background-color: white; /* צבע רקע לבן */
+  border-radius: 5px;  /* קצוות מעוגלים */
+  padding: 10px;  /* ריפוד */
+  font-family: 'Arial', sans-serif; /* פונט נקי */
+  direction: rtl;  /* כיוון עברי */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* צל קל */
+}
+
+/* עיצוב כפתורי ניווט (חיצים קדימה ואחורה) */
+::ng-deep .mat-paginator-navigation-previous,
+::ng-deep .mat-paginator-navigation-next {
+  background-color: #007bff;  /* צבע כחול */
+  color: white;  /* טקסט לבן */
+  border-radius: 50%;  /* מעגלים לחיצים */
+  padding: 8px;  /* ריפוד לחיצים */
+  margin: 0 10px;  /* רווחים בין החיצים */
+  transition: background-color 0.3s;  /* אפקט מעבר */
+}
+
+::ng-deep .mat-paginator-navigation-previous:hover,
+::ng-deep .mat-paginator-navigation-next:hover {
+  background-color: #0056b3;  /* צבע כחול כהה בעת hover */
+}
+
+/* הדגשה של העמוד הנוכחי */
+::ng-deep .mat-paginator-page {
+  font-weight: normal; /* שוקל את מספרי העמודים הרגילים */
+}
+
+::ng-deep .mat-paginator-page.mat-paginator-page-selected {
+  font-weight: bold; /* הדגשת העמוד הנוכחי */
+  color: #007bff; /* צבע כחול לעמוד הנוכחי */
+}
+
+/* עיצוב כפתורים מספרי עמודים */
+::ng-deep .mat-paginator-range-actions button {
+  color: #555; /* צבע כפתורים כהה */
+  border: 1px solid #ccc; /* גבול אפור בהיר */
+  border-radius: 5px;  /* קצוות מעוגלים */
+  padding: 5px 10px;  /* ריפוד לכפתורים */
+  margin: 0 5px;  /* רווחים בין הכפתורים */
+  font-size: 14px;  /* גודל טקסט לכפתורים */
+  transition: background-color 0.3s, color 0.3s; /* אפקט מעבר */
+}
+
+::ng-deep .mat-paginator-range-actions button:hover {
+  background-color: #007bff; /* צבע רקע כחול בהחלקה */
+  color: white; /* צבע טקסט לבן בהחלקה */
+}
+
+/* עיצוב הטקסט בתוך ה-pagination */
+::ng-deep .mat-paginator-text {
+  font-size: 16px; /* גודל טקסט */
+  color: #333;  /* צבע טקסט כהה */
+  margin: 0 10px;  /* רווחים משני הצדדים */
+}
