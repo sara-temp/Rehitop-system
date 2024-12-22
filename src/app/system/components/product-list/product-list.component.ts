@@ -34,7 +34,7 @@ export class ProductListComponent {
       },
       (error) => {
         console.log('Failed to load products:', error);
-        
+
       }
     )
   }
