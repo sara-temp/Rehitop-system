@@ -1,79 +1,215 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, computed, inject, model, signal, ViewChild } from '@angular/core';
-import { Category, Product } from '../../../models/product.model';
-//לבדוק למה לא מקבל ממודול המטריאל
-import { PageEvent } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
-import { ManagerService } from '../../manager.service'
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MessageService, ConfirmationService } from 'primeng/api';
+import { Table } from 'primeng/table';
+import { Product, Category } from '../../../models/product.model';
+import { ManagerService } from '../../manager.service';
+
+interface Column {
+  field: string;
+  header: string;
+  customExportHeader?: string;
+}
+
+interface ExportColumn {
+  title: string;
+  dataKey: string;
+}
 
 @Component({
   selector: 'data-table',
   standalone: false,
 
   templateUrl: './data-table.component.html',
-  styleUrl: './data-table.component.css'
+  // styleUrl: './data-table.component.css'
+  styles: [
+    `:host ::ng-deep .p-dialog .product-image {
+            width: 150px;
+            margin: 0 auto 2rem auto;
+            display: block;
+        }`
+  ]
 })
-export class DataTableComponent {
-  displayedColumns: string[] = ['edit', 'id', 'image', 'name', 'category', 'price', 'describe', 'colors', 'company'];
-  dataSource = new MatTableDataSource<Product>([]);
-  categories = Object.values(Category);
-  selectedCategories: Set<Category> = new Set<Category>();
-  pageSize = 5;
-  pageSizeOptions = [5, 10, 20, 50];
-  currentPage = 0;
+export class DataTableComponent implements OnInit {
+  productDialog: boolean = false;
 
-  // @ViewChild(MatPaginator) paginator!: MatPaginator;
-  // @ViewChild(MatSort) sort!: MatSort;
+  products!: Product[];
 
-  constructor(private http: HttpClient, private _managerService: ManagerService) { }
+  product!: Product;
 
+  selectedProducts!: Product[] | null;
+
+  submitted: boolean = false;
+
+  statuses!: any[];
+
+  @ViewChild('dt') dt!: Table;
+
+  cols!: Column[];
+
+  exportColumns!: ExportColumn[];
+
+  categoryEnum = Object.values(Category);
+
+  constructor(
+    private managerService: ManagerService,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService,
+    // private cd: ChangeDetectorRef
+  ) { }
   ngOnInit(): void {
-    this.fetchData();
+    this.managerService.getAll().subscribe((products) => {
+      this.products = products;
+    });
   }
 
-  fetchData = (): void => {
-    this._managerService.getAll().subscribe(
-      (data: Product[]) => {
-        this.dataSource.data = data;
-        // this.dataSource.paginator = this.paginator;
-        // this.dataSource.sort = this.sort;
-      },
-      (error: any) => {
-        console.error('Error fetching data:', error);
-      }
-    );
+  exportCSV() {
+    this.dt.exportCSV();
   }
 
-
-
-  get filteredProducts() {
-    return this.dataSource.data.filter(product =>
-      this.selectedCategories.size === 0 ||
-      Array.from(this.selectedCategories).every((category) => product.categories.includes(category))
-    );
-  }
-
-  toggleCategory(category: Category) {
-    if (this.selectedCategories.has(category)) {
-      this.selectedCategories.delete(category);
-    } else {
-      this.selectedCategories.add(category);
+  onSearch(event: any) {
+    if (this.dt) {
+      this.dt.filterGlobal(event.target.value, 'contains');
     }
   }
 
-  getPaginatedProducts(): Product[] {
-    const startIndex = this.currentPage * this.pageSize;
-    return this.filteredProducts.slice(startIndex, startIndex + this.pageSize);
+  loadDemoData() {
+    this.managerService.getAll().subscribe((data) => {
+      this.products = data;
+      // this.cd.markForCheck();
+    });
+
+    this.statuses = [
+      { label: 'INSTOCK', value: 'instock' },
+      { label: 'LOWSTOCK', value: 'lowstock' },
+      { label: 'OUTOFSTOCK', value: 'outofstock' }
+    ];
+
+    this.cols = [
+      { field: 'Id', header: 'Id', customExportHeader: 'Product Id' },
+      { field: 'name', header: 'שם' },
+      { field: 'image', header: 'תמונה' },
+      { field: 'price', header: 'מחיר' },
+      { field: 'categories', header: 'קטגוריה' },
+      { field: 'describe', header: 'תיאור' },
+      { field: 'colors', header: 'צבעים' },
+      {field: 'company', header: 'חברה'}
+
+    ];
+
+    this.exportColumns = this.cols.map((col) => ({ title: col.header, dataKey: col.field }));
   }
 
-  onPageChange(event: PageEvent) {
-    this.pageSize = event.pageSize;
-    this.currentPage = event.pageIndex;
-    this.getPaginatedProducts();
+  openNew() {
+    this.product = new Product("", "", "", [Category.Empty], 0);
+    this.submitted = false;
+    this.productDialog = true;
   }
 
-  editRow(row: any): void {
-    console.log('Editing row:', row);
-    // הוסף כאן את הלוגיקה לעריכת המוצר
+  editProduct(product: Product) {
+    this.product = { ...product };
+    this.productDialog = true;
+  }
+
+  deleteSelectedProducts() {
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete the selected products?',
+      header: 'Confirm',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.products = this.products.filter((val) => !this.selectedProducts?.includes(val));
+        this.selectedProducts = null;
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Successful',
+          detail: 'Products Deleted',
+          life: 3000
+        });
+      }
+    });
+  }
+
+  hideDialog() {
+    this.productDialog = false;
+    this.submitted = false;
+  }
+
+  deleteProduct(product: Product) {
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete ' + product.name + '?',
+      header: 'Confirm',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.products = this.products.filter((val) => val.Id !== product.Id);
+        this.product = new Product('', '', '', [Category.Empty], 0);
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Successful',
+          detail: 'Product Deleted',
+          life: 3000
+        });
+      }
+    });
+  }
+
+  findIndexById(id: string): number {
+    let index = -1;
+    for (let i = 0; i < this.products.length; i++) {
+      if (this.products[i].Id === id) {
+        index = i;
+        break;
+      }
+    }
+
+    return index;
+  }
+
+  createId(): string {
+    let id = '';
+    var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    for (var i = 0; i < 5; i++) {
+      id += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return id;
+  }
+
+  // getSeverity(status: string) {
+  //   switch (status) {
+  //     case 'INSTOCK':
+  //       return 'success';
+  //     case 'LOWSTOCK':
+  //       return 'warning';
+  //     case 'OUTOFSTOCK':
+  //       return 'danger';
+  //   }
+  // }
+
+  saveProduct() {
+    this.submitted = true;
+
+    if (this.product.name?.trim()) {
+      if (this.product.Id) {
+        this.products[this.findIndexById(this.product.Id)] = this.product;
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Successful',
+          detail: 'Product Updated',
+          life: 3000
+        });
+      } else {
+        this.product.Id = this.createId();
+        this.product.image = 'product-placeholder.svg';
+        this.products.push(this.product);
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Successful',
+          detail: 'Product Created',
+          life: 3000
+        });
+      }
+
+      this.products = [...this.products];
+      this.productDialog = false;
+      this.product = new Product('', '', '', [Category.Empty], 0);
+    }
   }
 }
