@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Product } from '../models/product.model'
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, Observable, throwError } from 'rxjs';
-import { v4 as uuidv4 } from 'uuid';
 
 @Injectable({
   providedIn: 'root'
@@ -49,16 +48,20 @@ export class ManagerService {
   }
 
   post = (product: Product): Observable<Product> => {
-    product.Id = uuidv4(); 
     return this.http.post<Product>(this.jsonUrl, product);
   };
 
   put = (product: Product, id:string): Observable<Product> => {
-    product.Id = id; 
     return this.http.put<Product>(`${this.jsonUrl}/${id}`, product);
   };
 
   delete = (id: string): Observable<void> => {
-    return this.http.delete<void>(`${this.jsonUrl}/${id}`);
+    const data = this.http.delete<void>(`${this.jsonUrl}/${id}`);
+    data.subscribe({
+      next: () => console.log('2 Delete successful (manager service)'),
+      error: (err) => console.error('2 Delete failed:', err, '(manager service)'),
+      complete: () => console.log('2 Request completed (manager service)'),
+    });
+    return data;
   };
 }
