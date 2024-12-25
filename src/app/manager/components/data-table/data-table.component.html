@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card" dir="rtl">
     <p-toast />
     <p-toolbar styleClass="mb-6">
         <ng-template #start>
@@ -8,7 +8,7 @@
         </ng-template>
 
         <ng-template #end>
-            <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="יבא" chooseLabel="Import" auto
+            <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="יבא" auto
                 customUpload class="mr-2 inline-block" [chooseButtonProps]="{ severity: 'secondary' }" />
             <p-button label="יצא" icon="pi pi-upload" severity="secondary" (onClick)="exportCSV()" />
         </ng-template>
@@ -32,7 +32,10 @@
                 <th style="width: 3rem">
                     <p-tableHeaderCheckbox />
                 </th>
-                <th style="min-width: 5rem">Id</th>
+                <th style="min-width:5rem" pSortableColumn="Id">
+                    Id
+                    <p-sortIcon field="Id" aria-label="Sort ascending" aria-label-desc="Sort descending" />
+                </th>
                 <th pSortableColumn="name" style="min-width:16rem">
                     שם
                     <p-sortIcon field="name" />
@@ -46,17 +49,15 @@
                     קטגריות
                     <p-sortIcon field="category" />
                 </th>
-                <th pSortableColumn="describe" style="min-width:10rem">
+                <th style="min-width:20rem">
                     תיאור
-                    <p-sortIcon field="describe" />
                 </th>
                 <th pSortableColumn="company" style="min-width: 12rem">
                     חברה
                     <p-sortIcon field="company" />
                 </th>
-                <th pSortableColumn="colors" style="min-width: 12rem">
+                <th style="min-width: 12rem">
                     צבעים
-                    <p-sortIcon field="colors" />
                 </th>
                 <th style="min-width: 12rem"></th>
             </tr>
@@ -66,14 +67,15 @@
                 <td style="width: 3rem">
                     <p-tableCheckbox [value]="product" />
                 </td>
-                <td style="min-width: 12rem">{{ product.Id }}</td>
+                <td>{{ product.Id }}</td>
                 <td style="min-width: 16rem">{{ product.name }}</td>
                 <td>
-                    <img [src]="product.image" [alt]="product.name" style="width: 64px" class="rounded" />
+                    <img [src]="product.image" [alt]="product.name" style="width: 64px; height: 40px;" class="rounded" />
                 </td>
                 <td>{{ product.price | currency: 'ILS' }}</td>
                 <td>
-                    <span *ngFor="let category of product.categories">{{ category }}</span>
+                    <span *ngFor="let category of product.categories">{{ category }}
+                    <span *ngIf="product.categories.length>1"> | </span></span>
                 </td>
                 <td>{{ product.describe }}</td>
                 <td>{{ product.company }}</td>
@@ -92,7 +94,7 @@
         </ng-template>
     </p-table>
 
-    <p-dialog [(visible)]="productDialog" [style]="{ width: '450px' }" header="Product Details" [modal]="true">
+    <p-dialog [(visible)]="productDialog" [style]="{ width: '40vw' }" header="Product Details" [modal]="true">
         <ng-template #content>
             <div class="flex flex-col gap-6">
                 <img [src]="'https://primefaces.org/cdn/primeng/images/demo/product/' + product.image"
@@ -117,8 +119,8 @@
                 <div class="grid grid-cols-12 gap-4">
                     <div class="col-span-6">
                         <label for="price" class="block font-bold mb-3">Price</label>
-                        <p-inputnumber id="price" [(ngModel)]="product.price" mode="currency" currency="USD"
-                            locale="en-US" fluid />
+                        <p-inputnumber id="price" [(ngModel)]="product.price" mode="currency" currency="ILS"
+                            locale="IL" fluid />
                     </div>
 
                 </div>

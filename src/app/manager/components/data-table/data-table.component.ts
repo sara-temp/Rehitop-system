@@ -78,21 +78,15 @@ export class DataTableComponent implements OnInit {
       // this.cd.markForCheck();
     });
 
-    this.statuses = [
-      { label: 'INSTOCK', value: 'instock' },
-      { label: 'LOWSTOCK', value: 'lowstock' },
-      { label: 'OUTOFSTOCK', value: 'outofstock' }
-    ];
-
     this.cols = [
       { field: 'Id', header: 'Id', customExportHeader: 'Product Id' },
-      { field: 'name', header: 'שם' },
-      { field: 'image', header: 'תמונה' },
-      { field: 'price', header: 'מחיר' },
-      { field: 'categories', header: 'קטגוריה' },
-      { field: 'describe', header: 'תיאור' },
-      { field: 'colors', header: 'צבעים' },
-      {field: 'company', header: 'חברה'}
+      { field: 'name', header: 'Name' },
+      { field: 'image', header: 'Image' },
+      { field: 'price', header: 'Price' },
+      { field: 'categories', header: 'Categories' },
+      { field: 'describe', header: 'Describe' },
+      { field: 'colors', header: 'Colors' },
+      { field: 'company', header: 'Company' }
 
     ];
 
@@ -112,18 +106,37 @@ export class DataTableComponent implements OnInit {
 
   deleteSelectedProducts() {
     this.confirmationService.confirm({
-      message: 'Are you sure you want to delete the selected products?',
-      header: 'Confirm',
+      message: 'האם את/ה בטוח/ה שהנך רוצה למחוק את הפריטים הנבחרים?',
+      header: 'אישור',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.products = this.products.filter((val) => !this.selectedProducts?.includes(val));
-        this.selectedProducts = null;
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successful',
-          detail: 'Products Deleted',
-          life: 3000
-        });
+        let prods = this.products.filter((val) => this.selectedProducts?.includes(val));
+        let failed = []
+        prods.forEach(prod =>
+          this.managerService.delete(prod.Id).
+            subscribe({
+              next: () => { },
+              error: (err) => { failed.push(prod) },
+              complete: () => { setTimeout(() => { window.location.reload() }, 3000); }
+            })
+        );
+        if (failed.length === 0) {
+          this.selectedProducts = null;
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Successful',
+            detail: 'Products Deleted',
+            life: 3000
+          });
+        }
+        else { 
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Failed to delete product',
+            life: 3000
+          });
+        }
       }
     });
   }
@@ -135,18 +148,38 @@ export class DataTableComponent implements OnInit {
 
   deleteProduct(product: Product) {
     this.confirmationService.confirm({
-      message: 'Are you sure you want to delete ' + product.name + '?',
-      header: 'Confirm',
+      message: 'האם את/ה בטוח/ה שהנך רוצה למחוק ' + product.name + '?',
+      header: 'אישור',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.products = this.products.filter((val) => val.Id !== product.Id);
+        if (product) {
+          console.log('1', product)
+          let result = this.managerService.delete(product.Id);
+          console.log('3', result, '(data-table-component)')
+          result.subscribe({
+            next: () => {
+              console.log('4 Product Deleted success (data-table-component)')
+              window.location.reload();
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Successful',
+                detail: 'Product Deleted',
+                life: 3000
+              });
+            },
+            error: (err) => {
+              console.log('4 Failed Product Deleted (data-table-component)')
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Failed to delete product',
+                life: 3000
+              });
+            },
+            complete: () => { setTimeout(() => { window.location.reload() }, 3000); }
+          });
+        }
         this.product = new Product('', '', '', [Category.Empty], 0);
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successful',
-          detail: 'Product Deleted',
-          life: 3000
-        });
       }
     });
   }
@@ -171,17 +204,6 @@ export class DataTableComponent implements OnInit {
     }
     return id;
   }
-
-  // getSeverity(status: string) {
-  //   switch (status) {
-  //     case 'INSTOCK':
-  //       return 'success';
-  //     case 'LOWSTOCK':
-  //       return 'warning';
-  //     case 'OUTOFSTOCK':
-  //       return 'danger';
-  //   }
-  // }
 
   saveProduct() {
     this.submitted = true;
