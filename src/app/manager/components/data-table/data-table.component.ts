@@ -4,6 +4,9 @@ import { Category, Product } from '../../../models/product.model';
 //לבדוק למה לא מקבל ממודול המטריאל
 import { PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { ManagerService } from '../../manager.service'
+import { MatDialog } from '@angular/material/dialog';
+import { ProductFormComponent } from '../product-form/product-form.component';
 
 @Component({
   selector: 'data-table',
@@ -17,36 +20,38 @@ export class DataTableComponent {
   dataSource = new MatTableDataSource<Product>([]);
   categories = Object.values(Category);
   selectedCategories: Set<Category> = new Set<Category>();
-  pageSize = 5;
+  pageSize = 10;
   pageSizeOptions = [5, 10, 20, 50];
   currentPage = 0;
 
   // @ViewChild(MatPaginator) paginator!: MatPaginator;
   // @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private _managerService: ManagerService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.fetchData();
   }
 
-  fetchData(): void {
-    this.http.get<Product[]>('assets/products.json').subscribe(
-      (data) => {
+  fetchData = (): void => {
+    this._managerService.getAll().subscribe(
+      (data: Product[]) => {
         this.dataSource.data = data;
         // this.dataSource.paginator = this.paginator;
         // this.dataSource.sort = this.sort;
       },
-      (error) => {
+      (error: any) => {
         console.error('Error fetching data:', error);
       }
     );
   }
 
+
+
   get filteredProducts() {
     return this.dataSource.data.filter(product =>
       this.selectedCategories.size === 0 ||
-      this.selectedCategories.has(product.category)
+      Array.from(this.selectedCategories).every((category) => product.categories.includes(category))
     );
   }
 
@@ -69,8 +74,17 @@ export class DataTableComponent {
     this.getPaginatedProducts();
   }
 
-  editRow(row: any): void {
-    console.log('Editing row:', row);
-    // הוסף כאן את הלוגיקה לעריכת המוצר
+  editRow(row: any) {
+    const dialogRef = this.dialog.open(ProductFormComponent, {
+      data: { product: row }
+    });
+
+    dialogRef.afterClosed().subscribe(res => {
+        this._managerService.getAll().subscribe(data => {
+          this.dataSource.data = data; 
+        }, error => {
+          console.error("שגיאה בעדכון הנתונים", error);
+        });
+    });
   }
 }
