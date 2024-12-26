@@ -1,8 +1,9 @@
 <div class="card" dir="rtl">
     <p-toast />
+
     <p-toolbar styleClass="mb-6">
         <ng-template #start>
-            <p-button label="חדש" icon="pi pi-plus" class="mr-2" (onClick)="openNew()" />
+            <p-button label="חדש" icon="pi pi-plus" class="mr-2" />
             <p-button severity="danger" label="מחיקה" icon="pi pi-trash" outlined (onClick)="deleteSelectedProducts()"
                 [disabled]="!selectedProducts || !selectedProducts.length" />
         </ng-template>
@@ -10,21 +11,53 @@
         <ng-template #end>
             <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="יבא" auto
                 customUpload class="mr-2 inline-block" [chooseButtonProps]="{ severity: 'secondary' }" />
-            <p-button label="יצא" icon="pi pi-upload" severity="secondary" (onClick)="exportCSV()" />
         </ng-template>
-    </p-toolbar>
+
+        
+
+    </p-toolbar>                            
 
     <p-table #dt1 [value]="products" [rows]="10" [columns]="cols" [paginator]="true"
-        [globalFilterFields]="['Id', 'name', 'categories', 'price', 'company']" [tableStyle]="{ 'min-width': '75rem' }"
+        [globalFilterFields]="['Id', 'name', 'categories', 'price']" [tableStyle]="{ 'min-width': '75rem' }"
         [(selection)]="selectedProducts" [rowHover]="true" dataKey="Id"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+
         <ng-template #caption>
-            <div class="flex items-center justify-between">
-                <h5 class="m-0">Manage Products</h5>
-                <p-iconfield>
-                    <p-inputicon styleClass="pi pi-search" />
-                    <input pInputText type="text" (input)="onSearch($event)" placeholder="Search..." />
-                </p-iconfield>
+            <div class="flex items-center justify-between header">
+                <h3 class="m-0">ניהול מוצרים
+                    <span class="pi pi-user"></span>
+                </h3>
+                <div class="flex justify-between items-center all-filter"
+                    style="min-width:15rem;">
+                    <div class="mr-2 font-bold">סינון לפי קטגוריות</div>
+                    <p-columnFilter 
+                    field="categories" 
+                    matchMode="contains" 
+                    display="raw" 
+                    [showMatchModes]="false" 
+                    [showOperator]="false" 
+                    [showAddButton]="false" 
+                    class="ml-auto">
+                        <ng-template #filter let-value let-filter="filterCallback">
+                            <p-multiselect 
+                            [filter]="true" 
+                            [(ngModel)]="selectedCategories" 
+                            display="chip" 
+                            [options]="categoryEnum" 
+                            placeholder="בחר קטגוריות..." 
+                            (onChange)="filter($event.value)" 
+                            class="w-full">
+                                <ng-template let-category #item>
+                                    <div class="flex items-center gap-6">
+                                        <span>{{ category }}</span>
+                                    </div>
+                                </ng-template>
+                            </p-multiselect>
+                        </ng-template>
+                    </p-columnFilter>
+                </div>
+                
+             
             </div>
         </ng-template>
         <ng-template #header>
@@ -81,8 +114,7 @@
                 <td>{{ product.company }}</td>
                 <td>{{ product.colors }}</td>
                 <td>
-                    <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true"
-                        (click)="editProduct(product)" />
+                    <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true"/>
                     <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
                         (click)="deleteProduct(product)" />
                 </td>
@@ -119,8 +151,8 @@
                 <div class="grid grid-cols-12 gap-4">
                     <div class="col-span-6">
                         <label for="price" class="block font-bold mb-3">Price</label>
-                        <p-inputnumber id="price" [(ngModel)]="product.price" mode="currency" currency="ILS"
-                            locale="IL" fluid />
+                        <p-inputnumber id="price" [(ngModel)]="product.price" mode="currency" currency="USD"
+                            locale="en-US" fluid />
                     </div>
 
                 </div>
@@ -129,9 +161,9 @@
 
         <ng-template #footer>
             <p-button label="Cancel" icon="pi pi-times" text (click)="hideDialog()" />
-            <p-button label="Save" icon="pi pi-check" (click)="saveProduct()" />
+            <p-button label="Save" icon="pi pi-check"/>
         </ng-template>
     </p-dialog>
 
-    <p-confirmDialog [style]="{ width: '450px' }" />
+    <p-confirmDialog [style]="{ width: '30rem' }" />
 </div>

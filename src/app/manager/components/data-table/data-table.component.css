@@ -4,3 +4,30 @@
   margin: 0 auto 2rem auto;
   display: block;
 }
+.p-multiselect {
+  display: block !important; 
+}
+
+.p-datatable-filter-overlay {
+  display: block !important;
+  width: 20rem;
+}
+
+.all-filter{
+  display: flex;
+  align-items: center;
+  background-color: var(--p-yellow-200);
+  border-radius: 10px;
+  padding: 10px;
+  max-width: 4rem;
+  max-height: 3rem;
+}
+
+.font-bold{
+  padding: 7px;
+}
+.header{
+  display: flex;
+  flex-direction: column;
+
+}
