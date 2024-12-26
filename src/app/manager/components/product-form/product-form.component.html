@@ -1,0 +1,60 @@
+<div class="dialog-container">
+  <form [formGroup]="productForm">
+    <div class="title-form">
+      <div *ngIf="productForm.get('name')?.value">
+        <h3>{{productForm.get('name')?.value}}</h3>
+      </div>
+      <div *ngIf="img">
+        <img [src]="img" class="product-image" alt="Product Image" />
+      </div>
+    </div>
+    <!-- תמונה -->
+    <div class="form-group">
+      <label for="describe" class="form-label">תמונה</label>
+      <button matInput (click)="imageInput.click()">בחר תמונה</button>
+      <input #imageInput type="file" style="display: none;" (change)="onImageChange($event)" accept="image/*" />
+    </div>
+    <!-- שם המוצר -->
+    <div class="form-group">
+      <label for="name" class="form-label">שם המוצר</label>
+      <input matInput formControlName="name" id="name" placeholder="הכנס שם מוצר" required autofocus />
+      <small *ngIf="productForm.get('name')?.invalid && submitted" class="error-message">
+        שם המוצר הוא שדה חובה.
+      </small>
+    </div>
+    <!-- תיאור -->
+    <div class="form-group">
+      <label for="describe" class="form-label">תיאור</label>
+      <textarea matInput formControlName="describe" id="describe" placeholder="הכנס תיאור" rows="3"></textarea>
+    </div>
+    <!-- קטגוריות מרובות -->
+    <div class="form-group">
+      <label for="categories" class="form-label">קטגוריות</label>
+      <mat-select formControlName="categories" id="categories" placeholder="בחר קטגוריות" multiple dir="rtl">
+        <mat-option *ngFor="let category of categoryOptions" [value]="category">{{ category }}</mat-option>
+      </mat-select>
+    </div>
+    <!-- מחיר -->
+    <div class="form-group">
+      <label for="price" class="form-label">מחיר</label>
+      <input matInput formControlName="price" id="price" placeholder="הכנס מחיר" type="number" />
+      <small *ngIf="productForm.get('price')?.invalid && submitted" class="error-message">
+        המחיר הוא שדה חובה.
+      </small>
+    </div>
+    <!-- צבעים -->
+    <div class="form-group">
+      <label for="colors" class="form-label">צבעים</label>
+      <input matInput formControlName="colors" id="colors" placeholder="הכנס צבעים" type="color" />
+    </div>
+    <!-- חברה -->
+    <div class="form-group">
+      <label for="company" class="form-label">חברה</label>
+      <input matInput formControlName="company" id="company" placeholder="הכנס חברה" type="text" />
+    </div>
+  </form>
+  <mat-dialog-actions>
+    <button mat-button (click)="onCancel()" class="cancel">ביטול</button>
+    <button mat-button (click)="onSubmit()" class="save">שמור</button>
+  </mat-dialog-actions>
+</div>
