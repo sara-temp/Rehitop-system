@@ -1,85 +1,186 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, computed, inject, model, signal, ViewChild } from '@angular/core';
-import { Category, Product } from '../../../models/product.model';
-//לבדוק למה לא מקבל ממודול המטריאל
-import { PageEvent } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MessageService, ConfirmationService } from 'primeng/api';
+import { Table } from 'primeng/table';
+import { Product, Category } from '../../../models/product.model';
+import { ManagerService } from '../../manager.service';
+
+
+interface Column {
+  field: string;
+  header: string;
+  customExportHeader?: string;
+}
+
+interface ExportColumn {
+  title: string;
+  dataKey: string;
+}
 
 @Component({
   selector: 'data-table',
   standalone: false,
 
   templateUrl: './data-table.component.html',
-  // styleUrl: './data-table.component.css'
-  styles: [
-    `:host ::ng-deep .p-dialog .product-image {
-            width: 150px;
-            margin: 0 auto 2rem auto;
-            display: block;
-        }`
-  ]
+  styleUrl: './data-table.component.css'
 })
-export class DataTableComponent {
-  displayedColumns: string[] = ['edit', 'id', 'image', 'name', 'category', 'price', 'describe', 'colors', 'company'];
-  dataSource = new MatTableDataSource<Product>([]);
-  categories = Object.values(Category);
-  selectedCategories: Set<Category> = new Set<Category>();
-  pageSize = 5;
-  pageSizeOptions = [5, 10, 20, 50];
-  currentPage = 0;
+export class DataTableComponent implements OnInit {
 
-  // @ViewChild(MatPaginator) paginator!: MatPaginator;
-  // @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private http: HttpClient) { }
+getSeverity(arg0: any): "success"|"info"|"warn"|"danger"|"secondary"|"contrast"|undefined {
+throw new Error('Method not implemented.');
+}
+  productDialog: boolean = false;
 
+  products!: Product[];
+
+  product!: Product;
+
+  selectedProducts!: Product[] | null;
+
+  submitted: boolean = false;
+
+  @ViewChild('dt') dt!: Table;
+
+  cols!: Column[];
+
+  exportColumns!: ExportColumn[];
+
+  categoryEnum!: Category[];
+
+  selectedCategories!: Category[];
+
+  error = {
+    severity: 'error',
+    summary: 'Error',
+    detail: 'Failed to delete product',
+    life: 3000
+  };
+  success = {
+    severity: 'success',
+    summary: 'Successful',
+    detail: 'Products Deleted',
+    life: 3000
+  };
+
+  constructor(
+    private managerService: ManagerService,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService,
+    // private cd: ChangeDetectorRef
+  ) { }
+  
   ngOnInit(): void {
     this.managerService.getAll().subscribe((products) => {
       this.products = products;
     });
+
+    this.cols = [
+      { field: 'Id', header: 'Id', customExportHeader: 'Product Id' },
+      { field: 'name', header: 'Name' },
+      { field: 'image', header: 'Image' },
+      { field: 'price', header: 'Price' },
+      { field: 'categories', header: 'Categories' },
+      { field: 'describe', header: 'Describe' },
+      { field: 'colors', header: 'Colors' },
+      { field: 'company', header: 'Company' }
+    ];
+
+    this.categoryEnum = Object.values(Category);
+    console.log(this.categoryEnum)
   }
 
-  fetchData(): void {
-    this.http.get<Product[]>('assets/products.json').subscribe(
-      (data) => {
-        this.dataSource.data = data;
-        // this.dataSource.paginator = this.paginator;
-        // this.dataSource.sort = this.sort;
-      },
-      (error) => {
-        console.error('Error fetching data:', error);
-      }
-    );
-  }
-
-  get filteredProducts() {
-    return this.dataSource.data.filter(product =>
-      this.selectedCategories.size === 0 ||
-      this.selectedCategories.has(product.category)
-    );
-  }
-
-  toggleCategory(category: Category) {
-    if (this.selectedCategories.has(category)) {
-      this.selectedCategories.delete(category);
-    } else {
-      this.selectedCategories.add(category);
+  onSearch(event: any) {
+    if (this.dt) {
+      this.dt.filterGlobal(event.target.value, 'contains');
     }
   }
 
-  getPaginatedProducts(): Product[] {
-    const startIndex = this.currentPage * this.pageSize;
-    return this.filteredProducts.slice(startIndex, startIndex + this.pageSize);
+  deleteSelectedProducts() {
+    this.confirmationService.confirm({
+      message: 'האם את/ה בטוח/ה שהנך רוצה למחוק את הפריטים הנבחרים?',
+      header: 'אישור',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        let prods = this.products.filter((val) => this.selectedProducts?.includes(val));
+        let failed = []
+        prods.forEach(prod =>
+          this.managerService.delete(prod.Id).
+            subscribe({
+              next: () => { },
+              error: (err) => {
+                failed.push(prod)
+                console.log(`err in data table ${err}`)
+              },
+              complete: () => {
+                console.log('5 data table')
+                if (failed.length === 0) {
+                  this.selectedProducts = null;
+                  this.messageService.add(this.success);
+                }
+                else {
+                  this.messageService.add(this.error);
+                }
+                window.location.reload()
+              }
+            })
+        );
+      }
+    });
   }
 
-  onPageChange(event: PageEvent) {
-    this.pageSize = event.pageSize;
-    this.currentPage = event.pageIndex;
-    this.getPaginatedProducts();
+  hideDialog() {
+    this.productDialog = false;
+    this.submitted = false;
   }
 
-  editRow(row: any): void {
-    console.log('Editing row:', row);
-    // הוסף כאן את הלוגיקה לעריכת המוצר
+  deleteProduct(product: Product) {
+    this.confirmationService.confirm({
+      message: 'האם את/ה בטוח/ה שהנך רוצה למחוק ' + product.name + '?',
+      header: 'אישור',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        if (product) {
+          console.log('1', product)
+          let result = this.managerService.delete(product.Id);
+          console.log('3', result, '(data-table-component)')
+          result.subscribe({
+            next: () => {
+              console.log('4 Product Deleted success (data-table-component)')
+              this.messageService.add(this.success);
+            },
+            error: (err) => {
+              console.log('4 Failed Product Deleted (data-table-component)', err  )
+              this.messageService.add(this.error);
+            },
+            complete: () => {
+              console.log('5 data table')
+              window.location.reload();
+            }
+          });
+        }
+        this.product = new Product('', '', '', [Category.Empty], 0);
+      }
+    });
+  }
+
+  findIndexById(id: string): number {
+    let index = -1;
+    for (let i = 0; i < this.products.length; i++) {
+      if (this.products[i].Id === id) {
+        index = i;
+        break;
+      }
+    }
+
+    return index;
+  }
+
+  createId(): string {
+    let id = '';
+    var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    for (var i = 0; i < 5; i++) {
+      id += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return id;
   }
 }

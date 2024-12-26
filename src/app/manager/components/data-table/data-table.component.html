@@ -1,81 +1,169 @@
-<div class="mat-elevation-z8 custom-table-container" dir="rtl">
-    <section>
-        <mat-button-toggle-group name="categories" aria-label="Categories" [multiple]="true" dir="rtl"
-            class="minimal-toggle-group">
-            <mat-button-toggle *ngFor="let category of categories" [value]="category"
-                (change)="toggleCategory(category)" class="minimal-toggle">
-                {{ category | titlecase }}
-            </mat-button-toggle>
-        </mat-button-toggle-group>
-    </section>
+<div class="card" dir="rtl">
+    <p-toast />
 
-    <table mat-table [dataSource]="getPaginatedProducts()" matSort class="custom-table">
-        <ng-container matColumnDef="edit">
-            <th mat-header-cell *matHeaderCellDef class="center-align"></th>
-            <td mat-cell *matCellDef="let row" class="center-align">
-                <button mat-icon-button color="primary" (click)="editRow(row)">
-                    <mat-icon>edit</mat-icon>
-                </button>
-            </td>
-        </ng-container>
+    <p-toolbar styleClass="mb-6">
+        <ng-template #start>
+            <p-button label="חדש" icon="pi pi-plus" class="mr-2" />
+            <p-button severity="danger" label="מחיקה" icon="pi pi-trash" outlined (onClick)="deleteSelectedProducts()"
+                [disabled]="!selectedProducts || !selectedProducts.length" />
+        </ng-template>
 
-        <!-- ID Column -->
-        <ng-container matColumnDef="id">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="right-align">מזהה</th>
-            <td mat-cell *matCellDef="let row" class="right-align">{{ row.Id }}</td>
-        </ng-container>
+        <ng-template #end>
+            <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="יבא" auto
+                customUpload class="mr-2 inline-block" [chooseButtonProps]="{ severity: 'secondary' }" />
+        </ng-template>
 
-        <!-- Image Column -->
-        <ng-container matColumnDef="image">
-            <th mat-header-cell *matHeaderCellDef class="center-align">תמונה</th>
-            <td mat-cell *matCellDef="let row" class="center-align">
-                <img [src]="row.image" alt="{{ row.name }}" class="product-image" />
-            </td>
-        </ng-container>
+        
 
-        <!-- Name Column -->
-        <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="right-align">שם</th>
-            <td mat-cell *matCellDef="let row" class="right-align">{{ row.name }}</td>
-        </ng-container>
+    </p-toolbar>                            
 
-        <!-- Category Column -->
-        <ng-container matColumnDef="category">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="right-align">קטגוריה</th>
-            <td mat-cell *matCellDef="let row" class="right-align">{{ row.category }}</td>
-        </ng-container>
+    <p-table #dt1 [value]="products" [rows]="10" [columns]="cols" [paginator]="true"
+        [globalFilterFields]="['Id', 'name', 'categories', 'price']" [tableStyle]="{ 'min-width': '75rem' }"
+        [(selection)]="selectedProducts" [rowHover]="true" dataKey="Id"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
 
-        <!-- Price Column -->
-        <ng-container matColumnDef="price">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="right-align">מחיר</th>
-            <td mat-cell *matCellDef="let row" class="right-align">{{ row.price }} ₪</td>
-        </ng-container>
+        <ng-template #caption>
+            <div class="flex items-center justify-between header">
+                <h3 class="m-0">ניהול מוצרים
+                    <span class="pi pi-user"></span>
+                </h3>
+                <div class="flex justify-between items-center all-filter"
+                    style="min-width:15rem;">
+                    <div class="mr-2 font-bold">סינון לפי קטגוריות</div>
+                    <p-columnFilter 
+                    field="categories" 
+                    matchMode="contains" 
+                    display="raw" 
+                    [showMatchModes]="false" 
+                    [showOperator]="false" 
+                    [showAddButton]="false" 
+                    class="ml-auto">
+                        <ng-template #filter let-value let-filter="filterCallback">
+                            <p-multiselect 
+                            [filter]="true" 
+                            [(ngModel)]="selectedCategories" 
+                            display="chip" 
+                            [options]="categoryEnum" 
+                            placeholder="בחר קטגוריות..." 
+                            (onChange)="filter($event.value)" 
+                            class="w-full">
+                                <ng-template let-category #item>
+                                    <div class="flex items-center gap-6">
+                                        <span>{{ category }}</span>
+                                    </div>
+                                </ng-template>
+                            </p-multiselect>
+                        </ng-template>
+                    </p-columnFilter>
+                </div>
+                
+             
+            </div>
+        </ng-template>
+        <ng-template #header>
+            <tr>
+                <th style="width: 3rem">
+                    <p-tableHeaderCheckbox />
+                </th>
+                <th style="min-width:5rem" pSortableColumn="Id">
+                    Id
+                    <p-sortIcon field="Id" aria-label="Sort ascending" aria-label-desc="Sort descending" />
+                </th>
+                <th pSortableColumn="name" style="min-width:16rem">
+                    שם
+                    <p-sortIcon field="name" />
+                </th>
+                <th>תמונה</th>
+                <th pSortableColumn="price" style="min-width: 8rem">
+                    מחיר
+                    <p-sortIcon field="price" />
+                </th>
+                <th pSortableColumn="categories" style="min-width:10rem">
+                    קטגריות
+                    <p-sortIcon field="category" />
+                </th>
+                <th style="min-width:20rem">
+                    תיאור
+                </th>
+                <th pSortableColumn="company" style="min-width: 12rem">
+                    חברה
+                    <p-sortIcon field="company" />
+                </th>
+                <th style="min-width: 12rem">
+                    צבעים
+                </th>
+                <th style="min-width: 12rem"></th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-product>
+            <tr>
+                <td style="width: 3rem">
+                    <p-tableCheckbox [value]="product" />
+                </td>
+                <td>{{ product.Id }}</td>
+                <td style="min-width: 16rem">{{ product.name }}</td>
+                <td>
+                    <img [src]="product.image" [alt]="product.name" style="width: 64px; height: 40px;" class="rounded" />
+                </td>
+                <td>{{ product.price | currency: 'ILS' }}</td>
+                <td>
+                    <span *ngFor="let category of product.categories">{{ category }}
+                    <span *ngIf="product.categories.length>1"> | </span></span>
+                </td>
+                <td>{{ product.describe }}</td>
+                <td>{{ product.company }}</td>
+                <td>{{ product.colors }}</td>
+                <td>
+                    <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true"/>
+                    <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
+                        (click)="deleteProduct(product)" />
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template #summary>
+            <div class="flex items-center justify-between">In total there are {{ products ? products.length : 0 }}
+                products.</div>
+        </ng-template>
+    </p-table>
 
-        <!-- Description Column -->
-        <ng-container matColumnDef="describe">
-            <th mat-header-cell *matHeaderCellDef class="right-align">תיאור</th>
-            <td mat-cell *matCellDef="let row" class="right-align">{{ row.describe }}</td>
-        </ng-container>
+    <p-dialog [(visible)]="productDialog" [style]="{ width: '40vw' }" header="Product Details" [modal]="true">
+        <ng-template #content>
+            <div class="flex flex-col gap-6">
+                <img [src]="'https://primefaces.org/cdn/primeng/images/demo/product/' + product.image"
+                    [alt]="product.image" class="block m-auto pb-4" *ngIf="product.image" />
+                <div>
+                    <label for="name" class="block font-bold mb-3">Name</label>
+                    <input type="text" pInputText id="name" [(ngModel)]="product.name" required autofocus fluid />
+                    <small class="text-red-500" *ngIf="submitted && !product.name">Name is required.</small>
+                </div>
+                <div>
+                    <label for="describe " class="block font-bold mb-3">Describe </label>
+                    <textarea id="describe " pTextarea *ngIf="product.describe " [(ngModel)]="product.describe "
+                        required rows="3" cols="20" fluid></textarea>
+                </div>
 
-        <!-- Colors Column -->
-        <ng-container matColumnDef="colors">
-            <th mat-header-cell *matHeaderCellDef class="right-align">צבעים</th>
-            <td mat-cell *matCellDef="let row" class="right-align">{{ row.colors }}</td>
-        </ng-container>
+                <div *ngFor="let category of categoryEnum">
+                    <p-checkbox [value]="category" [(ngModel)]="product.categories" [binary]="true"></p-checkbox>
+                    <label>{{category}}</label>
+                </div>
 
-        <!-- Company Column -->
-        <ng-container matColumnDef="company">
-            <th mat-header-cell *matHeaderCellDef class="right-align">חברה</th>
-            <td mat-cell *matCellDef="let row" class="right-align">{{ row.company }}</td>
-        </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
+                <div class="grid grid-cols-12 gap-4">
+                    <div class="col-span-6">
+                        <label for="price" class="block font-bold mb-3">Price</label>
+                        <p-inputnumber id="price" [(ngModel)]="product.price" mode="currency" currency="USD"
+                            locale="en-US" fluid />
+                    </div>
 
-    <div class="pagination-container">
-        <mat-paginator [length]="filteredProducts.length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
-            (page)="onPageChange($event)" aria-label="דפים">
-        </mat-paginator>
-    </div>
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #footer>
+            <p-button label="Cancel" icon="pi pi-times" text (click)="hideDialog()" />
+            <p-button label="Save" icon="pi pi-check"/>
+        </ng-template>
+    </p-dialog>
+
+    <p-confirmDialog [style]="{ width: '30rem' }" />
 </div>
