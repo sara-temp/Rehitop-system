@@ -37,7 +37,7 @@ export class ProductFormComponent {
   initializeForm() {
     this.productForm = new FormGroup({
       name: new FormControl(this.product?.name || '', Validators.required),
-      image: new FormControl(this.product?.image || '', Validators.required),
+      image: new FormControl(this.product?.image || ''),
       categories: new FormControl(this.product?.categories || '', Validators.required),
       price: new FormControl(this.product?.price || '', [Validators.required, Validators.min(0)]),
       describe: new FormControl(this.product?.describe || ''),
@@ -78,15 +78,16 @@ export class ProductFormComponent {
 
   deleteImage(imagePath: string) {
     this._managerService.deleteImage(imagePath).subscribe(response => {
-      console.log('הנתונים נוספו בהצלחה', response);
+      console.log('הנתונים נמחקו בהצלחה', response);
     }, error => {
-      console.error('שגיאה בשליחת הנתונים', error);
+      console.error('שגיאה במחיקת הנתונים', error);
     });
   }
 
-  async onSubmit() {
-    this.submitted = true;
+  async onSubmit() {    
+    this.submitted = true; 
     if (this.productForm?.valid) {
+      console.log("hi-2");
       console.log('הטופס תקין', this.productForm.value);
       if (this.productNew) {
         try {
@@ -120,6 +121,9 @@ export class ProductFormComponent {
         console.log("error!!");
       }
       this.dialog.closeAll();
+    }
+    else{
+      console.log('הטופס לא תקין', this.productForm.value);
     }
   }
 
