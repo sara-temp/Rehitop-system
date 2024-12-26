@@ -12,13 +12,16 @@
     <div class="form-group">
       <label for="describe" class="form-label">תמונה</label>
       <button matInput (click)="imageInput.click()">בחר תמונה</button>
-      <input #imageInput type="file" style="display: none;" (change)="onImageChange($event)" accept="image/*" />
+      <input #imageInput type="file" style="display: none;" (change)="onImageChange($event)" accept="image/*"/>
+      <small *ngIf="productForm.get('name')?.invalid && submitted" class="error-message">
+        תמונה היא שדה חובה.
+      </small>
     </div>
     <!-- שם המוצר -->
     <div class="form-group">
       <label for="name" class="form-label">שם המוצר</label>
       <input matInput formControlName="name" id="name" placeholder="הכנס שם מוצר" required autofocus />
-      <small *ngIf="productForm.get('name')?.invalid && submitted" class="error-message">
+      <small *ngIf="productForm.get('image')?.invalid && submitted" class="error-message">
         שם המוצר הוא שדה חובה.
       </small>
     </div>
@@ -33,6 +36,9 @@
       <mat-select formControlName="categories" id="categories" placeholder="בחר קטגוריות" multiple dir="rtl">
         <mat-option *ngFor="let category of categoryOptions" [value]="category">{{ category }}</mat-option>
       </mat-select>
+      <small *ngIf="productForm.get('categories')?.invalid && submitted" class="error-message">
+        יש לבחור לפחות קטגוריה אחת.
+      </small>
     </div>
     <!-- מחיר -->
     <div class="form-group">

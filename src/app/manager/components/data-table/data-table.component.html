@@ -3,7 +3,7 @@
 
     <p-toolbar styleClass="mb-6">
         <ng-template #start>
-            <p-button label="חדש" icon="pi pi-plus" class="mr-2" />
+            <p-button label="חדש" icon="pi pi-plus" class="mr-2" (click)="editRow(product)"/>
             <p-button severity="danger" label="מחיקה" icon="pi pi-trash" outlined (onClick)="deleteSelectedProducts()"
                 [disabled]="!selectedProducts || !selectedProducts.length" />
         </ng-template>
@@ -114,7 +114,7 @@
                 <td>{{ product.company }}</td>
                 <td>{{ product.colors }}</td>
                 <td>
-                    <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true"/>
+                    <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true" (click)="editRow(product)"/>
                     <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
                         (click)="deleteProduct(product)" />
                 </td>
