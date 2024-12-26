@@ -11,6 +11,7 @@ import { ManagerModule } from './manager/manager.module';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
+import { MyPreset } from '../mytheme';
 
 
 @NgModule({
@@ -27,9 +28,9 @@ import Aura from '@primeng/themes/aura';
     provideClientHydration(withEventReplay()), provideHttpClient(withFetch()), importProvidersFrom(HttpClientModule), provideAnimationsAsync(),
     providePrimeNG({
       theme: {
-          preset: Aura
+        preset: MyPreset,
       }
-  })
+    })
   ],
   bootstrap: [AppComponent]
 })
