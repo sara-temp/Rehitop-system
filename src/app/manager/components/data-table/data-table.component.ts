@@ -4,6 +4,7 @@ import { Table } from 'primeng/table';
 import { Product, Category } from '../../../models/product.model';
 import { ManagerService } from '../../manager.service';
 
+
 interface Column {
   field: string;
   header: string;
@@ -20,16 +21,14 @@ interface ExportColumn {
   standalone: false,
 
   templateUrl: './data-table.component.html',
-  // styleUrl: './data-table.component.css'
-  styles: [
-    `:host ::ng-deep .p-dialog .product-image {
-            width: 150px;
-            margin: 0 auto 2rem auto;
-            display: block;
-        }`
-  ]
+  styleUrl: './data-table.component.css'
 })
 export class DataTableComponent implements OnInit {
+
+
+getSeverity(arg0: any): "success"|"info"|"warn"|"danger"|"secondary"|"contrast"|undefined {
+throw new Error('Method not implemented.');
+}
   productDialog: boolean = false;
 
   products!: Product[];
@@ -40,15 +39,28 @@ export class DataTableComponent implements OnInit {
 
   submitted: boolean = false;
 
-  statuses!: any[];
-
   @ViewChild('dt') dt!: Table;
 
   cols!: Column[];
 
   exportColumns!: ExportColumn[];
 
-  categoryEnum = Object.values(Category);
+  categoryEnum!: Category[];
+
+  selectedCategories!: Category[];
+
+  error = {
+    severity: 'error',
+    summary: 'Error',
+    detail: 'Failed to delete product',
+    life: 3000
+  };
+  success = {
+    severity: 'success',
+    summary: 'Successful',
+    detail: 'Products Deleted',
+    life: 3000
+  };
 
   constructor(
     private managerService: ManagerService,
@@ -56,26 +68,10 @@ export class DataTableComponent implements OnInit {
     private confirmationService: ConfirmationService,
     // private cd: ChangeDetectorRef
   ) { }
+  
   ngOnInit(): void {
     this.managerService.getAll().subscribe((products) => {
       this.products = products;
-    });
-  }
-
-  exportCSV() {
-    this.dt.exportCSV();
-  }
-
-  onSearch(event: any) {
-    if (this.dt) {
-      this.dt.filterGlobal(event.target.value, 'contains');
-    }
-  }
-
-  loadDemoData() {
-    this.managerService.getAll().subscribe((data) => {
-      this.products = data;
-      // this.cd.markForCheck();
     });
 
     this.cols = [
@@ -87,21 +83,16 @@ export class DataTableComponent implements OnInit {
       { field: 'describe', header: 'Describe' },
       { field: 'colors', header: 'Colors' },
       { field: 'company', header: 'Company' }
-
     ];
 
-    this.exportColumns = this.cols.map((col) => ({ title: col.header, dataKey: col.field }));
+    this.categoryEnum = Object.values(Category);
+    console.log(this.categoryEnum)
   }
 
-  openNew() {
-    this.product = new Product("", "", "", [Category.Empty], 0);
-    this.submitted = false;
-    this.productDialog = true;
-  }
-
-  editProduct(product: Product) {
-    this.product = { ...product };
-    this.productDialog = true;
+  onSearch(event: any) {
+    if (this.dt) {
+      this.dt.filterGlobal(event.target.value, 'contains');
+    }
   }
 
   deleteSelectedProducts() {
@@ -116,27 +107,23 @@ export class DataTableComponent implements OnInit {
           this.managerService.delete(prod.Id).
             subscribe({
               next: () => { },
-              error: (err) => { failed.push(prod) },
-              complete: () => { setTimeout(() => { window.location.reload() }, 3000); }
+              error: (err) => {
+                failed.push(prod)
+                console.log(`err in data table ${err}`)
+              },
+              complete: () => {
+                console.log('5 data table')
+                if (failed.length === 0) {
+                  this.selectedProducts = null;
+                  this.messageService.add(this.success);
+                }
+                else {
+                  this.messageService.add(this.error);
+                }
+                window.location.reload()
+              }
             })
         );
-        if (failed.length === 0) {
-          this.selectedProducts = null;
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Successful',
-            detail: 'Products Deleted',
-            life: 3000
-          });
-        }
-        else { 
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'Failed to delete product',
-            life: 3000
-          });
-        }
       }
     });
   }
@@ -159,24 +146,16 @@ export class DataTableComponent implements OnInit {
           result.subscribe({
             next: () => {
               console.log('4 Product Deleted success (data-table-component)')
-              window.location.reload();
-              this.messageService.add({
-                severity: 'success',
-                summary: 'Successful',
-                detail: 'Product Deleted',
-                life: 3000
-              });
+              this.messageService.add(this.success);
             },
             error: (err) => {
-              console.log('4 Failed Product Deleted (data-table-component)')
-              this.messageService.add({
-                severity: 'error',
-                summary: 'Error',
-                detail: 'Failed to delete product',
-                life: 3000
-              });
+              console.log('4 Failed Product Deleted (data-table-component)', err  )
+              this.messageService.add(this.error);
             },
-            complete: () => { setTimeout(() => { window.location.reload() }, 3000); }
+            complete: () => {
+              console.log('5 data table')
+              window.location.reload();
+            }
           });
         }
         this.product = new Product('', '', '', [Category.Empty], 0);
@@ -203,35 +182,5 @@ export class DataTableComponent implements OnInit {
       id += chars.charAt(Math.floor(Math.random() * chars.length));
     }
     return id;
-  }
-
-  saveProduct() {
-    this.submitted = true;
-
-    if (this.product.name?.trim()) {
-      if (this.product.Id) {
-        this.products[this.findIndexById(this.product.Id)] = this.product;
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successful',
-          detail: 'Product Updated',
-          life: 3000
-        });
-      } else {
-        this.product.Id = this.createId();
-        this.product.image = 'product-placeholder.svg';
-        this.products.push(this.product);
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successful',
-          detail: 'Product Created',
-          life: 3000
-        });
-      }
-
-      this.products = [...this.products];
-      this.productDialog = false;
-      this.product = new Product('', '', '', [Category.Empty], 0);
-    }
   }
 }
