@@ -8,6 +8,11 @@ import { SystemModule } from "./system/system.module";
 import { HeaderComponent } from './system/components/header/header.component';
 import { ManagerModule } from './manager/manager.module';
 
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { providePrimeNG } from 'primeng/config';
+import Aura from '@primeng/themes/aura';
+
+
 @NgModule({
   declarations: [
     AppComponent
@@ -17,9 +22,14 @@ import { ManagerModule } from './manager/manager.module';
     AppRoutingModule,
     SystemModule,
     ManagerModule
-],
+  ],
   providers: [
-    provideClientHydration(withEventReplay()), provideHttpClient(withFetch()), importProvidersFrom(HttpClientModule)
+    provideClientHydration(withEventReplay()), provideHttpClient(withFetch()), importProvidersFrom(HttpClientModule), provideAnimationsAsync(),
+    providePrimeNG({
+      theme: {
+          preset: Aura
+      }
+  })
   ],
   bootstrap: [AppComponent]
 })
