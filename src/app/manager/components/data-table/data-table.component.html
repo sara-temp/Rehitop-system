@@ -114,7 +114,7 @@
                 <td>{{ product.company }}</td>
                 <td>{{ product.colors }}</td>
                 <td>
-                    <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true"/>
+                    <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true" (click)="editRow(product)"/>
                     <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
                         (click)="deleteProduct(product)" />
                 </td>

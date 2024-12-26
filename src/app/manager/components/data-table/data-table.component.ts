@@ -3,6 +3,8 @@ import { MessageService, ConfirmationService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Product, Category } from '../../../models/product.model';
 import { ManagerService } from '../../manager.service';
+import { ProductFormComponent } from '../product-form/product-form.component';
+import { MatDialog } from '@angular/material/dialog';
 
 
 interface Column {
@@ -66,6 +68,7 @@ throw new Error('Method not implemented.');
     private managerService: ManagerService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
+    private dialog: MatDialog
     // private cd: ChangeDetectorRef
   ) { }
   
@@ -182,5 +185,19 @@ throw new Error('Method not implemented.');
       id += chars.charAt(Math.floor(Math.random() * chars.length));
     }
     return id;
+  }
+
+  
+  editRow(row: any) {
+    const dialogRef = this.dialog.open(ProductFormComponent, {
+      data: { product: row }
+    });
+    dialogRef.afterClosed().subscribe(res => {
+        this.managerService.getAll().subscribe(data => {
+          this.products = data; 
+        }, error => {
+          console.error("שגיאה בעדכון הנתונים", error);
+        });
+    });
   }
 }
