@@ -12,7 +12,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSelectSearchModule } from 'mat-select-search';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatChipsModule} from '@angular/material/chips';
 import { ReactiveFormsModule } from '@angular/forms'
@@ -22,7 +21,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox'
 import { MatDialogModule } from '@angular/material/dialog';
 import {MatInputModule} from '@angular/material/input';
 
-const modules = [MatGridListModule,MatCheckboxModule,MatButtonToggleModule,ReactiveFormsModule, MatCardModule, MatToolbarModule, MatTabsModule, MatPaginatorModule, MatSortModule, MatTableModule, MatFormFieldModule, MatSelectModule, MatButtonModule, MatIconModule, MatExpansionModule, MatSelectSearchModule, MatAutocompleteModule, MatChipsModule, BrowserAnimationsModule]
+const modules = [MatGridListModule,MatCheckboxModule,MatButtonToggleModule,ReactiveFormsModule,MatDialogModule, MatCardModule, MatToolbarModule, MatTabsModule, MatPaginatorModule, MatSortModule, MatTableModule, MatFormFieldModule, MatSelectModule, MatButtonModule, MatIconModule, MatExpansionModule, MatAutocompleteModule, MatChipsModule, BrowserAnimationsModule]
 
 @NgModule({
   declarations: [],

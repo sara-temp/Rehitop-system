@@ -2,25 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DataTableComponent } from './components/data-table/data-table.component';
 import { MaterialModule } from '../material/material.module';
-<<<<<<< HEAD
-import { ProductFormComponent } from './components/product-form/product-form.component';
-import { ReactiveFormsModule } from '@angular/forms';
-
-@NgModule({
-  declarations: [
-    DataTableComponent,
-    ProductFormComponent
-  ],
-  imports: [
-    CommonModule,
-    MaterialModule,
-    ReactiveFormsModule
-  ],
-  exports: [
-    DataTableComponent,
-    ProductFormComponent
-  ]
-=======
 import { FormsModule } from '@angular/forms';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -45,13 +26,13 @@ import { Table } from 'primeng/table';
 import { DropdownModule } from 'primeng/dropdown';
 import { CheckboxModule } from 'primeng/checkbox';
 import { MultiSelectModule } from 'primeng/multiselect';
-
+import { ProductFormComponent } from './components/product-form/product-form.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [DataTableComponent],
-  imports: [ButtonModule, CheckboxModule, CommonModule, MaterialModule, MultiSelectModule, TableModule, Dialog, Ripple, SelectModule, ToastModule, ToolbarModule, ConfirmDialog, InputTextModule, TextareaModule, CommonModule, FileUpload, DropdownModule, Tag, RadioButton, Rating, InputTextModule, FormsModule, InputNumber, IconFieldModule, InputIconModule],
+  declarations: [DataTableComponent, ProductFormComponent],
+  imports: [ButtonModule, CheckboxModule, CommonModule, ReactiveFormsModule, MaterialModule, MultiSelectModule, TableModule, Dialog, Ripple, SelectModule, ToastModule, ToolbarModule, ConfirmDialog, InputTextModule, TextareaModule, CommonModule, FileUpload, DropdownModule, Tag, RadioButton, Rating, InputTextModule, FormsModule, InputNumber, IconFieldModule, InputIconModule],
   providers: [MessageService, ConfirmationService],
-  exports: [DataTableComponent]
->>>>>>> 0c1d24cf6a6eb4205aad018ed22ecbdb7109a7e0
+  exports: [DataTableComponent, ProductFormComponent]
 })
 export class ManagerModule { }
