@@ -28,11 +28,13 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { ProductFormComponent } from './components/product-form/product-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { LoginComponent } from './components/login/login.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
-  declarations: [DataTableComponent, ProductFormComponent],
-  imports: [ButtonModule, CheckboxModule, CommonModule, ReactiveFormsModule, MaterialModule, MultiSelectModule, TableModule, Dialog, Ripple, SelectModule, ToastModule, ToolbarModule, ConfirmDialog, InputTextModule, TextareaModule, CommonModule, FileUpload, DropdownModule, Tag, RadioButton, Rating, InputTextModule, FormsModule, InputNumber, IconFieldModule, InputIconModule],
+  declarations: [DataTableComponent, ProductFormComponent, LoginComponent],
+  imports: [RouterModule ,ButtonModule, CheckboxModule, CommonModule, ReactiveFormsModule, MaterialModule, MultiSelectModule, TableModule, Dialog, Ripple, SelectModule, ToastModule, ToolbarModule, ConfirmDialog, InputTextModule, TextareaModule, CommonModule, FileUpload, DropdownModule, Tag, RadioButton, Rating, InputTextModule, FormsModule, InputNumber, IconFieldModule, InputIconModule],
   providers: [MessageService, ConfirmationService],
-  exports: [DataTableComponent, ProductFormComponent]
+  exports: [DataTableComponent, ProductFormComponent, LoginComponent]
 })
 export class ManagerModule { }

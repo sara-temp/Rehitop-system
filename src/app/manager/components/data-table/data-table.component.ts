@@ -3,6 +3,7 @@ import { MessageService, ConfirmationService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Product, Category } from '../../../models/product.model';
 import { ManagerService } from '../../manager.service';
+import { Router } from '@angular/router';
 
 
 interface Column {
@@ -26,9 +27,9 @@ interface ExportColumn {
 export class DataTableComponent implements OnInit {
 
 
-getSeverity(arg0: any): "success"|"info"|"warn"|"danger"|"secondary"|"contrast"|undefined {
-throw new Error('Method not implemented.');
-}
+  getSeverity(arg0: any): "success" | "info" | "warn" | "danger" | "secondary" | "contrast" | undefined {
+    throw new Error('Method not implemented.');
+  }
   productDialog: boolean = false;
 
   products!: Product[];
@@ -66,9 +67,10 @@ throw new Error('Method not implemented.');
     private managerService: ManagerService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
+    private route: Router
     // private cd: ChangeDetectorRef
   ) { }
-  
+
   ngOnInit(): void {
     this.managerService.getAll().subscribe((products) => {
       this.products = products;
@@ -149,7 +151,7 @@ throw new Error('Method not implemented.');
               this.messageService.add(this.success);
             },
             error: (err) => {
-              console.log('4 Failed Product Deleted (data-table-component)', err  )
+              console.log('4 Failed Product Deleted (data-table-component)', err)
               this.messageService.add(this.error);
             },
             complete: () => {

@@ -1,0 +1,17 @@
+<form [formGroup]="LoginForm">
+    <div class="title-form">
+        <h3>התחברות</h3>
+    </div>
+    <div class="form-group">
+        <label for="username" class="form-label">שם משתמש</label>
+        <input matInput formControlName="username" id="username" placeholder="שם משתמש" type="text" />
+    </div>
+    <div class="form-group">
+        <label for="password" class="form-label">סיסמה</label>
+        <input matInput formControlName="password" id="password" placeholder="סיסמה" type="text" />
+    </div>
+</form>
+<mat-dialog-actions>
+  <button mat-button (click)="onCancel()" class="cancel">ביטול</button>
+  <button mat-button (click)="onlogin()" class="save">התחברות</button>
+</mat-dialog-actions>

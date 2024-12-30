@@ -9,5 +9,6 @@
 </div>
 
 <div class="products">
-  <product-list [category]="categorySelected"></product-list> 
+  <product-list *ngIf="categorySelected" [category]="categorySelected"></product-list>
+  <login *ngIf="loginSelected"></login>
 </div>

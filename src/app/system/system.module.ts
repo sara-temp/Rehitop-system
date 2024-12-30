@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ProductComponent } from './components/product/product.component';
 import { Product } from '../models/product.model'
@@ -30,6 +31,8 @@ import { DropdownModule } from 'primeng/dropdown';
 import { CheckboxModule } from 'primeng/checkbox';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { FormsModule } from '@angular/forms';
+import { LoginComponent } from '../manager/components/login/login.component';
+import { ManagerModule } from '../manager/manager.module';
 
 
 @NgModule({
@@ -39,7 +42,7 @@ import { FormsModule } from '@angular/forms';
     HeaderComponent
   ],
   imports: [
-    CommonModule,
+    CommonModule, RouterModule, ManagerModule,
     MaterialModule, ButtonModule, CheckboxModule, CommonModule, MaterialModule, MultiSelectModule, TableModule, Dialog, Ripple, SelectModule, ToastModule, ToolbarModule, ConfirmDialog, InputTextModule, TextareaModule, CommonModule, FileUpload, DropdownModule, Tag, RadioButton, Rating, InputTextModule, FormsModule, InputNumber, IconFieldModule, InputIconModule],
   providers: [ManagerService],
   exports: [
