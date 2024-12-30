@@ -3,6 +3,7 @@ import { Product, Category } from '../../../models/product.model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { ManagerService } from '../../manager.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'product-form',
@@ -20,7 +21,7 @@ export class ProductFormComponent {
   img: any;
   imgFile: any;
   category: any;
-
+  
   constructor(@Inject(MAT_DIALOG_DATA) public data: { product: Product }, private _managerService: ManagerService, public dialog: MatDialog) {
     if (data.product) {
       this.product = data.product;
@@ -37,7 +38,7 @@ export class ProductFormComponent {
   initializeForm() {
     this.productForm = new FormGroup({
       name: new FormControl(this.product?.name || '', Validators.required),
-      image: new FormControl(this.product?.image || '', Validators.required),
+      image: new FormControl(this.product?.image || ''),
       categories: new FormControl(this.product?.categories || '', Validators.required),
       price: new FormControl(this.product?.price || '', [Validators.required, Validators.min(0)]),
       describe: new FormControl(this.product?.describe || ''),
@@ -93,8 +94,10 @@ export class ProductFormComponent {
           await this.uploadImage();
           this._managerService.post(this.productForm.value).subscribe(response => {
             console.log('הנתונים נוספו בהצלחה', response);
+            this.showSuccess('!הנתונים נוספו בהצלחה');
           }, error => {
             console.error('שגיאה בשליחת הנתונים', error);
+            this.showError('!שגיאה בשליחת הנתונים');
           });
         } catch (error) {
           console.error("שגיאה בהעלאת התמונה, לא ניתן להמשיך", error);
@@ -112,8 +115,10 @@ export class ProductFormComponent {
         }
         this._managerService.put(this.productForm.value, this.product.Id).subscribe(response => {
           console.log('הנתונים נערכו בהצלחה', response);
+          this.showSuccess('!הנתונים נערכו בהצלחה');
         }, error => {
-          console.error('שגיאה בשליחת הנתונים', error);
+          console.error('שגיאה בעריכת הנתונים', error);
+          this.showError('!שגיאה בעריכת הנתונים');
         });
       }
       else {
@@ -124,6 +129,21 @@ export class ProductFormComponent {
     else{
       console.log('הטופס לא תקין', this.productForm.value);
     }
+  }
+
+  showSuccess(message: string) {
+    Swal.fire({
+      title: message,
+      icon: 'success',
+      confirmButtonText: 'סגור',
+    });
+  }
+  showError(message: string) {
+    Swal.fire({
+      title: message,
+      icon: 'error',
+      confirmButtonText: 'סגור',
+    });
   }
 
   onCancel() {
