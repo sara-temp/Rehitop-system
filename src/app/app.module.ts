@@ -5,12 +5,10 @@ import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SystemModule } from "./system/system.module";
-import { HeaderComponent } from './system/components/header/header.component';
 import { ManagerModule } from './manager/manager.module';
 
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
-import Aura from '@primeng/themes/aura';
 import { MyPreset } from '../mytheme';
 
 

@@ -8,10 +8,10 @@ import { HeaderComponent } from './system/components/header/header.component';
 const routes: Routes = [
   { path: 'auth', component: DataTableComponent, canActivate: [authGuard] },
   { path: 'unauthorized', component: HeaderComponent },
-  { path: 'header', component: HeaderComponent },
+  { path: 'header/:isLogin', component: HeaderComponent },
   { path: 'login', component: LoginComponent },
   { path: 'edit', component: DataTableComponent },
-  { path: '', redirectTo: '/header', pathMatch: 'full' },
+  { path: '', redirectTo: '/header/:isLogin', pathMatch: 'full' },
   { path: '**', redirectTo: '/header', pathMatch: 'full' }  
 ];
 

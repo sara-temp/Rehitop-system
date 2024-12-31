@@ -9,8 +9,8 @@
         </ng-template>
 
         <ng-template #end>
-            <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="יבא" auto
-                customUpload class="mr-2 inline-block" [chooseButtonProps]="{ severity: 'secondary' }" />
+            <p-button  label="חזרה למוצרים" chooseLabel="חזרה למוצרים" auto icon="pi pi-arrow-left"
+                customUpload class="mr-2 inline-block" (click)="backToProd()" />
         </ng-template>
 
         

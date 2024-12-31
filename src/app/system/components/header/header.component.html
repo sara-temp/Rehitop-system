@@ -4,8 +4,10 @@
       <li *ngFor="let category of categories" (click)="onCategoryClick(category)">
         {{ category }}
       </li>
-      <li #login *ngIf="!isLogin" (click)="categorySelected=''; loginSelected = true;">login</li>
-      <li #login *ngIf="isLogin" (click)="onLogoutClick()">logout</li>
+      <li *ngIf="!isLogin" (click)="categorySelected=''; loginSelected = true;">login</li>
+      <li *ngIf="isLogin" (click)="onLogoutClick()">logout</li>
+      <!-- development -->
+      <li *ngIf="isLogin" routerLink="/edit">לעריכה</li>
     </ul>
   </nav>
 </div>
