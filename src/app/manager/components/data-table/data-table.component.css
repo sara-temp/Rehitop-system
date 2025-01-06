@@ -31,3 +31,11 @@
   flex-direction: column;
 
 }
+
+.edit{
+  margin: 5px;
+}
+
+.delete{
+  margin: 5px;
+}

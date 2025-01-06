@@ -39,20 +39,23 @@
                     [showAddButton]="false" 
                     class="ml-auto">
                         <ng-template #filter let-value let-filter="filterCallback">
-                            <p-multiselect 
+                            <p-treeselect 
                             [filter]="true" 
                             [(ngModel)]="selectedCategories" 
                             display="chip" 
                             [options]="categoryEnum" 
+                            [metaKeySelection]="false"
+                            selectionMode="checkbox" 
                             placeholder="בחר קטגוריות..." 
-                            (onChange)="filter($event.value)" 
-                            class="w-full">
+                            (onChange)="filter($event)" 
+                            class="w-full md:w-80"
+                            containerStyleClass="w-full">
                                 <ng-template let-category #item>
                                     <div class="flex items-center gap-6">
                                         <span>{{ category }}</span>
                                     </div>
                                 </ng-template>
-                            </p-multiselect>
+                            </p-treeselect>
                         </ng-template>
                     </p-columnFilter>
                 </div>
@@ -62,37 +65,37 @@
         </ng-template>
         <ng-template #header>
             <tr>
-                <th style="width: 3rem">
+                <th style="width: 2rem">
                     <p-tableHeaderCheckbox />
                 </th>
-                <th style="min-width:5rem" pSortableColumn="Id">
+                <th style="min-width:4rem" pSortableColumn="Id">
                     Id
                     <p-sortIcon field="Id" aria-label="Sort ascending" aria-label-desc="Sort descending" />
                 </th>
-                <th pSortableColumn="name" style="min-width:16rem">
+                <th pSortableColumn="name" style="min-width:10rem">
                     שם
                     <p-sortIcon field="name" />
                 </th>
                 <th>תמונה</th>
-                <th pSortableColumn="price" style="min-width: 8rem">
+                <th pSortableColumn="price" style="min-width: 7rem">
                     מחיר
                     <p-sortIcon field="price" />
                 </th>
-                <th pSortableColumn="categories" style="min-width:10rem">
+                <th pSortableColumn="categories" style="min-width:9rem">
                     קטגריות
                     <p-sortIcon field="category" />
                 </th>
-                <th style="min-width:20rem">
+                <th style="min-width:19rem">
                     תיאור
                 </th>
-                <th pSortableColumn="company" style="min-width: 12rem">
+                <th pSortableColumn="company" style="min-width: 11rem">
                     חברה
                     <p-sortIcon field="company" />
                 </th>
-                <th style="min-width: 12rem">
+                <th style="min-width: 11rem">
                     צבעים
                 </th>
-                <th style="min-width: 12rem"></th>
+                <th style="min-width:11rem"></th>
             </tr>
         </ng-template>
         <ng-template #body let-product>
@@ -101,7 +104,7 @@
                     <p-tableCheckbox [value]="product" />
                 </td>
                 <td>{{ product.Id }}</td>
-                <td style="min-width: 16rem">{{ product.name }}</td>
+                <td style="min-width: 10rem">{{ product.name }}</td>
                 <td>
                     <img [src]="product.image" [alt]="product.name" style="width: 64px; height: 40px;" class="rounded" />
                 </td>
@@ -114,8 +117,8 @@
                 <td>{{ product.company }}</td>
                 <td>{{ product.colors }}</td>
                 <td>
-                    <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true" (click)="editRow(product)"/>
-                    <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
+                    <p-button icon="pi pi-pencil" class="edit" class="mr-2" [rounded]="true" [outlined]="true" (click)="editRow(product)"/>
+                    <p-button icon="pi pi-trash" class="delete" severity="danger" [rounded]="true" [outlined]="true"
                         (click)="deleteProduct(product)" />
                 </td>
             </tr>

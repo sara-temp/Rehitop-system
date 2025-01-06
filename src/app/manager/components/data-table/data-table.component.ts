@@ -1,11 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { Table } from 'primeng/table';
-import { Product, Category } from '../../../models/product.model';
+import { Product, SubCategory, ChildrensRoom, Closets, DiningAreas, Mattresses, Office, Salon, Categories } from '../../../models/product.model';
 import { ManagerService } from '../../manager.service';
 import { ProductFormComponent } from '../product-form/product-form.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { TreeSelectModule } from 'primeng/treeselect';
 
 
 interface Column {
@@ -18,6 +19,12 @@ interface ExportColumn {
   title: string;
   dataKey: string;
 }
+
+interface  TreeNode {
+  label: string;
+  value: SubCategory;
+  children?: TreeNode[];
+};
 
 @Component({
   selector: 'data-table',
@@ -48,9 +55,9 @@ export class DataTableComponent implements OnInit {
 
   exportColumns!: ExportColumn[];
 
-  categoryEnum!: Category[];
+  categoryEnum!:  TreeNode[];
 
-  selectedCategories!: Category[];
+  selectedCategories!: SubCategory[];
 
   error = {
     severity: 'error',
@@ -90,7 +97,58 @@ export class DataTableComponent implements OnInit {
       { field: 'company', header: 'Company' }
     ];
 
-    this.categoryEnum = Object.values(Category);
+    this.categoryEnum = [
+      {
+        label: Categories.SALON,
+        value: Categories.SALON,
+        children: Object.values(Salon).map((salon) => ({
+          label: salon,
+          value: salon,
+        })),
+      },
+      {
+        label: Categories.MATTRESSES,
+        value: Categories.MATTRESSES,
+        children: Object.values(Mattresses).map((mattress) => ({
+          label: mattress,
+          value: mattress,
+        })),
+      },
+      {
+        label: Categories.CHILDRENSROOMS,
+        value: Categories.CHILDRENSROOMS,
+        children: Object.values(ChildrensRoom).map((room) => ({
+          label: room,
+          value: room,
+        })),
+      },
+      {
+        label: Categories.CLOSETS,
+        value: Categories.CLOSETS,
+        children: Object.values(Closets).map((closet) => ({
+          label: closet,
+          value: closet,
+        })),
+      },
+      {
+        label: Categories.DININGAREAS,
+        value: Categories.DININGAREAS,
+        children: Object.values(DiningAreas).map((dining) => ({
+          label: dining,
+          value: dining,
+        })),
+      },
+      {
+        label: Categories.OFFICE,
+        value: Categories.OFFICE,
+        children: Object.values(Office).map((office) => ({
+          label: office,
+          value: office,
+        })),
+      },
+    ];
+  
+    
     console.log(this.categoryEnum)
   }
 
@@ -163,7 +221,7 @@ export class DataTableComponent implements OnInit {
             }
           });
         }
-        this.product = new Product('', '', '', [Category.Empty], 0);
+        this.product = new Product('', '', '', [], 0);
       }
     });
   }

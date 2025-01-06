@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Product } from '../models/product.model'
-import { HttpClient } from '@angular/common/http';
+import { Product } from '../models/product.model';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, Observable, throwError } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -13,8 +13,13 @@ export class ManagerService {
 
   constructor(private http: HttpClient) { }
 
+  private getAuthorizationHeader(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({ 'Authorization': `Bearer ${token}` });
+  }
+
   getAll = (): Observable<Product[]> => {
-    return this.http.get<Product[]>(this.jsonUrl)
+    return this.http.get<Product[]>(this.jsonUrl);
   }
 
   getByCategory = (category: string): Observable<Product[]> => {
@@ -34,9 +39,9 @@ export class ManagerService {
       })
     );
   }
-  
+
   getById = (id: string): Observable<Product | undefined> => {
-    return this.http.get<Product[]>(`this.jsonUrl/${id}`).pipe(
+    return this.http.get<Product[]>(`${this.jsonUrl}/${id}`).pipe(
       map((products) => {
         const product = products.find((prod) => prod.Id === id);
         if (!product) {
@@ -46,27 +51,37 @@ export class ManagerService {
       })
     );
   }
-  
+
   uploadImage(formData: FormData): Observable<{ imagePath: string }> {
-    return this.http.post<{ imagePath: string }>(this.jsonUrl + '/upload-image', formData);
+    return this.http.post<{ imagePath: string }>(this.jsonUrl + '/upload-image', formData, {
+      headers: this.getAuthorizationHeader()
+    });
   }
 
   deleteImage(imagePath: string): Observable<void> {
-    return this.http.post<void>(this.jsonUrl + '/delete-image', { imagePath });
-  }  
+    return this.http.post<void>(this.jsonUrl + '/delete-image', { imagePath }, {
+      headers: this.getAuthorizationHeader()
+    });
+  }
 
   post = (product: Product): Observable<Product> => {
-    product.Id = uuidv4(); 
-    return this.http.post<Product>(this.jsonUrl, product);
+    product.Id = uuidv4();
+    return this.http.post<Product>(this.jsonUrl, product, {
+      headers: this.getAuthorizationHeader()
+    });
   };
 
-  put = (product: Product, id:string): Observable<Product> => {
-    product.Id = id; 
-    return this.http.put<Product>(`${this.jsonUrl}/${id}`, product);
+  put = (product: Product, id: string): Observable<Product> => {
+    product.Id = id;
+    return this.http.put<Product>(`${this.jsonUrl}/${id}`, product, {
+      headers: this.getAuthorizationHeader()
+    });
   };
 
   delete = (id: string): Observable<void> => {
-    const data = this.http.delete<void>(`${this.jsonUrl}/${id}`);
+    const data = this.http.delete<void>(`${this.jsonUrl}/${id}`, {
+      headers: this.getAuthorizationHeader()
+    });
     data.subscribe({
       next: () => console.log('2 Delete successful (manager service)'),
       error: (err) => console.error('2 Delete failed:', err, '(manager service)'),
