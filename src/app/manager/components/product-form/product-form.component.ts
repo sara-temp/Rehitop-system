@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { Product, Category } from '../../../models/product.model';
+import { Categories, Product, SubCategory } from '../../../models/product.model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { ManagerService } from '../../manager.service';
@@ -14,7 +14,7 @@ import Swal from 'sweetalert2';
 })
 export class ProductFormComponent {
   product: Product | undefined;
-  categoryOptions: string[] = Object.values(Category);
+  categoryOptions: string[] = Object.values(Categories);
   productForm: FormGroup = new FormGroup({});
   submitted = false;
   productNew = false;
@@ -62,7 +62,7 @@ export class ProductFormComponent {
     return new Promise((resolve, reject) => {
       const imageFormData = new FormData();
       imageFormData.append('image', this.imgFile);
-      this.category = Object.keys(Category).find(key => Category[key as keyof typeof Category] === this.productForm.value.categories[0]);
+      // this.category = Object.keys(Category).find(key => Category[key as keyof typeof Category] === this.productForm.value.categories[0]);
       if (this.category)
         imageFormData.append('folder', this.category);
       this._managerService.uploadImage(imageFormData).subscribe(response => {
