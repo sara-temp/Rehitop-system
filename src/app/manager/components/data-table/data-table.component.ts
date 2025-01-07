@@ -8,19 +8,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TreeSelectModule } from 'primeng/treeselect';
 
-
 interface Column {
   field: string;
   header: string;
   customExportHeader?: string;
 }
 
-interface ExportColumn {
-  title: string;
-  dataKey: string;
-}
-
-interface  TreeNode {
+interface TreeNode {
   label: string;
   value: SubCategory;
   children?: TreeNode[];
@@ -53,9 +47,7 @@ export class DataTableComponent implements OnInit {
 
   cols!: Column[];
 
-  exportColumns!: ExportColumn[];
-
-  categoryEnum!:  TreeNode[];
+  categoryEnum!: TreeNode[];
 
   selectedCategories!: SubCategory[];
 
@@ -147,9 +139,6 @@ export class DataTableComponent implements OnInit {
         })),
       },
     ];
-  
-    
-    console.log(this.categoryEnum)
   }
 
   onSearch(event: any) {
@@ -247,21 +236,21 @@ export class DataTableComponent implements OnInit {
     return id;
   }
 
-  
+
   editRow(row: any) {
     const dialogRef = this.dialog.open(ProductFormComponent, {
       data: { product: row }
     });
     dialogRef.afterClosed().subscribe(res => {
-        this.managerService.getAll().subscribe(data => {
-          this.products = data; 
-        }, error => {
-          console.error("שגיאה בעדכון הנתונים", error);
-        });
+      this.managerService.getAll().subscribe(data => {
+        this.products = data;
+      }, error => {
+        console.error("שגיאה בעדכון הנתונים", error);
+      });
     });
   }
 
   backToProd() {
     this.route.navigate(['/header', true]);
-    }
+  }
 }
