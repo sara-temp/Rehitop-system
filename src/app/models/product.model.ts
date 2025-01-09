@@ -29,6 +29,17 @@ export class Product {
   }
 }
 
+
+// export enum Category {
+//   Sofas = 'ספות',
+//   Beds = 'מיטות',
+//   Closets = 'ארונות חדר ילדים',
+//   Chairs = 'כיסאות',
+//   Tables = 'שולחנות',
+//   Empty = ""
+// }
+
+
 export enum Categories {
   SALON = 'ריהוט סלוני',
   BEDROOMS = 'חדרי שינה',
@@ -71,11 +82,28 @@ export enum Office {
   TABLES = 'שולחנות משרדיים'
 }
 
+// יצירת אובייקט ריצה
+export const SCHEMA_RUNTIME: Schema = {
+  [Categories.SALON]: Salon,
+  [Categories.BEDROOMS]: {} as never,
+  [Categories.MATTRESSES]: Mattresses,
+  [Categories.CHILDRENSROOMS]: {
+    [ChildrensRoom.YOUTHBEDS]: {},
+    [ChildrensRoom.DESKS]: Desks,
+  },
+  [Categories.CLOSETS]: Closets,
+  [Categories.DININGAREAS]: DiningAreas,
+  [Categories.OFFICE]: Office
+};
+
 export type Schema = {
   [Categories.SALON]: typeof Salon,
   [Categories.BEDROOMS]: never,
   [Categories.MATTRESSES]: typeof Mattresses,
-  [Categories.CHILDRENSROOMS]: typeof ChildrensRoom,
+  [Categories.CHILDRENSROOMS]:  {
+    [ChildrensRoom.YOUTHBEDS]: {};
+    [ChildrensRoom.DESKS]: typeof Desks;
+  },
   [Categories.CLOSETS]: typeof Closets,
   [Categories.DININGAREAS]: typeof DiningAreas,
   [Categories.OFFICE]: typeof Office

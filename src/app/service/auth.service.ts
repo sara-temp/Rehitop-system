@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, Observable, of, tap } from 'rxjs';
+import { catchError, map, Observable, of, tap } from 'rxjs';
 import { Login } from '../models/login.model';
 
 @Injectable({
@@ -13,26 +13,19 @@ export class AuthService {
 
 
   isAdmin(): Observable<boolean> {
-    if (typeof localStorage === 'undefined') {
-      console.log('LocalStorage is undefined');
-      return of(false);
-    }
-    const token = localStorage['token'];
-    if (token==undefined) {
-      console.log('No token found');
-      return of(false);
-    }
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    console.log('Headers:', headers);
-  
-    return this.http.get<boolean>(`${this.apiUrl}/is-admin`, { headers })
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
+
+    return this.http.get<{ isAdmin: boolean }>(`${this.apiUrl}/is-admin`, { headers })
       .pipe(
+        map(response => response.isAdmin),  // התאמה לתשובת השרת המחודשת
         catchError((error) => {
           console.error('Error during isAdmin request:', error);
-          return of(false);
+          return of(false);  // החזרת false במקרה של שגיאה
         })
       );
-  }
+}
+
   
 
   login(login: Login): Observable<any>{

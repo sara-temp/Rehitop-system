@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Schema, Categories, ChildrensRoom, Closets, DiningAreas, MainCategory, Mattresses, Office, Salon, SubCategory } from '../../../models/product.model';
+import { Schema, Categories, ChildrensRoom, Closets, DiningAreas, MainCategory, Mattresses, Office, Salon, SubCategory, SCHEMA_RUNTIME } from '../../../models/product.model';
 import { AuthService } from '../../../service/auth.service';
 import { ActivatedRoute } from '@angular/router';
 import { MenuItem, MenuItemCommandEvent } from 'primeng/api';
@@ -17,13 +17,13 @@ export class HeaderComponent implements OnInit {
   isLogin: boolean = false;
   items: MenuItem[] | undefined;
 
+
   constructor(private authService: AuthService, private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       let t = params.get('isLogin');
-      // console.log('isLogin', t)
       if (t === 'true') {
         this.isLogin = true;
       }
@@ -33,24 +33,16 @@ export class HeaderComponent implements OnInit {
   }
 
   generateMenuItems(): MenuItem[] {
-    const schemaData = {
-      [Categories.SALON]: Salon,
-      [Categories.BEDROOMS]: null,
-      [Categories.MATTRESSES]: Mattresses,
-      [Categories.CHILDRENSROOMS]: ChildrensRoom,
-      [Categories.CLOSETS]: Closets,
-      [Categories.DININGAREAS]: DiningAreas,
-      [Categories.OFFICE]: Office
-    };
+    const schemaData = SCHEMA_RUNTIME;
 
     const loginObject = {
       label: 'Login',
       icon: 'pi pi-sign-in',
-      items:undefined,
+      items: undefined,
       command: (event: MenuItemCommandEvent) => {
         // this.onLoginClick();
         this.loginSelected = true;
-        this.categorySelected='';
+        this.categorySelected = '';
       },
       visible: !this.isLogin
     }
@@ -58,7 +50,7 @@ export class HeaderComponent implements OnInit {
     const logoutObject = {
       label: 'Logout',
       icon: 'pi pi-sign-out',
-      items:undefined,
+      items: undefined,
       command: (event: MenuItemCommandEvent) => {
         this.onLogoutClick();
         this.loginSelected = false;
@@ -79,20 +71,27 @@ export class HeaderComponent implements OnInit {
       visible: this.isLogin
     }
 
-    // return
-    let menu =  Object.entries(schemaData).map(([mainCategory, subCategories]) => {
-      const subItems = subCategories
-        ? Object.values(subCategories).map(subCategory => ({
-          label: subCategory,
-          command: () => this.onCategoryClick(subCategory),
-        }))
-        : undefined;
+    const buildSubItems = (subCategories: any): MenuItem[] | undefined => {
+      if (!subCategories || typeof subCategories !== 'object') return undefined;
 
-      let lengthSubItem = subItems ? subItems.length : 0
+      return Object.entries(subCategories).map(([subCategory, nestedSubCategories]) => {
+        const label = typeof nestedSubCategories === 'string' ? nestedSubCategories : subCategory;
+        return {
+        label,
+        items: typeof nestedSubCategories === 'object' && nestedSubCategories !== null
+          ? buildSubItems(nestedSubCategories)
+          : undefined,
+        command: () => this.onCategoryClick(subCategory)
+      }});
+    };
+
+    const menu = Object.entries(schemaData).map(([mainCategory, subCategories]) => {
+      const subItems = buildSubItems(subCategories);
+      console.log(subItems)
       return {
         label: mainCategory,
         items: subItems,
-        command: (event:any) => this.onMainCategoryClick(event, mainCategory, lengthSubItem)
+        command: (event: any) => this.onMainCategoryClick(event, mainCategory, subItems?.length ?? 0)
       };
     });
 
@@ -104,7 +103,7 @@ export class HeaderComponent implements OnInit {
     const originalEvent = event.originalEvent;
 
     if (!originalEvent) {
-        return;
+      return;
     }
 
     const targetElement = originalEvent.target as HTMLElement;
@@ -112,9 +111,8 @@ export class HeaderComponent implements OnInit {
     targetElement.addEventListener('dblclick', () => {
       this.onCategoryClick(mainCategory);
     });
-    
+
     if (event.originalEvent?.type == 'click' && length) {
-      console.log(event.originalEvent)
       return;
     }
 
