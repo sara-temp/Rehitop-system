@@ -175,7 +175,7 @@ form::-webkit-scrollbar-track {
   max-height: 15rex;
   min-height: 4rex;
   max-width: 100%;
-  min-width: 15rem;
+  min-width: 15vw;
   overflow-x: auto;
   overflow-y: auto;
 }

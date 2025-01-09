@@ -1,4 +1,4 @@
-<div class="header-toolbar">
+<!-- <div class="header-toolbar">
   <nav class="categories-nav">
     <ul>
       <li *ngFor="let category of categories" (click)="onCategoryClick(category)">
@@ -6,10 +6,14 @@
       </li>
       <li *ngIf="!isLogin" (click)="categorySelected=''; loginSelected = true;">login</li>
       <li *ngIf="isLogin" (click)="onLogoutClick()">logout</li>
-      <!-- development -->
+
       <li *ngIf="isLogin" routerLink="/edit">לעריכה</li>
     </ul>
   </nav>
+</div> -->
+
+<div class="card">
+  <p-menubar dir="rtl" [model]="items"/>
 </div>
 
 <div class="products">

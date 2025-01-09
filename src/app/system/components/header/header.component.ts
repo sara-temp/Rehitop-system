@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Categories, ChildrensRoom, Closets, DiningAreas, MainCategory, Mattresses, Office, Salon, SubCategory } from '../../../models/product.model';
+import { Schema, Categories, ChildrensRoom, Closets, DiningAreas, MainCategory, Mattresses, Office, Salon, SubCategory } from '../../../models/product.model';
 import { AuthService } from '../../../service/auth.service';
 import { ActivatedRoute } from '@angular/router';
+import { MenuItem, MenuItemCommandEvent } from 'primeng/api';
 
 @Component({
   selector: 'header',
@@ -11,34 +12,117 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent implements OnInit {
-  categories: MainCategory[];
-  subCategory!: SubCategory[];
   categorySelected: string = '';
   loginSelected: boolean = false;
   isLogin: boolean = false;
+  items: MenuItem[] | undefined;
 
   constructor(private authService: AuthService, private route: ActivatedRoute) {
-    this.categories = Object.values(Categories);
-    this.subCategory = [
-          ...Object.keys(Salon),           // מפתחות של Salon
-          ...Object.keys(Mattresses),      // מפתחות של Mattresses
-          ...Object.keys(ChildrensRoom),   // מפתחות של ChildrensRoom
-          ...Object.keys(Closets),         // מפתחות של Closets
-          ...Object.keys(DiningAreas),     // מפתחות של DiningAreas
-          ...Object.keys(Office),          // מפתחות של Office
-        ] as SubCategory[];               // המרה למערך של SubCategory[]
   }
-  
+
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       let t = params.get('isLogin');
-      console.log('isLogin', t)
+      // console.log('isLogin', t)
       if (t === 'true') {
         this.isLogin = true;
       }
     })
+
+    this.items = this.generateMenuItems();
   }
+
+  generateMenuItems(): MenuItem[] {
+    const schemaData = {
+      [Categories.SALON]: Salon,
+      [Categories.BEDROOMS]: null,
+      [Categories.MATTRESSES]: Mattresses,
+      [Categories.CHILDRENSROOMS]: ChildrensRoom,
+      [Categories.CLOSETS]: Closets,
+      [Categories.DININGAREAS]: DiningAreas,
+      [Categories.OFFICE]: Office
+    };
+
+    const loginObject = {
+      label: 'Login',
+      icon: 'pi pi-sign-in',
+      items:undefined,
+      command: (event: MenuItemCommandEvent) => {
+        // this.onLoginClick();
+        this.loginSelected = true;
+        this.categorySelected='';
+      },
+      visible: !this.isLogin
+    }
+
+    const logoutObject = {
+      label: 'Logout',
+      icon: 'pi pi-sign-out',
+      items:undefined,
+      command: (event: MenuItemCommandEvent) => {
+        this.onLogoutClick();
+        this.loginSelected = false;
+        this.items = this.generateMenuItems();
+      },
+      visible: this.isLogin
+    }
+
+    const editObject = {
+      label: 'לעריכה',
+      icon: 'pi-pen-to-square',
+      items: undefined,
+      routerLink: '/edit',
+      command: (event: MenuItemCommandEvent) => {
+        this.onLogoutClick();
+        this.loginSelected = false;
+      },
+      visible: this.isLogin
+    }
+
+    // return
+    let menu =  Object.entries(schemaData).map(([mainCategory, subCategories]) => {
+      const subItems = subCategories
+        ? Object.values(subCategories).map(subCategory => ({
+          label: subCategory,
+          command: () => this.onCategoryClick(subCategory),
+        }))
+        : undefined;
+
+      let lengthSubItem = subItems ? subItems.length : 0
+      return {
+        label: mainCategory,
+        items: subItems,
+        command: (event:any) => this.onMainCategoryClick(event, mainCategory, lengthSubItem)
+      };
+    });
+
+    menu.push(loginObject, logoutObject, editObject)
+    return menu;
+  }
+  onMainCategoryClick(event: MenuItemCommandEvent, mainCategory: string, length: number): any {
+
+    const originalEvent = event.originalEvent;
+
+    if (!originalEvent) {
+        return;
+    }
+
+    const targetElement = originalEvent.target as HTMLElement;
+
+    targetElement.addEventListener('dblclick', () => {
+      this.onCategoryClick(mainCategory);
+    });
+    
+    if (event.originalEvent?.type == 'click' && length) {
+      console.log(event.originalEvent)
+      return;
+    }
+
+    return this.onCategoryClick(mainCategory);
+  }
+
   onCategoryClick(category: string) {
+    console.log(category)
     this.categorySelected = category;
     this.loginSelected = false;
   }

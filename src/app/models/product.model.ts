@@ -29,17 +29,6 @@ export class Product {
   }
 }
 
-
-// export enum Category {
-//   Sofas = 'ספות',
-//   Beds = 'מיטות',
-//   Closets = 'ארונות חדר ילדים',
-//   Chairs = 'כיסאות',
-//   Tables = 'שולחנות',
-//   Empty = ""
-// }
-
-
 export enum Categories {
   SALON = 'ריהוט סלוני',
   BEDROOMS = 'חדרי שינה',

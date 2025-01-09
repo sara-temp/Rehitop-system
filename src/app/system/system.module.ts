@@ -33,7 +33,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { FormsModule } from '@angular/forms';
 import { LoginComponent } from '../manager/components/login/login.component';
 import { ManagerModule } from '../manager/manager.module';
-
+import { Menubar } from 'primeng/menubar';
 
 @NgModule({
   declarations: [
@@ -43,7 +43,7 @@ import { ManagerModule } from '../manager/manager.module';
   ],
   imports: [
     CommonModule, RouterModule, ManagerModule,
-    MaterialModule, ButtonModule, CheckboxModule, CommonModule, MaterialModule, MultiSelectModule, TableModule, Dialog, Ripple, SelectModule, ToastModule, ToolbarModule, ConfirmDialog, InputTextModule, TextareaModule, CommonModule, FileUpload, DropdownModule, Tag, RadioButton, Rating, InputTextModule, FormsModule, InputNumber, IconFieldModule, InputIconModule],
+    MaterialModule, Menubar, ButtonModule, CheckboxModule, CommonModule, MaterialModule, MultiSelectModule, TableModule, Dialog, Ripple, SelectModule, ToastModule, ToolbarModule, ConfirmDialog, InputTextModule, TextareaModule, CommonModule, FileUpload, DropdownModule, Tag, RadioButton, Rating, InputTextModule, FormsModule, InputNumber, IconFieldModule, InputIconModule],
   providers: [ManagerService],
   exports: [
     ProductListComponent,

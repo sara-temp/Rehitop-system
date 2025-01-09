@@ -11,6 +11,7 @@ export class AuthService {
   private apiUrl = 'http://localhost:3001';
   constructor(private http: HttpClient) { }
 
+
   isAdmin(): Observable<boolean> {
     if (typeof localStorage === 'undefined') {
       console.log('LocalStorage is undefined');
