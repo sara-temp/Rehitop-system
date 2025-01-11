@@ -4,6 +4,7 @@
       <li *ngFor="let category of categories" (click)="onCategoryClick(category)">
         {{ category }}
       </li>
+      {{ isLogin }}
       <li *ngIf="!isLogin" (click)="categorySelected=''; loginSelected = true;">login</li>
       <li *ngIf="isLogin" (click)="onLogoutClick()">logout</li>
       <!-- development -->

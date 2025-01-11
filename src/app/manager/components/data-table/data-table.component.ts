@@ -7,6 +7,7 @@ import { ProductFormComponent } from '../product-form/product-form.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TreeSelectModule } from 'primeng/treeselect';
+import { catchError, forkJoin, of } from 'rxjs';
 
 
 interface Column {
@@ -20,7 +21,7 @@ interface ExportColumn {
   dataKey: string;
 }
 
-interface  TreeNode {
+interface TreeNode {
   label: string;
   value: SubCategory;
   children?: TreeNode[];
@@ -55,9 +56,11 @@ export class DataTableComponent implements OnInit {
 
   exportColumns!: ExportColumn[];
 
-  categoryEnum!:  TreeNode[];
+  categoryEnum!: TreeNode[];
 
   selectedCategories!: SubCategory[];
+
+  deleteInProgress = false;  
 
   error = {
     severity: 'error',
@@ -147,8 +150,8 @@ export class DataTableComponent implements OnInit {
         })),
       },
     ];
-  
-    
+
+
     console.log(this.categoryEnum)
   }
 
@@ -165,31 +168,37 @@ export class DataTableComponent implements OnInit {
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         let prods = this.products.filter((val) => this.selectedProducts?.includes(val));
-        let failed = []
-        prods.forEach(prod =>
-          this.managerService.delete(prod.Id).
-            subscribe({
-              next: () => { },
-              error: (err) => {
-                failed.push(prod)
-                console.log(`err in data table ${err}`)
-              },
-              complete: () => {
-                console.log('5 data table')
-                if (failed.length === 0) {
-                  this.selectedProducts = null;
-                  this.messageService.add(this.success);
-                }
-                else {
-                  this.messageService.add(this.error);
-                }
-                window.location.reload()
-              }
+        let failed: Product[] = [];
+  
+        const deleteRequests = prods.map(prod =>
+          this.managerService.delete(prod.Id).pipe(
+            catchError((err) => {
+              failed.push(prod);
+              console.log(`err in data table ${err}`);
+              return of(null); // Prevent observable failure
             })
+          )
         );
+  
+        forkJoin(deleteRequests).subscribe({
+          next: () => {
+            if (failed.length === 0) {
+              this.selectedProducts = null;
+              this.messageService.add(this.success);
+              this.products = this.products.filter(p => !this.selectedProducts?.includes(p)); // update list
+            } else {
+              this.messageService.add(this.error);
+            }
+          },
+          error: (err) => {
+            console.log('Error in batch delete:', err);
+            this.messageService.add(this.error);
+          }
+        });
       }
     });
   }
+  
 
   hideDialog() {
     this.productDialog = false;
@@ -247,21 +256,21 @@ export class DataTableComponent implements OnInit {
     return id;
   }
 
-  
+
   editRow(row: any) {
     const dialogRef = this.dialog.open(ProductFormComponent, {
       data: { product: row }
     });
     dialogRef.afterClosed().subscribe(res => {
-        this.managerService.getAll().subscribe(data => {
-          this.products = data; 
-        }, error => {
-          console.error("שגיאה בעדכון הנתונים", error);
-        });
+      this.managerService.getAll().subscribe(data => {
+        this.products = data;
+      }, error => {
+        console.error("שגיאה בעדכון הנתונים", error);
+      });
     });
   }
 
   backToProd() {
-    this.route.navigate(['/header', true]);
-    }
+    this.route.navigate(['/header']);
+  }
 }
