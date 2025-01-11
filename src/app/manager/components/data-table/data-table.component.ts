@@ -16,11 +16,6 @@ interface Column {
   customExportHeader?: string;
 }
 
-interface ExportColumn {
-  title: string;
-  dataKey: string;
-}
-
 interface TreeNode {
   label: string;
   value: SubCategory;
@@ -53,8 +48,6 @@ export class DataTableComponent implements OnInit {
   @ViewChild('dt') dt!: Table;
 
   cols!: Column[];
-
-  exportColumns!: ExportColumn[];
 
   categoryEnum!: TreeNode[];
 
@@ -262,6 +255,11 @@ export class DataTableComponent implements OnInit {
       data: { product: row }
     });
     dialogRef.afterClosed().subscribe(res => {
+      this.managerService.getAll().subscribe(data => {
+        this.products = data;
+      }, error => {
+        console.error("שגיאה בעדכון הנתונים", error);
+      });
       this.managerService.getAll().subscribe(data => {
         this.products = data;
       }, error => {

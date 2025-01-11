@@ -3,6 +3,8 @@ import { Categories, Product, SubCategory } from '../../../models/product.model'
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { ManagerService } from '../../manager.service';
+import Swal from 'sweetalert2';
+import { TreeNode } from 'primeng/api';
 
 @Component({
   selector: 'product-form',
