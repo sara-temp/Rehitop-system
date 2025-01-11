@@ -3,6 +3,7 @@ import { Product } from '../models/product.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, Observable, throwError } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
+import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
@@ -52,8 +53,9 @@ export class ManagerService {
     );
   }
 
-  uploadImage(formData: FormData): Observable<{ imagePath: string }> {
-    return this.http.post<{ imagePath: string }>(this.jsonUrl + '/upload-image', formData, {
+  uploadImage(formData: FormData, folderPath: string): Observable<{ imagePath: string }> {
+    return this.http.post<{ imagePath: string }>(`${this.jsonUrl}/upload-image?folder=${folderPath}`, formData, {
+    // return this.http.post<{ imagePath: string }>(this.jsonUrl + '/upload-image', formData, {
       headers: this.getAuthorizationHeader()
     });
   }
@@ -78,15 +80,47 @@ export class ManagerService {
     });
   };
 
-  delete = (id: string): Observable<void> => {
-    const data = this.http.delete<void>(`${this.jsonUrl}/${id}`, {
+  // delete = (id: string): Observable<void> => {
+  //   const data = this.http.delete<void>(`${this.jsonUrl}/${id}`, {
+  //     headers: this.getAuthorizationHeader()
+  //   });
+  //   data.subscribe({
+  //     next: () => console.log('2 Delete successful (manager service)'),
+  //     error: (err) => console.error('2 Delete failed:', err, '(manager service)'),
+  //     complete: () => console.log('2 Request completed (manager service)'),
+  //   });
+  //   return data;
+  // };
+  delete(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.jsonUrl}/${id}`, {
       headers: this.getAuthorizationHeader()
     });
-    data.subscribe({
-      next: () => console.log('2 Delete successful (manager service)'),
-      error: (err) => console.error('2 Delete failed:', err, '(manager service)'),
-      complete: () => console.log('2 Request completed (manager service)'),
+  }
+
+  showSuccess(message: string) {
+    Swal.fire({
+      title: message,
+      icon: 'success',
+      confirmButtonText: 'סגור',
     });
-    return data;
-  };
+  }
+  showError(message: string) {
+    Swal.fire({
+      title: message,
+      icon: 'error',
+      confirmButtonText: 'סגור',
+    });
+  }
+  deleteDialog() {
+    return Swal.fire({
+      title: "?למחוק",
+      text: "!לא תוכל לשחזר פעולה זו",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: '!כן, מחק',
+      cancelButtonText: 'בטל'
+    });
+  }
 }
