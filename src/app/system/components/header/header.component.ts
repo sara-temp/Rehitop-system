@@ -87,7 +87,6 @@ export class HeaderComponent implements OnInit {
 
     const menu = Object.entries(schemaData).map(([mainCategory, subCategories]) => {
       const subItems = buildSubItems(subCategories);
-      console.log(subItems)
       return {
         label: mainCategory,
         items: subItems,

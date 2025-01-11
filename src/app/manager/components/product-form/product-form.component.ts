@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { Categories, ChildrensRoom, Closets, DiningAreas, Mattresses, Office, Product, Salon, SubCategory } from '../../../models/product.model';
+import { Categories, ChildrensRoom, Closets, DiningAreas, Mattresses, Office, Product, Salon, SCHEMA_RUNTIME, SubCategory } from '../../../models/product.model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { ManagerService } from '../../manager.service';
@@ -43,57 +43,34 @@ export class ProductFormComponent {
       });
     }
 
-    this.categoryOptions = [
-      {
-        label: Categories.SALON,
-        data: Categories.SALON,
-        children: Object.values(Salon).map((salon) => ({
-          label: salon,
-          data: salon,
-        })),
-      },
-      {
-        label: Categories.MATTRESSES,
-        data: Categories.MATTRESSES,
-        children: Object.values(Mattresses).map((mattress) => ({
-          label: mattress,
-          data: mattress,
-        })),
-      },
-      {
-        label: Categories.CHILDRENSROOMS,
-        data: Categories.CHILDRENSROOMS,
-        children: Object.values(ChildrensRoom).map((room) => ({
-          label: room,
-          data: room,
-        })),
-      },
-      {
-        label: Categories.CLOSETS,
-        data: Categories.CLOSETS,
-        children: Object.values(Closets).map((closet) => ({
-          label: closet,
-          data: closet,
-        })),
-      },
-      {
-        label: Categories.DININGAREAS,
-        data: Categories.DININGAREAS,
-        children: Object.values(DiningAreas).map((dining) => ({
-          label: dining,
-          data: dining,
-        })),
-      },
-      {
-        label: Categories.OFFICE,
-        data: Categories.OFFICE,
-        children: Object.values(Office).map((office) => ({
-          label: office,
-          data: office,
-        })),
-      },
-    ];
+    this.categoryOptions = this.generateCategoryOptions()
   }
+
+  generateCategoryOptions(): { label: string; children?: { label: string; children?: { label: string }[] }[] }[] {
+    const schemaData = SCHEMA_RUNTIME;
+
+    const buildSubItems = (subCategories: any): { label: string; children?: { label: string; children?: { label: string }[] }[] }[] | undefined => {
+        if (!subCategories || typeof subCategories !== 'object') return undefined;
+
+        return Object.entries(subCategories).map(([subCategory, nestedSubCategories]) => {
+            return {
+                label: typeof nestedSubCategories === 'string' ? nestedSubCategories : subCategory,
+                children: typeof nestedSubCategories === 'object' ? buildSubItems(nestedSubCategories) : undefined
+            };
+        });
+    };
+
+    const categoryOptions = Object.entries(schemaData).map(([mainCategory, subCategories]) => {
+        const children = buildSubItems(subCategories);
+        return {
+            label: mainCategory,
+            children
+        };
+    });
+
+    console.log(categoryOptions)
+    return categoryOptions;
+}
 
   initializeForm() {
     this.productForm = new FormGroup({

@@ -34,41 +34,32 @@
     <div class="form-group">
       <label for="categories" class="form-label">קטגוריות</label>
       <p-treeselect 
-      scrollHeight=""
-      formControlName="categories" 
-      id="categories" 
-      [options]="categoryOptions" 
-      [metaKeySelection]="false"
-      selectionMode="checkbox" 
-      placeholder="בחר קטגוריות..." 
-      [showClear]="true">
-        <ng-template let-value pTemplate="value">
-        <div class="chip-container">
-            <div class="cat-container" *ngFor="let category of value" >
-                <div class="cat">
-                   <span *ngIf="typeof category === 'string'">{{category}}</span> 
-                   <span *ngIf="typeof category !== 'string'">{{category["data"]}}</span> 
-                    <button class="remove-category" (click)="onCategoryRemove(category, $event)">
-                      <i class="pi pi-times" style="font-size: 0.5rem"></i>
-                    </button>
-                </div>
+          formControlName="categories" 
+          id="categories" 
+          [options]="categoryOptions" 
+          [metaKeySelection]="false"
+          selectionMode="checkbox" 
+          placeholder="בחר קטגוריות..." 
+          [showClear]="true">
+          <ng-template let-value pTemplate="value">
+              <div class="chip-container">
+                  <div class="cat-container" *ngFor="let category of value">
+                      <div class="cat">
+                          <span>{{ category.label }}</span>
+                          <button class="remove-category" (click)="onCategoryRemove(category, $event)">
+                              <i class="pi pi-times" style="font-size: 0.5rem"></i>
+                          </button>
+                      </div>
+                  </div>
               </div>
-        </div>
-    </ng-template>
-        <!-- <div class="p-multiselect-chip-item ng-star-inserted">
-          <p-chip styleclass="p-multiselect-chip"
-            data-pc-name="chip" aria-label="New York" data-pc-section="root"
-            class="p-chip p-component p-multiselect-chip" pc499="">
-            <div class="p-chip-label ng-star-inserted" data-pc-section="label"></div>
-            
-          </p-chip></div> -->
-
+          </ng-template>
       </p-treeselect>
-
+  
       <small *ngIf="productForm.get('categories')?.invalid && submitted" class="error-message">
-        יש לבחור לפחות קטגוריה אחת.
+          יש לבחור לפחות קטגוריה אחת.
       </small>
-    </div>
+  </div>
+  
     <!-- מחיר -->
     <div class="form-group">
       <label for="price" class="form-label">מחיר</label>
