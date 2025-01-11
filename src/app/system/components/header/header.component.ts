@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, Output, EventEmitter } from '@angular/core';
 import { Schema, Categories, ChildrensRoom, Closets, DiningAreas, MainCategory, Mattresses, Office, Salon, SubCategory, SCHEMA_RUNTIME } from '../../../models/product.model';
 import { AuthService } from '../../../service/auth.service';
 import { ActivatedRoute } from '@angular/router';
@@ -15,6 +15,7 @@ export class HeaderComponent implements OnInit {
   categorySelected: string = '';
   loginSelected: boolean = false;
   isLogin: boolean = false;
+  storedValue: string | null | undefined;
   items: MenuItem[] | undefined;
 
 
@@ -22,12 +23,27 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      let t = params.get('isLogin');
-      if (t === 'true') {
-        this.isLogin = true;
-      }
-    })
+    if (typeof window !== 'undefined' && window.localStorage)
+      this.storedValue = localStorage.getItem('token');
+    console.log("this.storedValue: " + this.storedValue);
+    if (this.storedValue)
+      this.isLogin = true;
+    console.log("this.isLogin: " + this.isLogin);
+    
+    
+    this.authService.refresh$.subscribe(
+      (value: boolean) => {
+        this.isLogin = value;
+      },
+      (err: any) => console.log('HeaderComponent ngOnInit error:', err)
+    );
+   
+    this.authService.refresh$.subscribe(
+      (value: boolean) => {
+        this.isLogin = value;
+      },
+      (err: any) => console.log('HeaderComponent ngOnInit error:', err)
+    );
 
     this.items = this.generateMenuItems();
   }
@@ -81,7 +97,7 @@ export class HeaderComponent implements OnInit {
         items: typeof nestedSubCategories === 'object' && nestedSubCategories !== null
           ? buildSubItems(nestedSubCategories)
           : undefined,
-        command: () => this.onCategoryClick(subCategory)
+        command: () => this.onCategoryClick(label)
       }});
     };
 
@@ -97,6 +113,8 @@ export class HeaderComponent implements OnInit {
     menu.push(loginObject, logoutObject, editObject)
     return menu;
   }
+
+
   onMainCategoryClick(event: MenuItemCommandEvent, mainCategory: string, length: number): any {
 
     const originalEvent = event.originalEvent;

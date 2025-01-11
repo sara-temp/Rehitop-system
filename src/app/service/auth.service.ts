@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, map, Observable, of, tap } from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, of, tap } from 'rxjs';
 import { Login } from '../models/login.model';
 
 @Injectable({
@@ -9,6 +9,10 @@ import { Login } from '../models/login.model';
 export class AuthService {
 
   private apiUrl = 'http://localhost:3001';
+  
+  private refreshSubject = new BehaviorSubject<boolean>(false);
+  refresh$ = this.refreshSubject.asObservable();
+
   constructor(private http: HttpClient) { }
 
 
@@ -33,11 +37,15 @@ export class AuthService {
     .pipe(
       tap((response: any) => {
         localStorage.setItem('token', response.token);
+        console.log("login");
+        this.refreshSubject.next(true);
       })
     );
   }
 
   logout(): void{
     localStorage.removeItem('token');
+    console.log("logout");
+    this.refreshSubject.next(false);
   }
 }

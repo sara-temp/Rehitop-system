@@ -45,7 +45,7 @@
               <div class="chip-container">
                   <div class="cat-container" *ngFor="let category of value">
                       <div class="cat">
-                          <span>{{ category.label }}</span>
+                          <span>{{ category["label"]?category["label"]:category }}</span>
                           <button class="remove-category" (click)="onCategoryRemove(category, $event)">
                               <i class="pi pi-times" style="font-size: 0.5rem"></i>
                           </button>

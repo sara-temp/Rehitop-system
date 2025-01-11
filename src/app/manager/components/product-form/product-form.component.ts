@@ -23,8 +23,7 @@ export class ProductFormComponent {
   img: any;
   imgFile: any;
   category: any;
-  small: "small" | "large" | undefined;
-
+  
   constructor(@Inject(MAT_DIALOG_DATA) public data: { product: Product }, private _managerService: ManagerService, public dialog: MatDialog) {
     if (data.product) {
       this.product = data.product;
@@ -99,10 +98,10 @@ export class ProductFormComponent {
     return new Promise((resolve, reject) => {
       const imageFormData = new FormData();
       imageFormData.append('image', this.imgFile);
-      // this.category = Object.keys(Category).find(key => Category[key as keyof typeof Category] === this.productForm.value.categories[0]);
-      if (this.category)
-        imageFormData.append('folder', this.category);
-      this._managerService.uploadImage(imageFormData).subscribe(response => {
+      this.category = Object.keys(Categories).find(key => Categories[key as keyof typeof Categories] === this.productForm.value.categories[0]);
+
+      // imageFormData.append('folder', 'aaaaa');
+      this._managerService.uploadImage(imageFormData, this.category).subscribe(response => {
         console.log("response:", response.imagePath);
         this.productForm.patchValue({ image: response.imagePath });
         this.img = null;
@@ -122,6 +121,7 @@ export class ProductFormComponent {
     });
   }
 
+
   removeCategory(categoryData: string): void {
     const updatedCategories = this.productForm.controls['categories'].value.filter((c: string) => c !== categoryData);
     this.productForm.patchValue({ categories: updatedCategories });
@@ -137,10 +137,10 @@ export class ProductFormComponent {
     this.productForm.patchValue({ categories: updatedCategories });
   }
 
-  async onSubmit() {
-    this.submitted = true;
+  async onSubmit() {    
+    this.submitted = true; 
     let categories = [...new Set(this.productForm.controls['categories'].value.map((category: TreeNode | string) =>
-      typeof category === 'string' ? category : category.data
+      typeof category === 'string' ? category : category.label
     ))];
     console.log('this.productForm.controls["categories"]', this.productForm.controls['categories'])
     if (this.productForm?.valid) {
@@ -151,10 +151,10 @@ export class ProductFormComponent {
           await this.uploadImage();
           this._managerService.post(this.productForm.value).subscribe(response => {
             console.log('הנתונים נוספו בהצלחה', response);
-            this.showSuccess('!הנתונים נוספו בהצלחה');
+            this._managerService.showSuccess('!הנתונים נוספו בהצלחה');
           }, error => {
             console.error('שגיאה בשליחת הנתונים', error);
-            this.showError('!שגיאה בשליחת הנתונים');
+            this._managerService.showError('!שגיאה בשליחת הנתונים');
           });
         } catch (error) {
           console.error("שגיאה בהעלאת התמונה, לא ניתן להמשיך", error);
@@ -172,10 +172,10 @@ export class ProductFormComponent {
         }
         this._managerService.put(this.productForm.value, this.product.Id).subscribe(response => {
           console.log('הנתונים נערכו בהצלחה', response);
-          this.showSuccess('!הנתונים נערכו בהצלחה');
+          this._managerService.showSuccess('!הנתונים נערכו בהצלחה');
         }, error => {
           console.error('שגיאה בעריכת הנתונים', error);
-          this.showError('!שגיאה בעריכת הנתונים');
+          this._managerService.showError('!שגיאה בעריכת הנתונים');
         });
       }
       else {
@@ -183,24 +183,9 @@ export class ProductFormComponent {
       }
       this.dialog.closeAll();
     }
-    else {
+    else{
       console.log('הטופס לא תקין', this.productForm.value);
     }
-  }
-
-  showSuccess(message: string) {
-    Swal.fire({
-      title: message,
-      icon: 'success',
-      confirmButtonText: 'סגור',
-    });
-  }
-  showError(message: string) {
-    Swal.fire({
-      title: message,
-      icon: 'error',
-      confirmButtonText: 'סגור',
-    });
   }
 
   onCancel() {
