@@ -88,8 +88,8 @@ export class ProductFormComponent {
     if (this.imgFile) {
       const reader = new FileReader();
       reader.onload = () => {
-        this.img = reader.result as string;
-      };
+        this.img = reader.result as string;        
+      };      
       reader.readAsDataURL(this.imgFile);
     }
   }
