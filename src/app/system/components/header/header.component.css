@@ -2,6 +2,10 @@
 .header {
   display: flex;
   justify-content: space-between;
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
+  top: 0;
   background-color: #000;
   height: 20vh;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
