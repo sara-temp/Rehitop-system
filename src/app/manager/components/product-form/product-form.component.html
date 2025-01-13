@@ -12,7 +12,7 @@
     <div class="form-group">
       <label class="form-label">תמונה</label>
 
-      <!-- תמונה -->
+      <!-- תמונה בודדת -->
       <button matInput (click)="imageInput.click()">בחר תמונה</button>
       <input #imageInput type="file" style="display: none;" (change)="onImageChange($event)" accept="image/*" />
       <!-- תיקית תמונות -->
@@ -30,7 +30,7 @@
         </div>
       </div>
 
-      <small *ngIf="!img && submitted" class="error-message">
+      <small *ngIf="!img && !images && submitted" class="error-message">
         יש לבחור לפחות תמונה אחת.
       </small>
     </div>
