@@ -23,7 +23,9 @@ export class ProductFormComponent {
   img: any;
   imgFile: any;
   category: any;
-  
+  imgFiles!: File[];
+  images: string[] = [];
+
   constructor(@Inject(MAT_DIALOG_DATA) public data: { product: Product }, private _managerService: ManagerService, public dialog: MatDialog) {
     if (data.product) {
       this.product = data.product;
@@ -49,27 +51,25 @@ export class ProductFormComponent {
     const schemaData = SCHEMA_RUNTIME;
 
     const buildSubItems = (subCategories: any): { label: string; children?: { label: string; children?: { label: string }[] }[] }[] | undefined => {
-        if (!subCategories || typeof subCategories !== 'object') return undefined;
+      if (!subCategories || typeof subCategories !== 'object') return undefined;
 
-        return Object.entries(subCategories).map(([subCategory, nestedSubCategories]) => {
-            return {
-                label: typeof nestedSubCategories === 'string' ? nestedSubCategories : subCategory,
-                children: typeof nestedSubCategories === 'object' ? buildSubItems(nestedSubCategories) : undefined
-            };
-        });
+      return Object.entries(subCategories).map(([subCategory, nestedSubCategories]) => {
+        return {
+          label: typeof nestedSubCategories === 'string' ? nestedSubCategories : subCategory,
+          children: typeof nestedSubCategories === 'object' ? buildSubItems(nestedSubCategories) : undefined
+        };
+      });
     };
 
     const categoryOptions = Object.entries(schemaData).map(([mainCategory, subCategories]) => {
-        const children = buildSubItems(subCategories);
-        return {
-            label: mainCategory,
-            children
-        };
+      const children = buildSubItems(subCategories);
+      return {
+        label: mainCategory,
+        children
+      };
     });
-
-    console.log(categoryOptions)
     return categoryOptions;
-}
+  }
 
   initializeForm() {
     this.productForm = new FormGroup({
@@ -83,16 +83,6 @@ export class ProductFormComponent {
     });
   }
 
-  onImageChange(event: any): void {
-    this.imgFile = event.target.files[0];
-    if (this.imgFile) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.img = reader.result as string;        
-      };      
-      reader.readAsDataURL(this.imgFile);
-    }
-  }
 
   uploadImage(): Promise<any> {
     return new Promise((resolve, reject) => {
@@ -137,8 +127,78 @@ export class ProductFormComponent {
     this.productForm.patchValue({ categories: updatedCategories });
   }
 
-  async onSubmit() {    
-    this.submitted = true; 
+  async readImagesFromFiles(files: FileList): Promise<string[]> {
+    const imagesArray: string[] = [];
+    const promises: Promise<void>[] = [];
+  
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      console.log('readImagesFromFiles const file: '+file)
+  
+      if (file.type.startsWith('image/')) {
+        const promise = new Promise<void>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            const imageData = reader.result as string;
+            console.log('readImagesFromFiles imageData:', imageData);
+            imagesArray.push(imageData);
+            resolve();
+          };
+          reader.onerror = () => {
+            console.error(`Failed to read file: ${file.name}`);
+            reject();
+          };
+          reader.readAsDataURL(file)
+        });
+  
+        promises.push(promise);
+      } else {
+        console.warn(`File ${file.name} is not an image.`);
+      }
+    }
+  
+    await Promise.all(promises);
+    return imagesArray;
+  }
+  
+  onImageChange(event: any): void {
+    this.imgFile = event.target.files[0];
+    if (this.imgFile) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.img = reader.result as string;
+        console.log('onImageChange imageData:', this.img);
+      };
+      console.log('this.imgFile befor'+this.imgFile)
+      reader.readAsDataURL(this.imgFile);
+      console.log('this.imgFile after'+this.imgFile)
+    }
+  }
+
+  onImageChangeMany(event: any): void {
+    const input = event.target as HTMLInputElement;
+
+    if (input?.files) {
+      this.imgFiles = Array.from(input.files);
+      console.log('this.imgFile: '+this.imgFiles)
+      this.readImagesFromFiles(input.files).then((images) => {
+        this.images = images;
+        console.log('Uploaded images:', this.images);
+        console.log("קבצים שנבחרו:", this.imgFiles);
+      })
+    }
+  }
+
+  async onSubmitArray() {
+    for (const imgFile of this.imgFiles) {
+      this.productForm.patchValue({ image: imgFile.name });
+      this.imgFile = imgFile;
+      this.onSubmit();
+    }
+  }
+
+  async onSubmit() {
+    this.submitted = true;
     let categories = [...new Set(this.productForm.controls['categories'].value.map((category: TreeNode | string) =>
       typeof category === 'string' ? category : category.label
     ))];
@@ -182,7 +242,7 @@ export class ProductFormComponent {
       }
       this.dialog.closeAll();
     }
-    else{
+    else {
       console.log('הטופס לא תקין', this.productForm.value);
     }
   }

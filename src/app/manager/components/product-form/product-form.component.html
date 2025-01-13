@@ -11,10 +11,27 @@
     <!-- תמונה -->
     <div class="form-group">
       <label class="form-label">תמונה</label>
+
+      <!-- תמונה -->
       <button matInput (click)="imageInput.click()">בחר תמונה</button>
       <input #imageInput type="file" style="display: none;" (change)="onImageChange($event)" accept="image/*" />
+      <!-- תיקית תמונות -->
+      <button matInput (click)="imageInputArray.click()">בחר תיקיה</button>
+      <input #imageInputArray type="file" 
+      webkitdirectory 
+      mozdirectory 
+      multiple 
+      (change)="onImageChangeMany($event)" 
+      accept="image/*"  />
+
+      <div>
+        <div *ngFor="let image of images">
+          <img [src]="image" alt="Uploaded Image" width="50" />
+        </div>
+      </div>
+
       <small *ngIf="!img && submitted" class="error-message">
-        תמונה היא שדה חובה.
+        יש לבחור לפחות תמונה אחת.
       </small>
     </div>
     <!-- שם המוצר -->
@@ -33,33 +50,27 @@
     <!-- קטגוריות מרובות -->
     <div class="form-group">
       <label for="categories" class="form-label">קטגוריות</label>
-      <p-treeselect 
-          formControlName="categories" 
-          id="categories" 
-          [options]="categoryOptions" 
-          [metaKeySelection]="false"
-          selectionMode="checkbox" 
-          placeholder="בחר קטגוריות..." 
-          [showClear]="true">
-          <ng-template let-value pTemplate="value">
-              <div class="chip-container">
-                  <div class="cat-container" *ngFor="let category of value">
-                      <div class="cat">
-                          <span>{{ category["label"]?category["label"]:category }}</span>
-                          <button class="remove-category" (click)="onCategoryRemove(category, $event)">
-                              <i class="pi pi-times" style="font-size: 0.5rem"></i>
-                          </button>
-                      </div>
-                  </div>
+      <p-treeselect formControlName="categories" id="categories" [options]="categoryOptions" [metaKeySelection]="false"
+        selectionMode="checkbox" placeholder="בחר קטגוריות..." [showClear]="true">
+        <ng-template let-value pTemplate="value">
+          <div class="chip-container">
+            <div class="cat-container" *ngFor="let category of value">
+              <div class="cat">
+                <span>{{ category["label"]?category["label"]:category }}</span>
+                <button class="remove-category" (click)="onCategoryRemove(category, $event)">
+                  <i class="pi pi-times" style="font-size: 0.5rem"></i>
+                </button>
               </div>
-          </ng-template>
+            </div>
+          </div>
+        </ng-template>
       </p-treeselect>
-  
+
       <small *ngIf="productForm.get('categories')?.invalid && submitted" class="error-message">
-          יש לבחור לפחות קטגוריה אחת.
+        יש לבחור לפחות קטגוריה אחת.
       </small>
-  </div>
-  
+    </div>
+
     <!-- מחיר -->
     <div class="form-group">
       <label for="price" class="form-label">מחיר</label>
@@ -81,6 +92,6 @@
   </form>
   <mat-dialog-actions>
     <button mat-button (click)="onCancel()" class="cancel">ביטול</button>
-    <button mat-button (click)="onSubmit()" class="save">שמור</button>
+    <button mat-button (click)="imgFile?onSubmit():onSubmitArray()" class="save">שמור</button>
   </mat-dialog-actions>
 </div>
