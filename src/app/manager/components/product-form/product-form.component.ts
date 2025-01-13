@@ -142,7 +142,6 @@ export class ProductFormComponent {
     let categories = [...new Set(this.productForm.controls['categories'].value.map((category: TreeNode | string) =>
       typeof category === 'string' ? category : category.label
     ))];
-    console.log('this.productForm.controls["categories"]', this.productForm.controls['categories'])
     if (this.productForm?.valid) {
       this.productForm.patchValue({ categories: categories });
       console.log('הטופס תקין', this.productForm.value);
