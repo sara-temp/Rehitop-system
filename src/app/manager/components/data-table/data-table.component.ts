@@ -269,6 +269,6 @@ export class DataTableComponent implements OnInit {
   }
 
   backToProd() {
-    this.route.navigate(['/header']);
+    this.route.navigate(['']);
   }
 }
