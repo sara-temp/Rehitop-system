@@ -15,7 +15,7 @@ export class authGuard implements CanActivate{
     return this.authService.isAdmin().pipe(map(
       (isAdmin) => {
         if (!isAdmin) {
-          this.router.navigate(['/unauthorized']);
+          // this.router.navigate(['/unauthorized']);
           return false;
         }
         return true;

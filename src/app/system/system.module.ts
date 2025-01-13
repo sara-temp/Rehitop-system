@@ -34,21 +34,26 @@ import { FormsModule } from '@angular/forms';
 import { LoginComponent } from '../manager/components/login/login.component';
 import { ManagerModule } from '../manager/manager.module';
 import { Menubar } from 'primeng/menubar';
+import { SystemRoutingModule } from './system-routing.module';
+import { HomePageComponent } from './components/home-page/home-page.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
     ProductListComponent,
     ProductComponent,
-    HeaderComponent
+    HeaderComponent,
+    HomePageComponent,
+    FooterComponent
   ],
   imports: [
-    CommonModule, RouterModule, ManagerModule,
-    MaterialModule, Menubar, ButtonModule, CheckboxModule, CommonModule, MaterialModule, MultiSelectModule, TableModule, Dialog, Ripple, SelectModule, ToastModule, ToolbarModule, ConfirmDialog, InputTextModule, TextareaModule, CommonModule, FileUpload, DropdownModule, Tag, RadioButton, Rating, InputTextModule, FormsModule, InputNumber, IconFieldModule, InputIconModule],
+    CommonModule, RouterModule, ManagerModule, MaterialModule, Menubar, ButtonModule, CheckboxModule, CommonModule, MaterialModule, MultiSelectModule, TableModule, Dialog, Ripple, SelectModule, ToastModule, ToolbarModule, ConfirmDialog, InputTextModule, TextareaModule, CommonModule, FileUpload, DropdownModule, Tag, RadioButton, Rating, InputTextModule, FormsModule, InputNumber, IconFieldModule, InputIconModule, SystemRoutingModule],
   providers: [ManagerService],
   exports: [
     ProductListComponent,
     ProductComponent,
-    HeaderComponent
+    HeaderComponent,
+    FooterComponent
   ]
 })
 export class SystemModule { }

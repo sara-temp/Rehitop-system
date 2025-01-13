@@ -4,15 +4,12 @@ import { DataTableComponent } from './manager/components/data-table/data-table.c
 import { LoginComponent} from './manager/components/login/login.component'
 import { authGuard } from './service/auth.guard';
 import { HeaderComponent } from './system/components/header/header.component';
+import { AppComponent } from './app.component';
 
 const routes: Routes = [
-  { path: 'auth', component: DataTableComponent, canActivate: [authGuard] },
-  { path: 'unauthorized', component: HeaderComponent },
-  { path: 'header', component: HeaderComponent },
   { path: 'login', component: LoginComponent },
   { path: 'edit', component: DataTableComponent },
-  { path: '', redirectTo: '/header', pathMatch: 'full' },
-  { path: '**', redirectTo: '/header', pathMatch: 'full' }  
+  { path: '', redirectTo: '', pathMatch: 'full' }
 ];
 
 @NgModule({
