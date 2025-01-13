@@ -73,6 +73,7 @@ mat-card-content {
     gap: 5px;
     justify-content: center;
     align-items: center;
+    margin-bottom: 2.5vw;
 }
 
 .pagination-button {
