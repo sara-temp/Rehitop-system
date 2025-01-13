@@ -183,8 +183,6 @@ export class ProductFormComponent {
       console.log('this.imgFile: '+this.imgFiles)
       this.readImagesFromFiles(input.files).then((images) => {
         this.images = images;
-        console.log('Uploaded images:', this.images);
-        console.log("קבצים שנבחרו:", this.imgFiles);
       })
     }
   }
