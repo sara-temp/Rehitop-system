@@ -5,6 +5,7 @@ import { ManagerService } from '../../../manager/manager.service'
 import { ProductFormComponent } from '../../../manager/components/product-form/product-form.component';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../../../service/auth.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'product-list',
@@ -21,14 +22,19 @@ export class ProductListComponent {
   isLogin: boolean = false;
 
   currentPage: number = 1;
-  itemsPerPage: number = 10;
+  itemsPerPage: number = 8;
   pagedProducts: Product[] = [];
   totalProducts: number = 0;
 
-  constructor(private http: HttpClient, private _managerService: ManagerService, public dialog: MatDialog, private authService: AuthService) { }
+  constructor(private http: HttpClient, private _managerService: ManagerService, public dialog: MatDialog, private authService: AuthService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.loadProducts();
+    // this.loadProducts();
+    this.route.params.subscribe(params => {
+      this.category = params['categoryName'] || '';
+      this.loadProducts();
+    });
+
     this.authService.refresh$.subscribe(
       (value: boolean) => {
         this.isLogin = value;
