@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, Output, EventEmitter } from '@angular/core';
 import { Schema, Categories, ChildrensRoom, Closets, DiningAreas, MainCategory, Mattresses, Office, Salon, SubCategory, SCHEMA_RUNTIME } from '../../../models/product.model';
 import { AuthService } from '../../../service/auth.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MenuItem, MenuItemCommandEvent } from 'primeng/api';
 
 @Component({
@@ -19,7 +19,7 @@ export class HeaderComponent implements OnInit {
   items: MenuItem[] | undefined;
 
 
-  constructor(private authService: AuthService, private route: ActivatedRoute) {
+  constructor(private authService: AuthService, private route: ActivatedRoute, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -29,18 +29,10 @@ export class HeaderComponent implements OnInit {
     if (this.storedValue)
       this.isLogin = true;
     console.log("this.isLogin: " + this.isLogin);
-    
-    
-    this.authService.refresh$.subscribe(
-      (value: boolean) => {
-        this.isLogin = value;
-      },
-      (err: any) => console.log('HeaderComponent ngOnInit error:', err)
-    );
    
     this.authService.refresh$.subscribe(
       (value: boolean) => {
-        this.isLogin = value;
+        this.isLogin = value;        
       },
       (err: any) => console.log('HeaderComponent ngOnInit error:', err)
     );
@@ -50,15 +42,17 @@ export class HeaderComponent implements OnInit {
 
   generateMenuItems(): MenuItem[] {
     const schemaData = SCHEMA_RUNTIME;
-
     const loginObject = {
       label: 'Login',
       icon: 'pi pi-sign-in',
       items: undefined,
       command: (event: MenuItemCommandEvent) => {
         // this.onLoginClick();
+        console.log("generateMenuItems(): "+this.isLogin);
+        
         this.loginSelected = true;
         this.categorySelected = '';
+        this.router.navigate(['login']);
       },
       visible: !this.isLogin
     }
@@ -116,29 +110,24 @@ export class HeaderComponent implements OnInit {
 
 
   onMainCategoryClick(event: MenuItemCommandEvent, mainCategory: string, length: number): any {
-
     const originalEvent = event.originalEvent;
-
     if (!originalEvent) {
       return;
     }
-
     const targetElement = originalEvent.target as HTMLElement;
 
     targetElement.addEventListener('dblclick', () => {
       this.onCategoryClick(mainCategory);
     });
-
     if (event.originalEvent?.type == 'click' && length) {
       return;
     }
-
     return this.onCategoryClick(mainCategory);
   }
 
   onCategoryClick(category: string) {
     console.log(category)
-    this.categorySelected = category;
+    this.router.navigate([`category/${category}`]);
     this.loginSelected = false;
   }
 
@@ -159,6 +148,5 @@ export class HeaderComponent implements OnInit {
     this.authService.logout();
     this.loginSelected = false;
     this.isLogin = false;
-    console.log('in onLogoutClick(){')
   }
 }

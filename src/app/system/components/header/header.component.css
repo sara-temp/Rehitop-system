@@ -1,44 +1,86 @@
-/* עיצוב לתפריט הניווט */
-.header-toolbar {
-  background-color: #f8f9fa; /* רקע בהיר */
-  border-bottom: 1px solid #ddd; /* גבול תחתון */
-  padding: 10px 15px;
-}
-
-.categories-nav {
+/* עיצוב כללי של ה-Header */
+.header {
   display: flex;
-  justify-content: center; /* ממרכז את הפריטים */
+  justify-content: space-between;
+  background-color: #000;
+  height: 20vh;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-.categories-nav ul {
-  list-style: none; /* מסיר נקודות */
-  margin: 0;
-  padding: 0;
+.headerBody{
+  border-bottom: 0.65vh solid #fccc48;
+  border-right: 0.65vh solid #fccc48;
+  width: 78vw;
+  border-bottom-right-radius: 1.5vw;
+}
+
+.headerBody button {
+  background-color: #f2c417;
+  color: #000;
+  border-radius: 0.7vw;
+  margin: 1.2vw;
+  margin-left: 1.9vw;
+  width: 8.5vw;
+  height: 3vw;
+  font-size: 1.5vw;
+}
+
+/* עיצוב הלוגו בצד ימין */
+/* .card .logo {
   display: flex;
-  gap: 15px; /* מרווח בין הפריטים */
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
 }
 
-.categories-nav li {
-  cursor: pointer;
-  padding: 8px 12px;
-  border: 1px solid transparent;
+.card .logo span {
+  font-size: 24px;
+  font-weight: bold;
+  color: #f2f2f2;
+}
+
+.card .logo small {
+  font-size: 14px;
+  color: #f2c417;
+} */
+
+/* עיצוב התפריט */
+/* .card p-menubar {
+  flex: 1;
+  margin: 0 20px;
+  text-align: right;
+}
+
+.card p-menubar::ng-deep .ui-menuitem {
+  display: inline-block;
+  background-color: #fff;
+  color: #000;
+  margin-left: 5px;
+  padding: 5px 10px;
   border-radius: 4px;
-  transition: background-color 0.3s, border-color 0.3s; /* מעבר חלק */
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.categories-nav li:hover {
-  background-color: #e9ecef; /* רקע בהיר יותר בהובר */
-  border-color: #ccc; /* גבול אפור בהובר */
+.card p-menubar::ng-deep .ui-menuitem:hover {
+  background-color: #f2c417;
+  color: #000;
+} */
+/* 
+.card button:hover {
+  background-color: #d9b312;
+  transform: translateY(-2px);
 }
 
-.categories-nav li.active {
-  background-color: #007bff; /* רקע כחול לפריט פעיל */
-  color: white; /* טקסט לבן לפריט פעיל */
-  border-color: #007bff;
-}
+.card button:active {
+  background-color: #b9980e;
+  transform: translateY(0);
+} */ 
 
-.products {
-  display: block;
-  margin: 20px auto; /* ריווח עליון ותחתון ומרכז אופקי */
-  padding: 10px; /* רווח פנימי */
-}
+/* עיצוב ה-container של הקומפוננטות */
+/* .products {
+  margin: 20px;
+  text-align: center;
+} */
+

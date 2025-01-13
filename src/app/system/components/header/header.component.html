@@ -13,11 +13,16 @@
   </nav>
 </div> -->
 
-<div class="card">
+<!-- <div class="card">
   <p-menubar dir="rtl" [model]="items"/>
-</div>
+</div> -->
 
-<div class="products">
-  <product-list *ngIf="categorySelected" [category]="categorySelected"></product-list>
-  <login *ngIf="loginSelected"></login>
+<div class="header">
+  <div class="headerBody">
+    <button>התחברות</button>
+    <p-menubar dir="rtl" [model]="items"/>
+  </div>
+  <div class="logoHeader">
+    <img src="./logo.png" alt="logo">
+  </div>
 </div>
