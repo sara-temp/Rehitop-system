@@ -1,9 +1,11 @@
 <div class="header">
   <div class="headerBody">
-    <button>התחברות</button>
+    <button *ngIf="!isLogin" (click)="onLoginClick()">התחברות</button>
+    <button *ngIf="isLogin" (click)="onLogoutClick()">התנתקות</button>
+    <button *ngIf="isLogin" routerLink="/edit">לעריכה</button>
     <p-menubar dir="rtl" [model]="items"/>
   </div>
   <div class="logoHeader">
-    <img src="assets/logo.png" alt="logo">
+    <img src="assets/logo.png" alt="logo" routerLink="">
   </div>
 </div>
