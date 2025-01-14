@@ -3,19 +3,12 @@
 
     <p-toolbar styleClass="mb-6">
         <ng-template #start>
-            <p-button label="חדש" icon="pi pi-plus" class="mr-2" (click)="editRow(product)"/>
+            <p-button label="חדש" icon="pi pi-plus" class="mr-2" (click)="editRow(product)" />
             <p-button severity="danger" label="מחיקה" icon="pi pi-trash" outlined (onClick)="deleteSelectedProducts()"
                 [disabled]="!selectedProducts || !selectedProducts.length" />
         </ng-template>
 
-        <ng-template #end>
-            <p-button  label="חזרה למוצרים" chooseLabel="חזרה למוצרים" auto icon="pi pi-arrow-left"
-                customUpload class="mr-2 inline-block" (click)="backToProd()" />
-        </ng-template>
-
-        
-
-    </p-toolbar>                            
+    </p-toolbar>
 
     <p-table #dt1 [value]="products" [rows]="10" [columns]="cols" [paginator]="true"
         [globalFilterFields]="['Id', 'name', 'categories', 'price']" [tableStyle]="{ 'min-width': '75rem' }"
@@ -27,30 +20,15 @@
                 <h3 class="m-0">ניהול מוצרים
                     <span class="pi pi-user"></span>
                 </h3>
-                <div class="flex justify-between items-center all-filter"
-                    style="min-width:15rem;">
+                <div class="flex justify-between items-center all-filter" style="min-width:15rem;">
                     <div class="mr-2 font-bold">סינון לפי קטגוריות</div>
-                    <p-columnFilter 
-                    field="categories" 
-                    matchMode="contains" 
-                    display="raw" 
-                    [showMatchModes]="false" 
-                    [showOperator]="false" 
-                    [showAddButton]="false" 
-                    class="ml-auto">
+                    <p-columnFilter field="categories" matchMode="contains" display="raw" [showMatchModes]="false"
+                        [showOperator]="false" [showAddButton]="false" class="ml-auto">
                         <ng-template #filter let-value let-filter="filterCallback">
-                            <p-treeselect 
-                            dir="rtl"
-                            [filter]="true" 
-                            [(ngModel)]="selectedCategories" 
-                            display="chip" 
-                            [options]="categoryEnum" 
-                            [metaKeySelection]="false"
-                            selectionMode="checkbox" 
-                            placeholder="בחר קטגוריות..." 
-                            (onChange)="filter($event)" 
-                            class="w-full md:w-80"
-                            containerStyleClass="w-full">
+                            <p-treeselect dir="rtl" [filter]="true" [(ngModel)]="selectedCategories" display="chip"
+                                [options]="categoryEnum" [metaKeySelection]="false" selectionMode="checkbox"
+                                placeholder="בחר קטגוריות..." (onChange)="filter($event)" class="w-full md:w-80"
+                                containerStyleClass="w-full">
                                 <ng-template let-category #item>
                                     <div class="flex items-center gap-6">
                                         <span>{{ category }}</span>
@@ -60,18 +38,14 @@
                         </ng-template>
                     </p-columnFilter>
                 </div>
-                
-             
+
+
             </div>
         </ng-template>
         <ng-template #header>
             <tr>
                 <th style="width: 2rem">
                     <p-tableHeaderCheckbox />
-                </th>
-                <th style="min-width:4rem" pSortableColumn="Id">
-                    Id
-                    <p-sortIcon field="Id" aria-label="Sort ascending" aria-label-desc="Sort descending" />
                 </th>
                 <th pSortableColumn="name" style="min-width:10rem">
                     שם
@@ -107,26 +81,28 @@
                 <td>{{ product.Id }}</td>
                 <td style="min-width: 10rem">{{ product.name }}</td>
                 <td>
-                    <img [src]="product.image" [alt]="product.name" style="width: 64px; height: 40px;" class="rounded" />
+                    <img [src]="product.image" [alt]="product.name" style="width: 64px; height: 40px;"
+                        class="rounded" />
                 </td>
                 <td>{{ product.price | currency: 'ILS' }}</td>
                 <td>
                     <span *ngFor="let category of product.categories">{{ category }}
-                    <span *ngIf="product.categories.length>1"> | </span></span>
+                        <span *ngIf="product.categories.length>1"> | </span></span>
                 </td>
                 <td>{{ product.describe }}</td>
                 <td>{{ product.company }}</td>
                 <td>{{ product.colors }}</td>
                 <td>
-                    <p-button icon="pi pi-pencil" class="edit" class="mr-2" [rounded]="true" [outlined]="true" (click)="editRow(product)"/>
+                    <p-button icon="pi pi-pencil" class="edit" class="mr-2" [rounded]="true" [outlined]="true"
+                        (click)="editRow(product)" />
                     <p-button icon="pi pi-trash" class="delete" severity="danger" [rounded]="true" [outlined]="true"
                         (click)="deleteProduct(product)" />
                 </td>
             </tr>
         </ng-template>
         <ng-template #summary>
-            <div class="flex items-center justify-between">In total there are {{ products ? products.length : 0 }}
-                products.</div>
+            <div class="flex items-center justify-between">בסך הכל ישנם {{ products ? products.length : 0 }}
+                מוצרים.</div>
         </ng-template>
     </p-table>
 </div>

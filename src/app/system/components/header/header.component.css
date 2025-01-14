@@ -25,8 +25,8 @@
   margin: 1.2vw;
   margin-left: 1.9vw;
   width: 8.5vw;
-  height: 3vw;
-  font-size: 1.5vw;
+  height: 2vw;
+  font-size: 1vw;
 }
 
 .logoHeader {
@@ -34,6 +34,7 @@
   align-items: center;
   justify-content: center;
   width: 22vw;
+  cursor: pointer;
 }
 
 .logoHeader img {

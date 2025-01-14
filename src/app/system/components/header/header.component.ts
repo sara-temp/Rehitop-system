@@ -54,7 +54,7 @@ export class HeaderComponent implements OnInit {
         this.categorySelected = '';
         this.router.navigate(['login']);
       },
-      visible: !this.isLogin
+      visible: !this.isLogin,
     }
 
     const logoutObject = {
@@ -75,7 +75,6 @@ export class HeaderComponent implements OnInit {
       items: undefined,
       routerLink: '/edit',
       command: (event: MenuItemCommandEvent) => {
-        this.onLogoutClick();
         this.loginSelected = false;
       },
       visible: this.isLogin
@@ -104,7 +103,7 @@ export class HeaderComponent implements OnInit {
       };
     });
 
-    menu.push(loginObject, logoutObject, editObject)
+    // menu.push(loginObject, logoutObject, editObject)
     return menu;
   }
 
@@ -141,13 +140,18 @@ export class HeaderComponent implements OnInit {
   }
 
   onLoginClick() {
+    console.log("generateMenuItems(): "+this.isLogin);
+        
     this.loginSelected = true;
+    this.categorySelected = '';
+    this.router.navigate(['login']);
   }
 
   onLogoutClick() {
     this.authService.logout();
     this.loginSelected = false;
     this.isLogin = false;
+    this.items = this.generateMenuItems();
   }
 
   executeCommand(command: (event: MenuItemCommandEvent) => void, mouseEvent: MouseEvent) {

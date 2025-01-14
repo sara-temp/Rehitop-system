@@ -48,27 +48,30 @@ export class ProductFormComponent {
     this.categoryOptions = this.generateCategoryOptions()
   }
 
-  generateCategoryOptions(): { label: string; children?: { label: string; children?: { label: string }[] }[] }[] {
+  generateCategoryOptions(): TreeNode[] {
     const schemaData = SCHEMA_RUNTIME;
 
-    const buildSubItems = (subCategories: any): { label: string; children?: { label: string; children?: { label: string }[] }[] }[] | undefined => {
+    const buildSubItems = (subCategories: Record<string, any>, parent?: TreeNode): TreeNode[] | undefined => {
       if (!subCategories || typeof subCategories !== 'object') return undefined;
 
       return Object.entries(subCategories).map(([subCategory, nestedSubCategories]) => {
-        return {
+        const node: TreeNode = {
           label: typeof nestedSubCategories === 'string' ? nestedSubCategories : subCategory,
-          children: typeof nestedSubCategories === 'object' ? buildSubItems(nestedSubCategories) : undefined
+          parent
         };
+        node.children = typeof nestedSubCategories === 'object' ? buildSubItems(nestedSubCategories, node) : undefined;
+        return node;
       });
     };
 
-    const categoryOptions = Object.entries(schemaData).map(([mainCategory, subCategories]) => {
-      const children = buildSubItems(subCategories);
-      return {
+    const categoryOptions: TreeNode[] = Object.entries(schemaData).map(([mainCategory, subCategories]) => {
+      const node: TreeNode = {
         label: mainCategory,
-        children
+        children: buildSubItems(subCategories as Record<string, any>)
       };
+      return node;
     });
+
     return categoryOptions;
   }
 
@@ -84,16 +87,32 @@ export class ProductFormComponent {
     });
   }
 
+  getAllKeyValuePairs(obj: Record<string, any>): { key: string; value: any }[] {
+    let pairs: { key: string; value: any }[] = [];
+    console.log('obj', obj);
+
+    for (const key in obj) {
+      if (typeof obj[key] === 'object' && obj[key] !== null) {
+        let keyCategory = (Object.entries(Categories).find(cat => cat[1] == key))
+        if (keyCategory)
+          pairs.push({ key: keyCategory[0], value: key });
+        pairs = pairs.concat(this.getAllKeyValuePairs(obj[key]));
+      }
+      else {
+        pairs.push({ key, value: obj[key] });
+      }
+    }
+
+    return pairs;
+  }
 
   uploadImage(): Promise<any> {
+    const allCategories = this.getAllKeyValuePairs(SCHEMA_RUNTIME);
     return new Promise((resolve, reject) => {
       const imageFormData = new FormData();
       imageFormData.append('image', this.imgFile);
-      this.category = Object.keys(Categories).find(key => Categories[key as keyof typeof Categories] === this.productForm.value.categories[0]);
-      console.log("this.category: "+this.category);
-      
+      this.category = (allCategories.find(pair => pair.value === this.productForm.value.categories[0]))?.key;
       this._managerService.uploadImage(imageFormData, this.category).subscribe(response => {
-        console.log("response:", response.imagePath);
         this.productForm.patchValue({ image: response.imagePath });
         this.img = null;
         resolve(response);
@@ -131,11 +150,11 @@ export class ProductFormComponent {
   async readImagesFromFiles(files: FileList): Promise<string[]> {
     const imagesArray: string[] = [];
     const promises: Promise<void>[] = [];
-  
+
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
-      console.log('readImagesFromFiles const file: '+file)
-  
+      console.log('readImagesFromFiles const file: ' + file)
+
       if (file.type.startsWith('image/')) {
         const promise = new Promise<void>((resolve, reject) => {
           const reader = new FileReader();
@@ -151,28 +170,25 @@ export class ProductFormComponent {
           };
           reader.readAsDataURL(file)
         });
-  
+
         promises.push(promise);
       } else {
         console.warn(`File ${file.name} is not an image.`);
       }
     }
-  
+
     await Promise.all(promises);
     return imagesArray;
   }
-  
+
   onImageChange(event: any): void {
     this.imgFile = event.target.files[0];
     if (this.imgFile) {
       const reader = new FileReader();
       reader.onload = () => {
         this.img = reader.result as string;
-        console.log('onImageChange imageData:', this.img);
       };
-      console.log('this.imgFile befor'+this.imgFile)
       reader.readAsDataURL(this.imgFile);
-      console.log('this.imgFile after'+this.imgFile)
     }
   }
 
@@ -180,7 +196,7 @@ export class ProductFormComponent {
     const input = event.target as HTMLInputElement;
     if (input?.files) {
       this.imgFiles = Array.from(input.files);
-      console.log('this.imgFile: '+this.imgFiles)
+      console.log('this.imgFile: ' + this.imgFiles)
       this.readImagesFromFiles(input.files).then((images) => {
         this.images = images;
       })
@@ -199,6 +215,7 @@ export class ProductFormComponent {
   }
 
   async onSubmitArray() {
+  console.log('onSubmitArray:: this.img', this.img, '\nthis.images',this.images);
     for (const imgFile of this.imgFiles) {
       this.productForm.patchValue({ image: imgFile.name });
       this.imgFile = imgFile;
@@ -207,10 +224,22 @@ export class ProductFormComponent {
   }
 
   async onSubmit() {
+  console.log('onSubmit:: this.img', this.img, '\nthis.images',this.images);
     this.submitted = true;
-    let categories = [...new Set(this.productForm.controls['categories'].value.map((category: TreeNode | string) =>
-      typeof category === 'string' ? category : category.label
-    ))];
+    let categories = [...new Set(this.productForm.controls['categories'].value.flatMap((category: TreeNode | string) => {
+      if (typeof category === 'string') {
+        return category;
+      } else {
+        const labels = [];
+        let current: TreeNode | undefined = category;
+        while (current) {
+          labels.push(current.label);
+          current = current.parent;
+        }
+        return labels;
+      }
+    }))];
+
     if (this.productForm?.valid) {
       console.log('הטופס תקין', this.productForm.value);
       this.productForm.patchValue({ categories: categories });
@@ -262,5 +291,16 @@ export class ProductFormComponent {
 
   onCancel() {
     this.dialog.closeAll();
+  }
+
+  deleteImageFromForm(image: any) {
+    this.images = this.images.filter(img => img !== image);
+  }
+  calculateImageSize(base64String: string): number {
+    console.log('calculateImageSize---');
+    
+    const padding = (base64String.match(/=+$/) || [])[0]?.length || 0;
+    const sizeInBytes = (base64String.length * (3 / 4)) - padding;
+    return sizeInBytes / 1024; // גודל בקילובייט
   }
 }
