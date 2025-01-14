@@ -143,9 +143,6 @@ export class DataTableComponent implements OnInit {
         })),
       },
     ];
-
-
-    console.log(this.categoryEnum)
   }
 
   onSearch(event: any) {

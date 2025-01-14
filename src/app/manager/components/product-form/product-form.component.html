@@ -13,11 +13,14 @@
       <label class="form-label">תמונה</label>
 
       <!-- תמונה בודדת -->
-      <button matInput (click)="imageInput.click()">בחר תמונה</button>
-      <input #imageInput type="file" style="display: none;" (change)="onImageChange($event)" accept="image/*" />
+      <button (click)="imageInput.click()">בחר תמונה</button>
+      <br>
+      <input #imageInput type="file" style="display: none;" (change)="imageInput.files?.length == 1?onImageChange($event):onImageChangeMany($event)" multiple accept="image/*" />
       <!-- תיקית תמונות -->
-      <button matInput (click)="imageInputArray.click()">בחר תיקיה</button>
+      <!-- <button *ngIf="productNew" matInput (click)="imageInputArray.click()">בחר תיקיה</button> -->
       <input #imageInputArray type="file" 
+      *ngIf="productNew"
+      (click)="imageInputArray.click()"
       webkitdirectory 
       mozdirectory 
       multiple 
@@ -80,10 +83,10 @@
       </small>
     </div>
     <!-- צבעים -->
-    <div class="form-group">
+    <!-- <div class="form-group">
       <label for="colors" class="form-label">צבעים</label>
       <input matInput formControlName="colors" id="colors" placeholder="הכנס צבעים" type="color" />
-    </div>
+    </div> -->
     <!-- חברה -->
     <div class="form-group">
       <label for="company" class="form-label">חברה</label>
@@ -92,6 +95,6 @@
   </form>
   <mat-dialog-actions>
     <button mat-button (click)="onCancel()" class="cancel">ביטול</button>
-    <button mat-button (click)="imgFile?onSubmit():onSubmitArray()" class="save">שמור</button>
+    <button mat-button (click)="img?onSubmit():onSubmitArray()" class="save">שמור</button>
   </mat-dialog-actions>
 </div>
