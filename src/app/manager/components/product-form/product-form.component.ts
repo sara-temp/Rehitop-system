@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { Categories, ChildrensRoom, Closets, DiningAreas, Mattresses, Office, Product, Salon, SCHEMA_RUNTIME, SubCategory } from '../../../models/product.model';
+import { Categories, ChildrensRoom, Closets, companies, DiningAreas, Mattresses, Office, Product, Salon, SCHEMA_RUNTIME, SubCategory } from '../../../models/product.model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { ManagerService } from '../../manager.service';
@@ -25,6 +25,7 @@ export class ProductFormComponent {
   category: any;
   imgFiles!: File[];
   images: string[] = [];
+  companies = companies;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: { product: Product }, private _managerService: ManagerService, public dialog: MatDialog) {
     if (data.product) {
@@ -78,8 +79,8 @@ export class ProductFormComponent {
       categories: new FormControl(this.product?.categories || '', Validators.required),
       price: new FormControl(this.product?.price || '', [Validators.required, Validators.min(0)]),
       describe: new FormControl(this.product?.describe || ''),
+      company: new FormControl(this.product?.company || ''),
       colors: new FormControl(this.product?.colors || ''),
-      company: new FormControl(this.product?.company || '')
     });
   }
 
@@ -89,8 +90,8 @@ export class ProductFormComponent {
       const imageFormData = new FormData();
       imageFormData.append('image', this.imgFile);
       this.category = Object.keys(Categories).find(key => Categories[key as keyof typeof Categories] === this.productForm.value.categories[0]);
-
-      // imageFormData.append('folder', 'aaaaa');
+      console.log("this.category: "+this.category);
+      
       this._managerService.uploadImage(imageFormData, this.category).subscribe(response => {
         console.log("response:", response.imagePath);
         this.productForm.patchValue({ image: response.imagePath });
@@ -177,7 +178,6 @@ export class ProductFormComponent {
 
   onImageChangeMany(event: any): void {
     const input = event.target as HTMLInputElement;
-
     if (input?.files) {
       this.imgFiles = Array.from(input.files);
       console.log('this.imgFile: '+this.imgFiles)
@@ -186,6 +186,17 @@ export class ProductFormComponent {
         console.log('Uploaded images:', this.images);
         console.log("קבצים שנבחרו:", this.imgFiles);
       })
+    }
+  }
+
+  onCompanyChange(event: any): void {
+    const selectedCompanyName = event.target.value;
+    const selectedCompany = this.companies.find(company => company.name === selectedCompanyName);
+    if (selectedCompany) {
+      this.productForm.patchValue({
+        company: selectedCompany.name,
+        colors: selectedCompany.colors
+      });
     }
   }
 
@@ -203,8 +214,8 @@ export class ProductFormComponent {
       typeof category === 'string' ? category : category.label
     ))];
     if (this.productForm?.valid) {
-      this.productForm.patchValue({ categories: categories });
       console.log('הטופס תקין', this.productForm.value);
+      this.productForm.patchValue({ categories: categories });
       if (this.productNew) {
         try {
           await this.uploadImage();
@@ -245,6 +256,10 @@ export class ProductFormComponent {
     else {
       console.log('הטופס לא תקין', this.productForm.value);
     }
+  }
+
+  showErrorMessage() {
+    alert('יש להשלים את כל שדות החובה לפני שליחת הטופס.');
   }
 
   onCancel() {
