@@ -129,45 +129,4 @@
                 products.</div>
         </ng-template>
     </p-table>
-
-    <p-dialog [(visible)]="productDialog" [style]="{ width: '40vw' }" header="Product Details" [modal]="true">
-        <ng-template #content>
-            <div class="flex flex-col gap-6">
-                <img [src]="'https://primefaces.org/cdn/primeng/images/demo/product/' + product.image"
-                    [alt]="product.image" class="block m-auto pb-4" *ngIf="product.image" />
-                <div>
-                    <label for="name" class="block font-bold mb-3">Name</label>
-                    <input type="text" pInputText id="name" [(ngModel)]="product.name" required autofocus fluid />
-                    <small class="text-red-500" *ngIf="submitted && !product.name">Name is required.</small>
-                </div>
-                <div>
-                    <label for="describe " class="block font-bold mb-3">Describe </label>
-                    <textarea id="describe " pTextarea *ngIf="product.describe " [(ngModel)]="product.describe "
-                        required rows="3" cols="20" fluid></textarea>
-                </div>
-
-                <div *ngFor="let category of categoryEnum">
-                    <p-checkbox [value]="category" [(ngModel)]="product.categories" [binary]="true"></p-checkbox>
-                    <label>{{category}}</label>
-                </div>
-
-
-                <div class="grid grid-cols-12 gap-4">
-                    <div class="col-span-6">
-                        <label for="price" class="block font-bold mb-3">Price</label>
-                        <p-inputnumber id="price" [(ngModel)]="product.price" mode="currency" currency="USD"
-                            locale="en-US" fluid />
-                    </div>
-
-                </div>
-            </div>
-        </ng-template>
-
-        <ng-template #footer>
-            <p-button label="Cancel" icon="pi pi-times" text (click)="hideDialog()" />
-            <p-button label="Save" icon="pi pi-check"/>
-        </ng-template>
-    </p-dialog>
-
-    <p-confirmDialog [style]="{ width: '30rem' }" />
 </div>

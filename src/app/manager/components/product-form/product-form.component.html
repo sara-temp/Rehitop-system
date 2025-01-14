@@ -17,12 +17,8 @@
       <input #imageInput type="file" style="display: none;" (change)="onImageChange($event)" accept="image/*" />
       <!-- תיקית תמונות -->
       <button matInput (click)="imageInputArray.click()">בחר תיקיה</button>
-      <input #imageInputArray type="file" 
-      webkitdirectory 
-      mozdirectory 
-      multiple 
-      (change)="onImageChangeMany($event)" 
-      accept="image/*"  />
+      <input #imageInputArray type="file" webkitdirectory mozdirectory multiple (change)="onImageChangeMany($event)"
+        accept="image/*" />
 
       <div>
         <div *ngFor="let image of images">
@@ -70,7 +66,6 @@
         יש לבחור לפחות קטגוריה אחת.
       </small>
     </div>
-
     <!-- מחיר -->
     <div class="form-group">
       <label for="price" class="form-label">מחיר</label>
@@ -79,19 +74,16 @@
         המחיר הוא שדה חובה.
       </small>
     </div>
-    <!-- צבעים -->
-    <div class="form-group">
-      <label for="colors" class="form-label">צבעים</label>
-      <input matInput formControlName="colors" id="colors" placeholder="הכנס צבעים" type="color" />
-    </div>
     <!-- חברה -->
     <div class="form-group">
       <label for="company" class="form-label">חברה</label>
-      <input matInput formControlName="company" id="company" placeholder="הכנס חברה" type="text" />
+      <select formControlName="company" id="company" (change)="onCompanyChange($event)">
+        <option *ngFor="let company of companies" [value]="company.name">{{ company.name }}</option>
+      </select>
     </div>
   </form>
   <mat-dialog-actions>
     <button mat-button (click)="onCancel()" class="cancel">ביטול</button>
-    <button mat-button (click)="imgFile?onSubmit():onSubmitArray()" class="save">שמור</button>
+    <button mat-button (click)="imgFile ? onSubmit() : onSubmitArray()" class="save">שמור</button>
   </mat-dialog-actions>
 </div>

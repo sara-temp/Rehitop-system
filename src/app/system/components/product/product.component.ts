@@ -11,6 +11,9 @@ import { Product } from '../../../models/product.model';
     @Input()
     productObject: Product | null = null;
 
+    openLinkInNewTab(url: string): void {
+      window.open(url, '_blank');
+    }
     closeImage(): void {
       this.productObject = null;
     }
