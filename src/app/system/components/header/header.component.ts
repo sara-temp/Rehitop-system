@@ -153,4 +153,12 @@ export class HeaderComponent implements OnInit {
     this.isLogin = false;
     this.items = this.generateMenuItems();
   }
+
+  executeCommand(command: (event: MenuItemCommandEvent) => void, mouseEvent: MouseEvent) {
+    const menuItemEvent: MenuItemCommandEvent = {
+      originalEvent: mouseEvent,
+      item: undefined, // ניתן להוסיף את האייטם הנכון אם צריך
+    };
+    command(menuItemEvent);
+  }
 }

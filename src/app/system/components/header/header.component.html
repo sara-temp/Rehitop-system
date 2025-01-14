@@ -4,6 +4,39 @@
     <button *ngIf="isLogin" (click)="onLogoutClick()">התנתקות</button>
     <button *ngIf="isLogin" routerLink="/edit">לעריכה</button>
     <p-menubar dir="rtl" [model]="items"/>
+    <!-- <nav dir="rtl" class="menu-bar">
+      <ul>
+        <li *ngFor="let item of items">
+          <button
+             [routerLink]="item.routerLink" 
+             (click)="item.command ? executeCommand(item.command, $event) : null">
+            <i *ngIf="item.icon" class="{{ item.icon }}"></i>
+            {{ item.label }}
+          </button>
+          <ul *ngIf="item.items">
+            <li *ngFor="let subItem of item.items">
+              <button
+                 [routerLink]="subItem.routerLink" 
+                 (click)="subItem.command ? executeCommand(subItem.command, $event) : null">
+                <i *ngIf="subItem.icon" class="{{ subItem.icon }}"></i>
+                {{ subItem.label }}
+              </button>
+              <ul *ngIf="subItem.items">
+                <li *ngFor="let subSubItem of subItem.items">
+                  <button
+                     [routerLink]="subSubItem.routerLink" 
+                     (click)="subSubItem.command ? executeCommand(subSubItem.command, $event) : null">
+                    <i *ngIf="subSubItem.icon" class="{{ subSubItem.icon }}"></i>
+                    {{ subSubItem.label }}
+                  </button>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </nav> -->
+    
   </div>
   <div class="logoHeader">
     <img src="assets/logo.png" alt="logo" routerLink="">

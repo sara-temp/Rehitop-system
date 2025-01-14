@@ -18,12 +18,12 @@ export class ProductListComponent {
   @Input()
   category: string = '';
   products: Product[] = [];
+  pagedProducts: Product[] = [];
   selectedProduct: Product | null = null;
   isLogin: boolean = false;
 
-  currentPage: number = 1;
-  itemsPerPage: number = 8;
-  pagedProducts: Product[] = [];
+  rows: number = 28; 
+  first: number = 0; 
   totalProducts: number = 0;
 
   constructor(private http: HttpClient, private _managerService: ManagerService, public dialog: MatDialog, private authService: AuthService, private route: ActivatedRoute) { }
@@ -59,27 +59,19 @@ export class ProductListComponent {
       (data) => {
         this.products = data;
         this.totalProducts = data.length;
-        this.updatePagedProducts();
+        this.updatePagedProducts(); // עדכון המוצרים בעמוד הנוכחי
       }, (error) => console.log('Failed to load products:', error)
     );
   }
 
   updatePagedProducts() {
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    const endIndex = startIndex + this.itemsPerPage;
-    this.pagedProducts = this.products.slice(startIndex, endIndex);
+    this.pagedProducts = this.products.slice(this.first, this.first + this.rows);
   }
-  goToPage(page: number) {
-    if (page > 0 && page <= this.totalPages()) {
-      this.currentPage = page;
-      this.updatePagedProducts();
-    }
-  }
-  totalPages() {
-    return Math.ceil(this.totalProducts / this.itemsPerPage);
-  }
-  pagesArray(): number[] {
-    return Array.from({ length: this.totalPages() }, (_, i) => i + 1);
+
+  onPageChange(event: any) {
+    this.first = event.first;
+    this.rows = event.rows;
+    this.updatePagedProducts(); // עדכון המוצרים לעמוד הנוכחי
   }
   
   closeViewer(): void {

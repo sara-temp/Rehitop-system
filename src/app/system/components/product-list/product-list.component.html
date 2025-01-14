@@ -17,17 +17,8 @@
     </mat-card-content>
   </mat-card>
 </div>
-<div class="pagination-controls">
-  <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage <= 1" class="pagination-arrow">
-    &gt;
-  </button>
-  <button *ngFor="let page of pagesArray()" (click)="goToPage(page)"
-    [class.active]="page === currentPage" class="pagination-button">
-    {{ page }}
-  </button>
-  <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage >= totalPages()" class="pagination-arrow">
-    &lt;
-  </button>
+<div class="paginator-container" dir="rtl"><p-paginator [rows]="rows" [totalRecords]="totalProducts"
+    (onPageChange)="onPageChange($event)"></p-paginator>
 </div>
 
 

@@ -176,6 +176,7 @@ export class DataTableComponent implements OnInit {
               this.selectedProducts = null;
               this.messageService.add(this.success);
               this.products = this.products.filter(p => !this.selectedProducts?.includes(p)); // update list
+              window.location.reload();
             } else {
               this.messageService.add(this.error);
             }

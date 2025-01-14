@@ -1,24 +1,25 @@
 <ng-container *ngIf="productObject">
   <div class="backdrop" (click)="closeImage()">
     <mat-card class="example-card" appearance="outlined">
-
       <div class="card-container">
-
+        <img class="card-logo" src="assets/logo.png" alt="Logo" />
         <div class="card-details">
           <mat-card-content>
           <h2>{{ productObject.name }}</h2>
           <p><strong>מחיר:</strong> ${{ productObject.price }}</p>
             <p>{{ productObject.describe }}</p>
             <p><strong>קטגוריה:</strong> {{ productObject.categories }}</p>
-            <p *ngIf="productObject.colors"><strong>צבעים:</strong> {{ productObject.colors }}</p>
             <p *ngIf="productObject.company"><strong>חברה:</strong> {{ productObject.company }}</p>
+            <div *ngIf="productObject.colors">
+              <button class="color-link-button" (click)="openLinkInNewTab(productObject.colors)">
+                צבעים
+              </button>
+            </div>
           </mat-card-content>
         </div>
-
         <div class="card-image">
           <img mat-card-xl-image [src]="productObject.image" alt="Example Image">
         </div>
-        
       </div>
     </mat-card>
   </div>
