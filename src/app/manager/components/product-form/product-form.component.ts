@@ -277,4 +277,15 @@ export class ProductFormComponent {
   onCancel() {
     this.dialog.closeAll();
   }
+
+  deleteImageFromForm(image: any) {
+    this.images = this.images.filter(img => img !== image);
+  }
+  calculateImageSize(base64String: string): number {
+    console.log('calculateImageSize---');
+    
+    const padding = (base64String.match(/=+$/) || [])[0]?.length || 0;
+    const sizeInBytes = (base64String.length * (3 / 4)) - padding;
+    return sizeInBytes / 1024; // גודל בקילובייט
+  }
 }

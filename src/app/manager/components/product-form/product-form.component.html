@@ -27,11 +27,13 @@
       (change)="onImageChangeMany($event)" 
       accept="image/*"  />
 
-      <div>
-        <div *ngFor="let image of images">
-          <img [src]="image" alt="Uploaded Image" width="50" />
+      <cdk-virtual-scroll-viewport itemSize="2000" class="image-gallery">
+        <div *cdkVirtualFor="let image of images" class="image-card">
+          <img [src]="image" alt="Uploaded Image" class="image-preview" />
+          <button class="delete-button" (click)="deleteImageFromForm(image)"> &times; </button>
         </div>
-      </div>
+      </cdk-virtual-scroll-viewport>
+       
 
       <small *ngIf="!img && !images && submitted" class="error-message">
         יש לבחור לפחות תמונה אחת.

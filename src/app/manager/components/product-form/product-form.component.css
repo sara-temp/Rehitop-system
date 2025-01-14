@@ -179,3 +179,64 @@ form::-webkit-scrollbar-track {
   overflow-x: auto;
   overflow-y: auto;
 }
+
+.image-gallery {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.image-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  max-width: 200px;
+  text-align: center;
+  position: relative;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.image-preview {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.image-info {
+  margin-top: 10px;
+}
+
+.status {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.status.pending {
+  background-color: #ffeb3b;
+  color: #000;
+}
+
+.delete-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: #ff4d4f;
+  border: none;
+  color: #fff;
+  font-size: 16px;
+  border-radius: 50%;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+}
+
+.delete-button:hover {
+  background: #ff7875;
+}
