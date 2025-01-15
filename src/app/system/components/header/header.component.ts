@@ -90,7 +90,8 @@ export class HeaderComponent implements OnInit {
         items: typeof nestedSubCategories === 'object' && nestedSubCategories !== null
           ? buildSubItems(nestedSubCategories)
           : undefined,
-        command: () => this.onCategoryClick(label)
+        command: () => this.onCategoryClick(label),
+        styleClass:'subItem'
       }});
     };
 
@@ -99,7 +100,8 @@ export class HeaderComponent implements OnInit {
       return {
         label: mainCategory,
         items: subItems,
-        command: (event: any) => this.onMainCategoryClick(event, mainCategory, subItems?.length ?? 0)
+        command: (event: any) => this.onMainCategoryClick(event, mainCategory, subItems?.length ?? 0),
+        styleClass: 'subItem'
       };
     });
 

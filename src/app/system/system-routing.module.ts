@@ -5,7 +5,7 @@ import { HomePageComponent } from './components/home-page/home-page.component';
 
 
 const routes: Routes = [
-  { path: 'category/:categoryName', component: ProductListComponent },
+  { path: 'category/:categoryName', component: ProductListComponent, data: { prerender: true } },
   { path: '', component: HomePageComponent }
 ];
 

@@ -18,7 +18,7 @@
   border-bottom-right-radius: 1.5vw;
 }
 
-.login {
+.headerBody button{
   background-color: #f2c417;
   color: #000;
   border-radius: 0.7vw;
@@ -28,6 +28,7 @@
   height: 2vw;
   font-size: 1vw;
 }
+
 
 .logoHeader {
   display: flex;
@@ -93,4 +94,12 @@
   padding: 10px;
   background-color: #fff;
   color: #000;
+}
+
+
+.subItem {
+  color: red !important;
+  font-weight: bold !important;
+  direction: rtl !important;
+  background-color: #f2c417 !important;
 }

@@ -38,6 +38,7 @@ import { SystemRoutingModule } from './system-routing.module';
 import { HomePageComponent } from './components/home-page/home-page.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { PaginatorModule } from 'primeng/paginator';
+import { PreloadAllModules } from '@angular/router';
 
 @NgModule({
   declarations: [
