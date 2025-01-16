@@ -1,17 +1,34 @@
-<form [formGroup]="LoginForm">
-    <div class="title-form">
+<div class="container">
+    <form [formGroup]="LoginForm">
+      <div class="title-form">
         <h3>התחברות</h3>
-    </div>
-    <div class="form-group">
+      </div>
+      <div class="form-group">
         <label for="username" class="form-label">שם משתמש</label>
         <input matInput formControlName="username" id="username" placeholder="שם משתמש" type="text" />
-    </div>
-    <div class="form-group">
+        <i class="bi bi-person-fill"></i> <!-- אייקון משתמש -->
+      </div>
+      <div class="form-group">
         <label for="password" class="form-label">סיסמה</label>
-        <input matInput formControlName="password" id="password" placeholder="סיסמה" type="text" />
-    </div>
-</form>
-<mat-dialog-actions>
-  <button mat-button (click)="onCancel()" class="cancel">ביטול</button>
-  <button mat-button (click)="onlogin()" class="save">התחברות</button>
-</mat-dialog-actions>
+        <input  
+          [type]="showPassword ? 'text' : 'password'" 
+          formControlName="password" 
+          id="password" 
+          placeholder="סיסמה" 
+        />
+        <button 
+          type="button" 
+          class="toggle-password" 
+          (click)="togglePasswordVisibility()"
+        >
+          <i [class]="showPassword ? 'bi bi-eye-slash-fill' : 'bi bi-eye-fill'"></i>
+        </button>
+      </div>
+      
+      <mat-dialog-actions>
+        <button mat-button (click)="onCancel()" class="cancel">ביטול</button>
+        <button mat-button (click)="onlogin()" class="save">התחברות</button>
+      </mat-dialog-actions>
+    </form>
+  </div>
+  
