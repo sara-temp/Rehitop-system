@@ -17,7 +17,8 @@
     </mat-card-content>
   </mat-card>
 </div>
-<div class="paginator-container" dir="rtl"><p-paginator [rows]="rows" [totalRecords]="totalProducts"
+<div *ngIf="pagedProducts.length > 0"
+  class="paginator-container" dir="rtl"><p-paginator [rows]="rows" [totalRecords]="totalProducts"
     (onPageChange)="onPageChange($event)"></p-paginator>
 </div>
 

@@ -17,6 +17,7 @@ export class LoginComponent {
   user = ''
   password = ''
   Login: Login | undefined
+  showPassword = false;
   LoginForm: FormGroup = new FormGroup({})
   constructor(private authService: AuthService, private router: Router, public dialog: MatDialog) { }
 
@@ -30,12 +31,16 @@ export class LoginComponent {
   
   onlogin() {
     this.authService.login(this.LoginForm.value).subscribe((response) => {
-      this.router.navigate(['/edit'])
+      this.router.navigate([''])
     },
     (err)=> alert('ההתחברות נכשלה'))
   }
 
   onCancel() {
     this.dialog.closeAll();
+  }
+ 
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword; // החלפת המצב
   }
 }

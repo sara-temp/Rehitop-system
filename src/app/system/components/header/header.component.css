@@ -3,29 +3,39 @@
   display: flex;
   justify-content: space-between;
   position: fixed;
-  width: 100%;
+  width: 100vw;
   z-index: 1000;
   top: 0;
   background-color: #000;
-  height: 20vh;
+  height: 18vh;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
+  direction: rtl;
+  border-bottom: 0.65vh solid #fbc01ccc;
 }
 
-.headerBody{
-  border-bottom: 0.65vh solid #fccc48;
-  border-right: 0.65vh solid #fccc48;
+
+.headerBody {
   width: 78vw;
-  border-bottom-right-radius: 1.5vw;
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  align-content: center;
+  margin-top: 1vh;
 }
 
-.login {
-  background-color: #f2c417;
+.padding-auth{
+  /* padding: 1vw; */
+  height: 4vh;
+  margin-bottom: 2vh;
+  margin-left: 2vw;
+}
+
+.auth-button{
+  background-color: #f5c749;
   color: #000;
-  border-radius: 0.7vw;
-  margin: 1.2vw;
-  margin-left: 1.9vw;
+  border-radius: 0.4vw;
+  margin-right: 1.2vw;
   width: 8.5vw;
-  height: 2vw;
   font-size: 1vw;
 }
 
@@ -42,55 +52,154 @@
   max-height: 80%;
 }
 
-.menu-bar ul {
+/* סגנון כללי לתפריט */
+.header-container {
+  background-color: #ffffff;
+  padding: 0vh 0vw 0vh 2vw;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  direction: ltr;
+  width: 100%;
+  border-top-right-radius:0.2vw ;
+  border-bottom-right-radius:0.2vw ;
+}
+
+.menu-items {
   list-style: none;
-  margin: 0;
   padding: 0;
+  margin: 0;
   display: flex;
-  justify-content: center;
+  direction: rtl;
 }
 
-.menu-bar li {
+.menu-items>li {
   position: relative;
-}
-
-.menu-bar button {
-  background: #fff; /* רקע לבן לכפתורים */
-  border: none;
-  margin: 0 5px;
-  padding: 10px 15px;
-  font-size: 16px;
+  padding: 1.5vh 1.5vw;
   cursor: pointer;
-  border-radius: 5px;
-  transition: all 0.3s ease-in-out;
+  font-size: 1.9vh;
+  /* font-weight: bold; */
+  border-radius:0.2vw ;
+  color: #000000;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.menu-bar button:hover {
-  background-color: #e1dfd5; /* צבע צהוב בעת ריחוף */
+.menu-items>li:hover {
+  /* background-color: #fbc01c; */
+  border-bottom: 0.3vh solid #f5c749;
 }
 
-.menu-bar ul ul {
-  display: none;
+/*קטגוריה שנבחרת*/
+.menu-items>li.selected {
+  background-color: #f5c749;
+  color: #000000;
+  /* border-bottom: 0.5vh solid #fbc01ccc; */
+  text-decoration: none;
+}
+
+/* תפריט משנה רמה 1 */
+.submenu {
   position: absolute;
   top: 100%;
-  left: 0;
+  right: 0;
+  min-width: 11vw;
+  list-style: none;
+  padding: 0;
+  margin: 0.3vh;
   background-color: #fff;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  border: 0.1vh solid #ddd;
+  border-radius: 0.4vh;
+  display: none;
+  box-shadow: 0 0.4vh 0.6vh rgba(0, 0, 0, 0.1);
 }
 
-.menu-bar li:hover > ul {
+/* 
+.selected {
+  background-color: #0e0d0d;
+  color: #ffffff;
+  border-bottom: 0.2vh solid #fbc01ccc;
+  text-decoration: none;
+} */
+
+.menu-items>li:hover>.submenu {
   display: block;
 }
 
-.menu-bar ul ul li {
-  display: block;
+.submenu>li {
+  position: relative;
+  padding: 1vh 2vw;
+  cursor: pointer;
+  color: #333;
+  font-size: 2vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.menu-bar ul ul button {
-  display: block;
-  width: 100%;
-  padding: 10px;
+.submenu>li:hover {
+  background-color: #f5c749;
+  color: #fff;
+}
+
+/* תפריט משנה רמה 2 */
+.submenu .submenu {
+  position: absolute;
+  top: 0;
+  right: 100%;
+  list-style: none;
+  padding: 0;
+  margin: 0;
   background-color: #fff;
-  color: #000;
+  border: 0.1vh solid #ddd;
+  border-radius: 0.4vh;
+  display: none;
+  box-shadow: 0 0.4vh 0.6vh rgba(0, 0, 0, 0.1);
+}
+
+.submenu>li:hover>.submenu {
+  display: block;
+}
+
+/* תפריט משנה רמה 3 */
+.submenu .submenu .submenu {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background-color: #fff;
+  border: 0.1vh solid #ddd;
+  border-radius: 0.4vh;
+  display: none;
+  box-shadow: 0 0.4vh 0.6vh rgba(0, 0, 0, 0.1);
+}
+
+.submenu .submenu>li:hover>.submenu {
+  display: block;
+}
+
+/* רספונסיביות: כשהרוחב קטן מדי, מעבר לתפריט עמודתי */
+@media (max-width: 768px) {
+  .menu-items {
+    flex-direction: column;
+    /* תפריט עמודתי במסכים קטנים */
+    align-items: flex-end;
+    /* יישור לשמאל */
+  }
+
+  .menu-items>li {
+    width: 100%;
+    /* כל פריט יתפוס את מלוא הרוחב */
+    text-align: left;
+    padding: 1vh;
+  }
+
+  .submenu {
+    position: relative;
+    /* תפריט המשנה יוצג מתחת לפריט ולא בצד */
+    box-shadow: none;
+    border: none;
+  }
+
+  .submenu .submenu {
+    right: auto;
+    left: 0;
+  }
 }

@@ -24,11 +24,11 @@ import { MyPreset } from '../mytheme';
   ],
   providers: [
     provideClientHydration(withEventReplay()), provideHttpClient(withFetch()), importProvidersFrom(HttpClientModule), provideAnimationsAsync(),
-    providePrimeNG({
-      theme: {
-        preset: MyPreset,
-      }
-    })
+    providePrimeNG(
+      {theme: {
+          preset: MyPreset,
+        }}
+    )
   ],
   bootstrap: [AppComponent]
 })

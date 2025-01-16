@@ -17,7 +17,7 @@ export class HeaderComponent implements OnInit {
   isLogin: boolean = false;
   storedValue: string | null | undefined;
   items: MenuItem[] | undefined;
-
+  selectedTab: MenuItem | null = null;
 
   constructor(private authService: AuthService, private route: ActivatedRoute, private router: Router) {
   }
@@ -38,47 +38,12 @@ export class HeaderComponent implements OnInit {
     );
 
     this.items = this.generateMenuItems();
+    this.selectedTab = this.items[0]; // ברירת מחדל לטאב הראשון
+
   }
 
   generateMenuItems(): MenuItem[] {
     const schemaData = SCHEMA_RUNTIME;
-    const loginObject = {
-      label: 'Login',
-      icon: 'pi pi-sign-in',
-      items: undefined,
-      command: (event: MenuItemCommandEvent) => {
-        // this.onLoginClick();
-        console.log("generateMenuItems(): "+this.isLogin);
-        
-        this.loginSelected = true;
-        this.categorySelected = '';
-        this.router.navigate(['login']);
-      },
-      visible: !this.isLogin,
-    }
-
-    const logoutObject = {
-      label: 'Logout',
-      icon: 'pi pi-sign-out',
-      items: undefined,
-      command: (event: MenuItemCommandEvent) => {
-        this.onLogoutClick();
-        this.loginSelected = false;
-        this.items = this.generateMenuItems();
-      },
-      visible: this.isLogin
-    }
-
-    const editObject = {
-      label: 'לעריכה',
-      icon: 'pi-pen-to-square',
-      items: undefined,
-      routerLink: '/edit',
-      command: (event: MenuItemCommandEvent) => {
-        this.loginSelected = false;
-      },
-      visible: this.isLogin
-    }
 
     const buildSubItems = (subCategories: any): MenuItem[] | undefined => {
       if (!subCategories || typeof subCategories !== 'object') return undefined;
@@ -107,6 +72,9 @@ export class HeaderComponent implements OnInit {
     return menu;
   }
 
+  selectTab(tab: MenuItem): void {
+    this.selectedTab = tab;
+  }
 
   onMainCategoryClick(event: MenuItemCommandEvent, mainCategory: string, length: number): any {
     const originalEvent = event.originalEvent;
@@ -157,7 +125,7 @@ export class HeaderComponent implements OnInit {
   executeCommand(command: (event: MenuItemCommandEvent) => void, mouseEvent: MouseEvent) {
     const menuItemEvent: MenuItemCommandEvent = {
       originalEvent: mouseEvent,
-      item: undefined, // ניתן להוסיף את האייטם הנכון אם צריך
+      item: undefined
     };
     command(menuItemEvent);
   }

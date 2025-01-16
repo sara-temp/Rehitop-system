@@ -1,44 +1,47 @@
 <div class="header">
+  <div class="logoHeader">
+    <img src="../../../../assets/‏‏logo.png" alt="logo" routerLink="">
+  </div>
   <div class="headerBody">
-    <button *ngIf="!isLogin" (click)="onLoginClick()">התחברות</button>
-    <button *ngIf="isLogin" (click)="onLogoutClick()">התנתקות</button>
-    <button *ngIf="isLogin" routerLink="/edit">לעריכה</button>
-    <p-menubar dir="rtl" [model]="items"/>
-    <!-- <nav dir="rtl" class="menu-bar">
-      <ul>
-        <li *ngFor="let item of items">
-          <button
-             [routerLink]="item.routerLink" 
-             (click)="item.command ? executeCommand(item.command, $event) : null">
-            <i *ngIf="item.icon" class="{{ item.icon }}"></i>
-            {{ item.label }}
-          </button>
-          <ul *ngIf="item.items">
-            <li *ngFor="let subItem of item.items">
-              <button
-                 [routerLink]="subItem.routerLink" 
-                 (click)="subItem.command ? executeCommand(subItem.command, $event) : null">
-                <i *ngIf="subItem.icon" class="{{ subItem.icon }}"></i>
-                {{ subItem.label }}
-              </button>
-              <ul *ngIf="subItem.items">
-                <li *ngFor="let subSubItem of subItem.items">
-                  <button
-                     [routerLink]="subSubItem.routerLink" 
-                     (click)="subSubItem.command ? executeCommand(subSubItem.command, $event) : null">
-                    <i *ngIf="subSubItem.icon" class="{{ subSubItem.icon }}"></i>
-                    {{ subSubItem.label }}
-                  </button>
+
+<div class="padding-auth">
+  <button *ngIf="!isLogin" class="auth-button" (click)="onLoginClick()">
+    התחברות
+    <i class="bi bi-box-arrow-in-right bi-lg"></i>
+  </button>
+  <button *ngIf="isLogin" class="auth-button" routerLink="/edit">
+    לעריכה
+    <i class="bi bi-pencil-square"></i>
+  </button>
+  <button *ngIf="isLogin" class="auth-button" (click)="onLogoutClick()">
+    התנתקות
+    <i class="bi bi-box-arrow-right"></i>
+  </button>
+</div>    
+
+    <div class="header-container">
+      <ul class="menu-items">
+        <!-- תפריט ראשי -->
+        <li *ngFor="let item of items" [ngClass]="{'selected': selectedTab === item}" 
+            (click)="selectTab(item); executeCommand(item.command!, $event)">
+          {{ item.label }}
+          <i *ngIf="item.items && item.items[0]?.label" class="bi bi-chevron-down"></i>
+          <ul class="submenu" *ngIf="item.items && item.items[0]?.label">
+            <li *ngFor="let subItem of item.items" 
+                (click)="selectTab(item); executeCommand(subItem.command!, $event)">
+              {{ subItem.label }}
+              <i *ngIf="subItem.items && subItem.items[0]?.label" class="bi bi-chevron-left"></i>
+              <ul class="submenu" *ngIf="subItem.items && subItem.items[0]?.label">
+                <li *ngFor="let subSubItem of subItem.items" 
+                    (click)="selectTab(item); executeCommand(subSubItem.command!, $event)">
+                  {{ subSubItem.label }}
                 </li>
               </ul>
             </li>
           </ul>
         </li>
       </ul>
-    </nav> -->
-    
-  </div>
-  <div class="logoHeader">
-    <img src="assets/logo.png" alt="logo" routerLink="">
+    </div>
+
   </div>
 </div>
