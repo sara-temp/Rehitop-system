@@ -29,7 +29,6 @@ export class ProductListComponent {
   constructor(private http: HttpClient, private _managerService: ManagerService, public dialog: MatDialog, private authService: AuthService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    // this.loadProducts();
     this.route.params.subscribe(params => {
       this.category = params['categoryName'] || '';
       this.loadProducts();

@@ -16,7 +16,16 @@
     width: 88%;
     border-radius: 0.3vw;
     margin-right: 1.5vw;
-    font-size: 1.3vw;
+    font-size: 1vw;
+    white-space: pre; 
+}
+
+.footer .details i {
+    margin-right: 1.5vw;
+}
+
+.footer .details a {
+    color: black;
 }
 
 .logoFooter {
