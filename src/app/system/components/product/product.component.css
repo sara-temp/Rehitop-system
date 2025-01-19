@@ -63,3 +63,42 @@
   border-width: 15px;
   border-radius: 10px;
 }
+
+.color-link-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4vh 0.8vw;
+  background-color: #f0f0f0;
+  border: 2px solid #dcdcdc;
+  border-radius: 1vw;
+  color: #555;
+  font-size: 1vw;
+  font-weight: 500;
+  cursor: pointer;
+  text-transform: capitalize;
+}
+
+.color-link-button i {
+  font-size: 1vw; /* גודל האייקון */
+  margin-left: 0.5vw;
+  transition: transform 0.3s ease; /* הוספת אפקט מעבר לאייקון */
+}
+
+.color-link-button:hover {
+  background-color: #e0e0e0;
+  border-color: #ccc;
+  color: #333;
+}
+
+.color-link-button:hover i {
+  transform: rotate(-45deg); /* זוזה קטנה של האייקון ימינה */
+}
+
+.color-link-button:focus {
+  outline: none;
+}
+
+.color-link-button:active {
+  background-color: #d0d0d0;
+}

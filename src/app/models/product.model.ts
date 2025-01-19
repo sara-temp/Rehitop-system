@@ -34,10 +34,26 @@ interface Company {
 }
 
 export const companies: Company[] = [
-  { name: "Company A", colors: "#FF0000" },
-  { name: "Company B", colors: "https://www.google.com/search?q=%D7%AA%D7%A8%D7%92%D7%95%D7%9D%2C&rlz=1C1VDKB_iwIL1061IL1061&oq=%D7%AA%D7%A8&gs_lcrp=EgZjaHJvbWUqBggBEEUYOzIGCAAQRRg5MgYIARBFGDsyBggCEEUYOzIGCAMQRRg7MgYIBBBFGD0yBggFEEUYPDIGCAYQRRg80gEIMTQxN2owajeoAgCwAgA&sourceid=chrome&ie=UTF-8" },
+  { name: "תבי", colors: "https://tb-wd.co.il/%d7%a6%d7%91%d7%a2%d7%99%d7%9d/" },
+  { name: "רהיטי הארבעה", colors: "https://forbirman.co.il/" },
+  { name: "נועם", colors: "https://forbirman.co.il/" },
+  { name: "מרכז", colors: "להוריד צבעים מאתר מקור הפורמייקה ולקבץ" },
+  { name: "קומותיים", colors: "מניפה מצורפת" },
+  { name: "נגר", colors: "" },
+  { name: "קחטן", colors: "" },
+  { name: "קוקטייל", colors: "אתר" },
+  { name: "גן נוי", colors: "אתר" },
+  { name: "רויה אקסלוסיב", colors: "" },
+  { name: "ספות המלך", colors: "" },
+  { name: "טיב העץ", colors: "" },
+  { name: "ניו קומפורט", colors: "שחור בז חום כהה וקמל + מאתר ולקבץ" },
+  { name: "פולירון", colors: "" },
+  { name: 'ד"ר שדרה', colors: "" },
+  { name: "בלנדורה", colors: "" },
+  { name: "משרדנו", colors: "https://tb-wd.co.il/%d7%a6%d7%91%d7%a2%d7%99%d7%9d/" },
+  { name: "שולחנות נגר", colors: "" },
+  { name: "חרבאואי", colors: "לאתר של חרבאואי יש שמה ראשי מיטה ובסיסי מיטה ובדים לפנות למוכרת" },
 ];
-
 
 export enum Categories {
   SALON = 'ריהוט סלוני',
