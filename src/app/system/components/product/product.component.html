@@ -2,7 +2,7 @@
   <div class="backdrop" (click)="closeImage()">
     <mat-card class="example-card" appearance="outlined">
       <div class="card-container">
-        <img class="card-logo" src="assets/logo.png" alt="Logo" />
+        <img class="card-logo" src="assets/logo3.png" alt="Logo" />
         <div class="card-details">
           <mat-card-content>
           <h2>{{ productObject.name }}</h2>
@@ -12,7 +12,7 @@
             <p *ngIf="productObject.company"><strong>חברה:</strong> {{ productObject.company }}</p>
             <div *ngIf="productObject.colors">
               <button class="color-link-button" (click)="openLinkInNewTab(productObject.colors)">
-                צבעים
+                <i class="bi bi-palette2"></i> צבעים
               </button>
             </div>
           </mat-card-content>

@@ -7,7 +7,6 @@ import { ProductListComponent } from './components/product-list/product-list.com
 import { MaterialModule } from '../material/material.module';
 import { HeaderComponent } from './components/header/header.component';
 import { ManagerService } from '../manager/manager.service'
-
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { TableModule } from 'primeng/table';
 import { Dialog } from 'primeng/dialog';
