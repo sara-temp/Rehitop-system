@@ -77,6 +77,12 @@ export class ProductListComponent {
     this.selectedProduct = null;
   }
 
+  closeOnOverlayClick(event: MouseEvent) {
+    if (event.target === event.currentTarget) {
+      this.closeViewer();
+    }
+  }
+
   openViewer(product: Product): void {
     console.log('in open viewer', product)
     this.selectedProduct = product;
@@ -90,6 +96,10 @@ export class ProductListComponent {
     dialogRef.afterClosed().subscribe(res => {
       this.loadProducts();
     });
+  }
+
+  openLinkInNewTab(url: string): void {
+    window.open(url, '_blank');
   }
 
   async deleteProduct(product: Product, event: Event) {
