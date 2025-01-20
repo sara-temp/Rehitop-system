@@ -17,10 +17,41 @@
     </mat-card-content>
   </mat-card>
 </div>
-<div *ngIf="pagedProducts.length > 0"
-  class="paginator-container" dir="rtl"><p-paginator [rows]="rows" [totalRecords]="totalProducts"
-    (onPageChange)="onPageChange($event)"></p-paginator>
+<div *ngIf="pagedProducts.length > 0" class="paginator-container" dir="rtl"><p-paginator [rows]="rows"
+    [totalRecords]="totalProducts" (onPageChange)="onPageChange($event)"></p-paginator>
+</div>
+
+<!-- תצוגה מלאה של הכרטיס -->
+<div *ngIf="selectedProduct" class="overlay" (click)="closeOnOverlayClick($event)">
+  <div class="card-viewer">
+    <!-- כפתור X ולוגו -->
+    <button class="close-button" (click)="closeViewer()">X</button>
+    <img class="logo" src="assets/logo3.png" alt="Logo" />
+
+    <!-- חלק התמונה -->
+    <div class="image-section">
+      <img [src]="selectedProduct.image" alt="Product Image">
+    </div>
+
+    <!-- חלק הפרטים -->
+    <div class="details-section">
+      <h2>{{ selectedProduct.name }}</h2>
+      <div class="price">{{ selectedProduct.price }} ₪</div>
+      <div>{{ selectedProduct.describe }}</div>
+      <button *ngIf="selectedProduct.colors" (click)="openLinkInNewTab(selectedProduct.colors)" class="color-link-button">
+        <i class="bi bi-palette2"></i> לצבעים</button>
+        <div class="action-buttons-select" *ngIf="isLogin">
+          <button mat-icon-button color="primary" (click)="editRow(selectedProduct, $event)" class="edit-button-select" aria-label="Edit">
+            <i class="bi bi-pencil-fill"></i>
+          </button>
+          <button mat-icon-button color="warn" (click)="deleteProduct(selectedProduct, $event)" class="delete-button-select"
+            aria-label="Delete">
+            <i class="bi bi-trash3-fill"></i>
+          </button>
+        </div>
+    </div>
+  </div>
 </div>
 
 
-<product-card *ngIf="selectedProduct" [productObject]="selectedProduct" (click)="closeViewer()" />
+<!-- <product-card *ngIf="selectedProduct" [productObject]="selectedProduct" (click)="closeViewer()" /> -->
