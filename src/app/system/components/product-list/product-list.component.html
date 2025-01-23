@@ -13,7 +13,7 @@
     </div>
     <mat-card-content>
       <div>{{ product.name}}</div>
-      <div class="price">{{ product.price }} ₪</div>
+      <div *ngIf="product.price && product.price" class="price">{{ product.price }} ₪</div>
     </mat-card-content>
   </mat-card>
 </div>
@@ -25,7 +25,7 @@
 <div *ngIf="selectedProduct" class="overlay" (click)="closeOnOverlayClick($event)">
   <div class="card-viewer">
     <!-- כפתור X ולוגו -->
-    <button class="close-button" (click)="closeViewer()">X</button>
+    <button class="close-button" (click)="closeViewer()"><i class="bi bi-x-circle"></i></button>
     <img class="logo" src="assets/logo3.png" alt="Logo" />
 
     <!-- חלק התמונה -->
@@ -36,7 +36,7 @@
     <!-- חלק הפרטים -->
     <div class="details-section">
       <h2>{{ selectedProduct.name }}</h2>
-      <div class="price">{{ selectedProduct.price }} ₪</div>
+      <div *ngIf="selectedProduct.price && selectedProduct.price>0" class="price">{{ selectedProduct.price }} ₪</div>
       <div>{{ selectedProduct.describe }}</div>
       <button *ngIf="selectedProduct.colors" (click)="openLinkInNewTab(selectedProduct.colors)" class="color-link-button">
         <i class="bi bi-palette2"></i> לצבעים</button>

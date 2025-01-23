@@ -127,7 +127,7 @@ export class ProductFormComponent {
     this._managerService.deleteImage(imagePath).subscribe(response => {
       console.log('הנתונים נמחקו בהצלחה', response);
     }, error => {
-      console.error('שגיאה במחיקת הנתונים', error);
+      console.error('7 שגיאה במחיקת הנתונים', error);
     });
   }
 

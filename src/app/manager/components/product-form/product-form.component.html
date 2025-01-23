@@ -42,11 +42,9 @@
     <!-- שם המוצר -->
     <div class="form-group">
       <label for="name" class="form-label">שם המוצר</label>
-      <input matInput formControlName="name" id="name" placeholder="הכנס שם מוצר" required autofocus />
-      <small *ngIf="productForm.get('name')?.invalid && submitted" class="error-message">
-        שם המוצר הוא שדה חובה.
-      </small>
+      <input matInput formControlName="name" id="name" placeholder="הכנס שם מוצר" autofocus />
     </div>
+    
     <!-- תיאור -->
     <div class="form-group">
       <label for="describe" class="form-label">תיאור</label>
@@ -79,9 +77,6 @@
     <div class="form-group">
       <label for="price" class="form-label">מחיר</label>
       <input matInput formControlName="price" id="price" placeholder="הכנס מחיר" type="number" />
-      <small *ngIf="productForm.get('price')?.invalid && submitted" class="error-message">
-        המחיר הוא שדה חובה.
-      </small>
     </div>
     <!-- חברה -->
     <div class="form-group">
