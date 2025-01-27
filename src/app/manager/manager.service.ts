@@ -92,6 +92,7 @@ export class ManagerService {
   //   return data;
   // };
   delete(id: string): Observable<void> {
+    console.log('delete(id: string): Observable<void>', id);
     return this.http.delete<void>(`${this.jsonUrl}/${id}`, {
       headers: this.getAuthorizationHeader()
     });
@@ -111,9 +112,9 @@ export class ManagerService {
       confirmButtonText: 'סגור',
     });
   }
-  deleteDialog() {
+  deleteDialog(massege: String) {
     return Swal.fire({
-      title: "?למחוק",
+      title: `?למחוק ${massege}`, 
       text: "!לא תוכל לשחזר פעולה זו",
       icon: 'warning',
       showCancelButton: true,

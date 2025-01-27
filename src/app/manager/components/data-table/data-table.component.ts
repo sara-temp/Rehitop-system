@@ -53,7 +53,8 @@ export class DataTableComponent implements OnInit {
 
   selectedCategories!: SubCategory[];
 
-  deleteInProgress = false;  
+  deleteInProgress = false;
+  result: any;
 
   error = {
     severity: 'error',
@@ -69,16 +70,14 @@ export class DataTableComponent implements OnInit {
   };
 
   constructor(
-    private managerService: ManagerService,
+    private _managerService: ManagerService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private dialog: MatDialog,
-    private route: Router
-    // private cd: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
-    this.managerService.getAll().subscribe((products) => {
+    this._managerService.getAll().subscribe((products) => {
       this.products = products;
     });
 
@@ -151,81 +150,51 @@ export class DataTableComponent implements OnInit {
     }
   }
 
-  deleteSelectedProducts() {
-    this.confirmationService.confirm({
-      message: 'האם את/ה בטוח/ה שהנך רוצה למחוק את הפריטים הנבחרים?',
-      header: 'אישור',
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        let prods = this.products.filter((val) => this.selectedProducts?.includes(val));
-        let failed: Product[] = [];
-  
-        const deleteRequests = prods.map(prod =>
-          this.managerService.delete(prod.Id).pipe(
-            catchError((err) => {
-              failed.push(prod);
-              console.log(`err in data table ${err}`);
-              return of(null); // Prevent observable failure
-            })
-          )
-        );
-  
-        forkJoin(deleteRequests).subscribe({
-          next: () => {
-            if (failed.length === 0) {
-              this.selectedProducts = null;
-              this.messageService.add(this.success);
-              this.products = this.products.filter(p => !this.selectedProducts?.includes(p)); // update list
-              window.location.reload();
-            } else {
-              this.messageService.add(this.error);
-            }
-          },
-          error: (err) => {
-            console.log('Error in batch delete:', err);
-            this.messageService.add(this.error);
-          }
+  async deleteSelectedProducts() {
+    this.result = await this._managerService.deleteDialog(`${this.selectedProducts?.length} מוצרים  `)
+    for (const prod of this.selectedProducts || []) {
+      await this.deleteProduct(prod, false);
+    }
+  }
+
+  async deleteProduct(product: Product, showDialog: boolean = true) {
+    if (showDialog) {
+      this.result = await this._managerService.deleteDialog(` - ${product.name}`);
+      if (!this.result.isConfirmed) return;
+  }
+    if (this.result.isConfirmed) {
+      try {
+        await this.deleteImage(product.image);
+        this._managerService.delete(product.Id).subscribe(response => {
+          console.log('הנתונים נמחקו בהצלחה');
+          this._managerService.showSuccess('!הנתונים נמחקו בהצלחה');
+          this._managerService.getAll().subscribe(data => {
+            this.products = data;
+          }, error => {
+            console.error("שגיאה בעדכון הנתונים", error);
+          });
+        }, error => {
+          console.error('שגיאה במחיקת הנתונים 1', error);
+          this._managerService.showError('2 !שגיאה במחיקת הנתונים');
         });
+      } catch (error) {
+        console.error("שגיאה במחיקת התמונה, לא ניתן להמשיך", error);
       }
+    }
+  }
+  deleteImage(imagePath: string) {
+    this._managerService.deleteImage(imagePath).subscribe(response => {
+      console.log('הנתונים נמחקו בהצלחה', response);
+    }, error => {
+      console.error('שגיאה במחיקת הנתונים 3', error);
     });
   }
-  
+
 
   hideDialog() {
     this.productDialog = false;
     this.submitted = false;
   }
-
-  deleteProduct(product: Product) {
-    this.confirmationService.confirm({
-      message: 'האם את/ה בטוח/ה שהנך רוצה למחוק ' + product.name + '?',
-      header: 'אישור',
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        if (product) {
-          console.log('1', product)
-          let result = this.managerService.delete(product.Id);
-          console.log('3', result, '(data-table-component)')
-          result.subscribe({
-            next: () => {
-              console.log('4 Product Deleted success (data-table-component)')
-              this.messageService.add(this.success);
-            },
-            error: (err) => {
-              console.log('4 Failed Product Deleted (data-table-component)', err)
-              this.messageService.add(this.error);
-            },
-            complete: () => {
-              console.log('5 data table')
-              window.location.reload();
-            }
-          });
-        }
-        this.product = new Product('', '', '', [], 0);
-      }
-    });
-  }
-
   findIndexById(id: string): number {
     let index = -1;
     for (let i = 0; i < this.products.length; i++) {
@@ -253,20 +222,16 @@ export class DataTableComponent implements OnInit {
       data: { product: row }
     });
     dialogRef.afterClosed().subscribe(res => {
-      this.managerService.getAll().subscribe(data => {
+      this._managerService.getAll().subscribe(data => {
         this.products = data;
       }, error => {
         console.error("שגיאה בעדכון הנתונים", error);
       });
-      this.managerService.getAll().subscribe(data => {
+      this._managerService.getAll().subscribe(data => {
         this.products = data;
       }, error => {
         console.error("שגיאה בעדכון הנתונים", error);
       });
     });
-  }
-
-  backToProd() {
-    this.route.navigate(['']);
   }
 }

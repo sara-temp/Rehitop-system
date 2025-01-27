@@ -122,7 +122,7 @@ mat-card-content {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: stretch;
+    align-items: center;
 }
 
 .details-section h2 {
@@ -161,7 +161,7 @@ mat-card-content {
   .action-buttons-select {
     position: absolute;
     bottom: 2vh;
-    left: 8vw;
+    left: 14vw;
     transform: translate(-50%, -50%);
     display: flex;
     gap: 8px;
@@ -195,24 +195,38 @@ mat-card-content {
     position: absolute;
     top: 2vh;
     left: 1vw;
-    padding: 0.8vh 0.8vw;
-    margin: 1vh 0.7vw;
-    background-color: #f5c749;
-    color: #000;
+    background: none;
     border: none;
-    border-radius: 0.5vh;
     cursor: pointer;
-    font-size: 3vh;
-    font-weight: bold;
-}
-
-.close-button:hover {
-    background-color: #f5b123;
-}
+    outline: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3vw; /* Adjust size */
+    height: 3vw; /* Adjust size */
+    border-radius: 50%; /* Circle shape */
+    transition: background-color 0.2s ease;
+  }
+  
+  .close-button:hover {
+    background-color: rgba(0, 0, 0, 0.1); /* Light hover effect */
+  }
+  
+  .close-button i {
+    font-size: 24px; /* Adjust icon size */
+    color: #333; /* Icon color */
+    transition: color 0.2s ease;
+  }
+  
+  .close-button:hover i {
+    color: #000; /* Darker icon color on hover */
+  }
+  
 
 .logo {
     position: absolute;
-    top: 2vh;
-    left: 5vw;
+    z-index: 1003;
+    bottom: 4vh;
+    left: 2vw;
     width: 8vw;
 }

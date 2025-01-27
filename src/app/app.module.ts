@@ -1,5 +1,5 @@
 import { NgModule, importProvidersFrom } from '@angular/core';
-import { BrowserModule, provideClientHydration, withEventReplay } from '@angular/platform-browser';
+import { BrowserModule, withEventReplay } from '@angular/platform-browser';
 
 import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
@@ -23,7 +23,7 @@ import { MyPreset } from '../mytheme';
     ManagerModule
   ],
   providers: [
-    provideClientHydration(withEventReplay()), provideHttpClient(withFetch()), importProvidersFrom(HttpClientModule), provideAnimationsAsync(),
+    provideHttpClient(withFetch()), importProvidersFrom(HttpClientModule), provideAnimationsAsync(),
     providePrimeNG(
       {theme: {
           preset: MyPreset,

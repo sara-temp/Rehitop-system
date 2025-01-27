@@ -22,8 +22,8 @@ export class ProductListComponent {
   selectedProduct: Product | null = null;
   isLogin: boolean = false;
 
-  rows: number = 28; 
-  first: number = 0; 
+  rows: number = 28;
+  first: number = 0;
   totalProducts: number = 0;
 
   constructor(private http: HttpClient, private _managerService: ManagerService, public dialog: MatDialog, private authService: AuthService, private route: ActivatedRoute) { }
@@ -72,7 +72,7 @@ export class ProductListComponent {
     this.rows = event.rows;
     this.updatePagedProducts(); // עדכון המוצרים לעמוד הנוכחי
   }
-  
+
   closeViewer(): void {
     this.selectedProduct = null;
   }
@@ -104,7 +104,7 @@ export class ProductListComponent {
 
   async deleteProduct(product: Product, event: Event) {
     event.stopPropagation();
-    const result = await this._managerService.deleteDialog();
+    const result = await this._managerService.deleteDialog(` את ${product.name} `);
     if (result.isConfirmed) {
       try {
         await this.deleteImage(product.image);
@@ -113,8 +113,8 @@ export class ProductListComponent {
           this._managerService.showSuccess('!הנתונים נמחקו בהצלחה');
           this.loadProducts();
         }, error => {
-          console.error('שגיאה במחיקת הנתונים', error);
-          this._managerService.showError('!שגיאה במחיקת הנתונים');
+          console.error('שגיאה במחיקת הנתונים 4', error);
+          this._managerService.showError('5 !שגיאה במחיקת הנתונים');
         });
       } catch (error) {
         console.error("שגיאה במחיקת התמונה, לא ניתן להמשיך", error);
@@ -127,7 +127,7 @@ export class ProductListComponent {
     this._managerService.deleteImage(imagePath).subscribe(response => {
       console.log('הנתונים נמחקו בהצלחה', response);
     }, error => {
-      console.error('שגיאה במחיקת הנתונים', error);
+      console.error('שגיאה במחיקת הנתונים 6', error);
     });
   }
 }
