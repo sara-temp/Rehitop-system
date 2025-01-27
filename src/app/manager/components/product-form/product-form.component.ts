@@ -89,7 +89,6 @@ export class ProductFormComponent {
 
   getAllKeyValuePairs(obj: Record<string, any>): { key: string; value: any }[] {
     let pairs: { key: string; value: any }[] = [];
-    console.log('obj', obj);
 
     for (const key in obj) {
       if (typeof obj[key] === 'object' && obj[key] !== null) {
@@ -224,7 +223,7 @@ export class ProductFormComponent {
   }
 
   async onSubmit() {
-  console.log('onSubmit:: this.img', this.img, '\nthis.images',this.images);
+  // console.log('onSubmit:: this.img', this.img, '\nthis.images',this.images);
     this.submitted = true;
     let categories = [...new Set(this.productForm.controls['categories'].value.flatMap((category: TreeNode | string) => {
       if (typeof category === 'string') {
