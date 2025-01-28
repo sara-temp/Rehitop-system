@@ -10,7 +10,7 @@
   height: 18vh;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   direction: rtl;
-  border-bottom: 0.7vh solid #f5c749;
+  border-bottom: 0.7vh solid #f7b70e;
 }
 
 
@@ -23,15 +23,15 @@
   margin-top: 1vh;
 }
 
-.padding-auth{
+.padding-auth {
   /* padding: 1vw; */
   height: 4vh;
   margin-bottom: 2vh;
   margin-left: 2vw;
 }
 
-.auth-button{
-  background-color: #f5c749;
+.auth-button {
+  background-color: #f7b70e;
   color: #000;
   border-radius: 0.4vw;
   margin-right: 1.2vw;
@@ -52,15 +52,14 @@
   max-height: 80%;
 }
 
-/* סגנון כללי לתפריט */
 .header-container {
   background-color: #ffffff;
   padding: 0vh 0vw 0vh 2vw;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   direction: ltr;
   width: 100%;
-  border-top-right-radius:0.2vw ;
-  border-bottom-right-radius:0.2vw ;
+  border-top-right-radius: 0.2vw;
+  border-bottom-right-radius: 0.2vw;
 }
 
 .menu-items {
@@ -77,19 +76,19 @@
   cursor: pointer;
   font-size: 1.9vh;
   /* font-weight: bold; */
-  border-radius:0.2vw ;
+  border-radius: 0.2vw;
   color: #000000;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .menu-items>li:hover {
   /* background-color: #fbc01c; */
-  border-bottom: 0.3vh solid #f5c749;
+  border-bottom: 0.3vh solid #f7b70e;
 }
 
 /*קטגוריה שנבחרת*/
 .menu-items>li.selected {
-  background-color: #f5c749;
+  background-color: #f7b70e;
   color: #000000;
   /* border-bottom: 0.5vh solid #fbc01ccc; */
   text-decoration: none;
@@ -111,14 +110,6 @@
   box-shadow: 0 0.4vh 0.6vh rgba(0, 0, 0, 0.1);
 }
 
-/* 
-.selected {
-  background-color: #0e0d0d;
-  color: #ffffff;
-  border-bottom: 0.2vh solid #fbc01ccc;
-  text-decoration: none;
-} */
-
 .menu-items>li:hover>.submenu {
   display: block;
 }
@@ -133,7 +124,7 @@
 }
 
 .submenu>li:hover {
-  background-color: #f5c749;
+  background-color: #f7b70e;
   color: #fff;
 }
 
@@ -173,4 +164,65 @@
 
 .submenu .submenu>li:hover>.submenu {
   display: block;
+}
+
+.burger-menu {
+  display: none;
+}
+
+@media (max-width: 935px) {
+  .header {
+    height: 12vh;
+  }
+
+  .header {
+    display: flex;
+    align-items: center
+  }
+
+  .burger-menu {
+    display: flex;
+    z-index: 1100;
+    color: #ffffff;
+    margin-right: 2vw;
+  }
+
+  .header-container {
+    position: absolute;
+    width: 15vw;
+    height: 48vh;
+    border-radius: 0.2vw;
+    right: 0;
+    top: 14vh;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    flex-direction: column;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    padding: 0;
+  }
+
+  .header-container.open {
+    transform: translateX(0);
+  }
+
+  .menu-items {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .submenu {
+    position: absolute;
+    top: 0;
+    right: 100%;
+    min-width: 18vw;
+    font-size: 1.2vw;
+
+  }
+
+  .menu-items>li{
+    font-size: 1.2vw;
+  }
+  .submenu>li {
+    font-size: 1.2vw;
+  }
 }

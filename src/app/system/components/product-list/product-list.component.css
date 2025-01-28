@@ -29,7 +29,7 @@ mat-card img {
 }
 
 .price {
-    color: #f5c749;
+    color: #f7b70e;
     font-weight: bold;
 }
 
@@ -132,7 +132,7 @@ mat-card-content {
 
 .details-section .price {
     font-size: 3vh;
-    color: #f5c749;
+    color: #f7b70e;
     font-weight: bold;
 }
 
@@ -140,7 +140,7 @@ mat-card-content {
     margin-top: 2vh;
     padding: 1.5vh 3vw;
     background-color: #fdd465;
-    border: 0.3vh solid #f5c749;
+    border: 0.3vh solid #f7b70e;
     color: #000;
     border-radius: 4px;
     font-size: 2vh;
@@ -148,7 +148,7 @@ mat-card-content {
 }
 
 .details-section .color-link-button:hover {
-    background-color: #f5c749;
+    background-color: #f7b70e;
     transform: rotate(0.1deg);
   }
 

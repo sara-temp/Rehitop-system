@@ -9,3 +9,9 @@
     margin-top: 18vh;
     flex: 1;
 }
+
+@media (max-width: 935px) {
+    .body {
+        margin-top: 12vh;
+    }
+}
