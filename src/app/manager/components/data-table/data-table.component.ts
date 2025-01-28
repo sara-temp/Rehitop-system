@@ -177,6 +177,7 @@ export class DataTableComponent implements OnInit {
       console.error('שגיאה במחיקת הנתונים', error);
     });
   }
+  
   findIndexById(id: string): number {
     let index = -1;
     for (let i = 0; i < this.products.length; i++) {
