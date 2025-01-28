@@ -87,30 +87,14 @@ export class ProductFormComponent {
     });
   }
 
-  getAllKeyValuePairs(obj: Record<string, any>): { key: string; value: any }[] {
-    let pairs: { key: string; value: any }[] = [];
-
-    for (const key in obj) {
-      if (typeof obj[key] === 'object' && obj[key] !== null) {
-        let keyCategory = (Object.entries(Categories).find(cat => cat[1] == key))
-        if (keyCategory)
-          pairs.push({ key: keyCategory[0], value: key });
-        pairs = pairs.concat(this.getAllKeyValuePairs(obj[key]));
-      }
-      else {
-        pairs.push({ key, value: obj[key] });
-      }
-    }
-
-    return pairs;
-  }
-
   uploadImage(): Promise<any> {
-    const allCategories = this.getAllKeyValuePairs(SCHEMA_RUNTIME);
     return new Promise((resolve, reject) => {
       const imageFormData = new FormData();
       imageFormData.append('image', this.imgFile);
-      this.category = (allCategories.find(pair => pair.value === this.productForm.value.categories[0]))?.key;
+      const productCategories = this.productForm.value.categories; 
+      this.category = Object.entries(Categories).find(([key, value]) =>
+        productCategories.includes(value) // בדיקה אם הערך (עברית) נמצא במערך הקטגוריות
+      )?.[0];
       this._managerService.uploadImage(imageFormData, this.category).subscribe(response => {
         this.productForm.patchValue({ image: response.imagePath });
         this.img = null;
@@ -214,7 +198,7 @@ export class ProductFormComponent {
   }
 
   async onSubmitArray() {
-  console.log('onSubmitArray:: this.img', this.img, '\nthis.images',this.images);
+    console.log('onSubmitArray:: this.img', this.img, '\nthis.images', this.images);
     for (const imgFile of this.imgFiles) {
       this.productForm.patchValue({ image: imgFile.name });
       this.imgFile = imgFile;
@@ -223,7 +207,7 @@ export class ProductFormComponent {
   }
 
   async onSubmit() {
-  // console.log('onSubmit:: this.img', this.img, '\nthis.images',this.images);
+    // console.log('onSubmit:: this.img', this.img, '\nthis.images',this.images);
     this.submitted = true;
     let categories = [...new Set(this.productForm.controls['categories'].value.flatMap((category: TreeNode | string) => {
       if (typeof category === 'string') {
@@ -297,7 +281,7 @@ export class ProductFormComponent {
   }
   calculateImageSize(base64String: string): number {
     console.log('calculateImageSize---');
-    
+
     const padding = (base64String.match(/=+$/) || [])[0]?.length || 0;
     const sizeInBytes = (base64String.length * (3 / 4)) - padding;
     return sizeInBytes / 1024; // גודל בקילובייט
