@@ -104,7 +104,7 @@ export class ProductListComponent {
 
   async deleteProduct(product: Product, event: Event) {
     event.stopPropagation();
-    const result = await this._managerService.deleteDialog();
+    const result = await this._managerService.deleteDialog(` את ${product.name} `);
     if (result.isConfirmed) {
       try {
         await this.deleteImage(product.image);

@@ -80,17 +80,6 @@ export class ManagerService {
     });
   };
 
-  // delete = (id: string): Observable<void> => {
-  //   const data = this.http.delete<void>(`${this.jsonUrl}/${id}`, {
-  //     headers: this.getAuthorizationHeader()
-  //   });
-  //   data.subscribe({
-  //     next: () => console.log('2 Delete successful (manager service)'),
-  //     error: (err) => console.error('2 Delete failed:', err, '(manager service)'),
-  //     complete: () => console.log('2 Request completed (manager service)'),
-  //   });
-  //   return data;
-  // };
   delete(id: string): Observable<void> {
     return this.http.delete<void>(`${this.jsonUrl}/${id}`, {
       headers: this.getAuthorizationHeader()
@@ -111,9 +100,9 @@ export class ManagerService {
       confirmButtonText: 'סגור',
     });
   }
-  deleteDialog() {
+  deleteDialog(massege: String) {
     return Swal.fire({
-      title: "?למחוק",
+      title: `?למחוק ${massege}`, 
       text: "!לא תוכל לשחזר פעולה זו",
       icon: 'warning',
       showCancelButton: true,
