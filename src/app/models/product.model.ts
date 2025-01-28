@@ -5,7 +5,7 @@ export class Product {
   categories: SubCategory[]
   price: number
   describe?: string
-  company?: Company 
+  company?: Company
   colors?: string
 
   constructor(
@@ -77,9 +77,10 @@ export enum Tables_Chairs {
   MODERN = 'מודרני'
 }
 export enum Libraries {
-  STANDART = 'סטנדרט',
+  STANDART = 'ספריות קודש סטנדרט',
   PLASTER_LIKE = 'דמוי גבס',
   CARPENTRY = 'נגרות',
+  CARPENTRY_PLASTER_LIKE = 'נגרות דמוי גבס',
   COLUMNS = 'עמודונים'
 }
 export enum Sofas {
@@ -88,12 +89,12 @@ export enum Sofas {
   SEATING_SYSTEMS = 'מערכות ישיבה'
 }
 export enum Bedrooms {
-  CARPENTRY = 'עבודת נגר',
+  CARPENTRY = 'חדרי שינה עבודת נגר',
   PADDED = 'מרופדים',
   FORMICA = 'פורמייקה'
 }
 export enum Padded {
-  STANDART = 'סטנדרט',
+  STANDART = 'מרופדים סטנדרט',
   PRESTIGIOUS = 'יוקרתי'
 }
 export enum Mattresses {
@@ -109,23 +110,24 @@ export enum Youthbeds {
   REMOVABLE = 'הירייזר מזרונים נשלפים',
   FIXED = 'הירייזר מזרונים קבועים',
   TWO_STORIES = 'מיטות קומותיים',
-  CARPENTER = 'עבודת נגר'
+  CARPENTER = 'מיטות נוער עבודת נגר'
 }
 export enum Desks {
-  STANDARD = 'סטנדרט',
-  PERSONALDESIGN = 'עיצוב אישי'
+  STANDARD = 'מכתביות סטנדרט',
+  PERSONALDESIGN = 'מכתביות עיצוב אישי'
 }
 export enum Closets {
   OPENINGCLOSETS = 'ארונות פתיחה',
-  SILDINGCLOSETS = 'ארונות הזזה'
+  SILDINGCLOSETS = 'ארונות הזזה',
+  CORNERCLOSETS = 'ארונות פינתיים'
 }
 export enum Openingclosets {
-  STANDARD = 'סטנדרט',
-  PERSONALDESIGN = 'עיצוב אישי'
+  STANDARD = 'ארונות פתיחה סטנדרט',
+  PERSONALDESIGN = 'ארונות פתיחה עיצוב אישי'
 }
 export enum Sildingclosets {
-  STANDARD = 'סטנדרט',
-  PERSONALDESIGN = 'עיצוב אישי'
+  STANDARD = 'ארונות הזזה סטנדרט',
+  PERSONALDESIGN = 'ארונות הזזה עיצוב אישי'
 }
 export enum DiningAreas {
   KITCHEN_TABLES_CHAIRS = 'סטים',
@@ -162,7 +164,8 @@ export const SCHEMA_RUNTIME: Schema = {
   },
   [Categories.CLOSETS]: {
     [Closets.OPENINGCLOSETS]: Openingclosets,
-    [Closets.SILDINGCLOSETS]: Sildingclosets
+    [Closets.SILDINGCLOSETS]: Sildingclosets,
+    [Closets.CORNERCLOSETS]: {}
   },
   [Categories.DININGAREAS]: DiningAreas,
   [Categories.OFFICE]: Office,
@@ -183,13 +186,14 @@ export type Schema = {
     [Bedrooms.FORMICA]: {}
   },
   [Categories.MATTRESSES]: typeof Mattresses,
-  [Categories.CHILDRENSROOMS]:  {
+  [Categories.CHILDRENSROOMS]: {
     [ChildrensRoom.YOUTHBEDS]: typeof Youthbeds;
     [ChildrensRoom.DESKS]: typeof Desks;
   },
   [Categories.CLOSETS]: {
     [Closets.OPENINGCLOSETS]: typeof Openingclosets,
-    [Closets.SILDINGCLOSETS]: typeof Sildingclosets
+    [Closets.SILDINGCLOSETS]: typeof Sildingclosets,
+    [Closets.CORNERCLOSETS]: {}
   },
   [Categories.DININGAREAS]: typeof DiningAreas,
   [Categories.OFFICE]: typeof Office,
@@ -243,6 +247,7 @@ export type SubCategory =
   | Closets.SILDINGCLOSETS
   | Sildingclosets.PERSONALDESIGN
   | Sildingclosets.STANDARD
+  | Closets.CORNERCLOSETS
   | DiningAreas.KITCHEN_TABLES_CHAIRS
   | DiningAreas.KITCHEN_TABLES
   | DiningAreas.KITCHEN_CHAIRS

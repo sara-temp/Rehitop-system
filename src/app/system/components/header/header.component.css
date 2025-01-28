@@ -174,32 +174,3 @@
 .submenu .submenu>li:hover>.submenu {
   display: block;
 }
-
-/* רספונסיביות: כשהרוחב קטן מדי, מעבר לתפריט עמודתי */
-@media (max-width: 768px) {
-  .menu-items {
-    flex-direction: column;
-    /* תפריט עמודתי במסכים קטנים */
-    align-items: flex-end;
-    /* יישור לשמאל */
-  }
-
-  .menu-items>li {
-    width: 100%;
-    /* כל פריט יתפוס את מלוא הרוחב */
-    text-align: left;
-    padding: 1vh;
-  }
-
-  .submenu {
-    position: relative;
-    /* תפריט המשנה יוצג מתחת לפריט ולא בצד */
-    box-shadow: none;
-    border: none;
-  }
-
-  .submenu .submenu {
-    right: auto;
-    left: 0;
-  }
-}

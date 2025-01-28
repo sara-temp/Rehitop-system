@@ -12,6 +12,7 @@ import { MenuItem, MenuItemCommandEvent } from 'primeng/api';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent implements OnInit {
+[x: string]: any;
   categorySelected: string = '';
   loginSelected: boolean = false;
   isLogin: boolean = false;
@@ -77,6 +78,7 @@ export class HeaderComponent implements OnInit {
   }
 
   onMainCategoryClick(event: MenuItemCommandEvent, mainCategory: string, length: number): any {
+    console.log('onMainCategoryClick:', event, mainCategory, length);
     const originalEvent = event.originalEvent;
     if (!originalEvent) {
       return;
@@ -93,7 +95,7 @@ export class HeaderComponent implements OnInit {
   }
 
   onCategoryClick(category: string) {
-    console.log(category)
+    console.log('onCategoryClick:', category);
     this.router.navigate([`category/${category}`]);
     this.loginSelected = false;
   }
@@ -122,7 +124,9 @@ export class HeaderComponent implements OnInit {
     this.items = this.generateMenuItems();
   }
 
-  executeCommand(command: (event: MenuItemCommandEvent) => void, mouseEvent: MouseEvent) {
+  executeCommand(command: (event: MenuItemCommandEvent) => void, mouseEvent: MouseEvent, item: any) {
+    console.log('item executeCommand', item)
+    mouseEvent.stopPropagation()
     const menuItemEvent: MenuItemCommandEvent = {
       originalEvent: mouseEvent,
       item: undefined

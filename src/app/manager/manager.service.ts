@@ -81,6 +81,7 @@ export class ManagerService {
   };
 
   delete(id: string): Observable<void> {
+    console.log('delete(id: string): Observable<void>', id);
     return this.http.delete<void>(`${this.jsonUrl}/${id}`, {
       headers: this.getAuthorizationHeader()
     });

@@ -62,8 +62,6 @@ export class DataTableComponent implements OnInit {
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private dialog: MatDialog,
-    private route: Router
-    // private cd: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -177,7 +175,7 @@ export class DataTableComponent implements OnInit {
       console.error('שגיאה במחיקת הנתונים', error);
     });
   }
-  
+
   findIndexById(id: string): number {
     let index = -1;
     for (let i = 0; i < this.products.length; i++) {
@@ -216,9 +214,5 @@ export class DataTableComponent implements OnInit {
         console.error("שגיאה בעדכון הנתונים", error);
       });
     });
-  }
-
-  backToProd() {
-    this.route.navigate(['']);
   }
 }
