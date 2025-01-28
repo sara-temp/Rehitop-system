@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnDestroy, OnInit, Output, EventEmitter, HostListener } from '@angular/core';
 import { Schema, Categories, ChildrensRoom, Closets, DiningAreas, MainCategory, Mattresses, Office, Salon, SubCategory, SCHEMA_RUNTIME } from '../../../models/product.model';
 import { AuthService } from '../../../service/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,13 +12,15 @@ import { MenuItem, MenuItemCommandEvent } from 'primeng/api';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent implements OnInit {
-[x: string]: any;
+  [x: string]: any;
   categorySelected: string = '';
   loginSelected: boolean = false;
   isLogin: boolean = false;
   storedValue: string | null | undefined;
   items: MenuItem[] | undefined;
   selectedTab: MenuItem | null = null;
+  isMenuOpen = false;
+  isMobile = false;
 
   constructor(private authService: AuthService, private route: ActivatedRoute, private router: Router) {
   }
@@ -30,10 +32,10 @@ export class HeaderComponent implements OnInit {
     if (this.storedValue)
       this.isLogin = true;
     console.log("this.isLogin: " + this.isLogin);
-   
+
     this.authService.refresh$.subscribe(
       (value: boolean) => {
-        this.isLogin = value;        
+        this.isLogin = value;
       },
       (err: any) => console.log('HeaderComponent ngOnInit error:', err)
     );
@@ -52,12 +54,13 @@ export class HeaderComponent implements OnInit {
       return Object.entries(subCategories).map(([subCategory, nestedSubCategories]) => {
         const label = typeof nestedSubCategories === 'string' ? nestedSubCategories : subCategory;
         return {
-        label,
-        items: typeof nestedSubCategories === 'object' && nestedSubCategories !== null
-          ? buildSubItems(nestedSubCategories)
-          : undefined,
-        command: () => this.onCategoryClick(label)
-      }});
+          label,
+          items: typeof nestedSubCategories === 'object' && nestedSubCategories !== null
+            ? buildSubItems(nestedSubCategories)
+            : undefined,
+          command: () => this.onCategoryClick(label)
+        }
+      });
     };
 
     const menu = Object.entries(schemaData).map(([mainCategory, subCategories]) => {
@@ -110,8 +113,8 @@ export class HeaderComponent implements OnInit {
   }
 
   onLoginClick() {
-    console.log("generateMenuItems(): "+this.isLogin);
-        
+    console.log("generateMenuItems(): " + this.isLogin);
+
     this.loginSelected = true;
     this.categorySelected = '';
     this.router.navigate(['login']);
@@ -133,4 +136,20 @@ export class HeaderComponent implements OnInit {
     };
     command(menuItemEvent);
   }
+
+  @HostListener('window:resize', [])
+  onResize() {
+    this.checkScreenSize();
+  }
+  checkScreenSize() {
+    this.isMobile = window.innerWidth <= 935; 
+    console.log('isMobile:', this.isMobile); 
+
+  }
+
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
+    console.log('Menu state:', this.isMenuOpen); 
+  }
+
 }
