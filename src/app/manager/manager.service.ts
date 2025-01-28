@@ -80,17 +80,6 @@ export class ManagerService {
     });
   };
 
-  // delete = (id: string): Observable<void> => {
-  //   const data = this.http.delete<void>(`${this.jsonUrl}/${id}`, {
-  //     headers: this.getAuthorizationHeader()
-  //   });
-  //   data.subscribe({
-  //     next: () => console.log('2 Delete successful (manager service)'),
-  //     error: (err) => console.error('2 Delete failed:', err, '(manager service)'),
-  //     complete: () => console.log('2 Request completed (manager service)'),
-  //   });
-  //   return data;
-  // };
   delete(id: string): Observable<void> {
     console.log('delete(id: string): Observable<void>', id);
     return this.http.delete<void>(`${this.jsonUrl}/${id}`, {

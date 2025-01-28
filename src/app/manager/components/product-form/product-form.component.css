@@ -1,15 +1,15 @@
 .dialog-container {
-  width: 30vw; /* רוחב קבוע של 450px */
+  width: 30vw; 
   margin: 0 auto;
-  padding: 1vh 2vw; /* Padding גמיש */
+  padding: 1vh 2vw; 
   background-color: #fff;
   border-radius: 1vw;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  overflow: hidden; /* נמנע מגלילה מיותרת */
-  height: 92vh; /* הגבלת הגובה ל-80% מהמסך */
+  overflow: hidden; 
+  height: 92vh; 
   display: flex;
   flex-direction: column;
-  position: relative; /* נדרש כדי להחיל סטיקי לכפתורים */
+  position: relative; 
   direction: rtl;
 
 }
@@ -18,7 +18,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-bottom: 1px solid #e0e0e0; /* גבול עדין בין אלמנטים */
+  border-bottom: 1px solid #e0e0e0; 
   margin-bottom: 1vw;
 }
 
@@ -26,19 +26,19 @@ form {
   display: flex;
   flex-direction: column;
   gap: 0.8vh;
-  overflow-y: auto; /* אפשר גלילה אנכית בתוך הטופס */
-  overflow-x: hidden; /* חוסם גלילה רוחבית */
-  flex-grow: 1; /* מאפשר לטופס למלא את המקום פנוי */
+  overflow-y: auto; 
+  overflow-x: hidden; 
+  flex-grow: 1; 
 }
 
 .product-image {
-  max-height: 20vh; /* גובה מקסימלי של 20% מהגובה הכולל */
+  max-height: 20vh; 
   border-radius: 0.2vw;
   width: auto;
   object-fit: contain;
   margin-bottom: 1vh;
-  border-radius: 0.5rem;  /* פינות מעוגלות */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* הצללה עדינה */
+  border-radius: 0.5rem; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
 }
 
 .form-group {
@@ -47,7 +47,7 @@ form {
 }
 
 .form-label {
-  font-size: 1vw; /* גודל טקסט קטן יותר */
+  font-size: 1vw; 
   font-weight: 600;
   margin-bottom: 0.8vh;
   color: #333;
@@ -57,8 +57,8 @@ input, select, textarea, mat-select {
   border-radius: 8px;
   padding: 0.7vh;
   font-size: 1vw;
-  background-color: #f9f9f9;  /* רקע בהיר */
-  border: 1px solid #ddd; /* גבול עדין */
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
   transition: border-color 0.3s, background-color 0.3s ease;
 }
 
@@ -73,7 +73,7 @@ textarea {
 
 .error-message {
   color: #f44336;
-  font-size: 1vw; /* גודל טקסט קטן יותר */
+  font-size: 1vw; 
   margin-top: 0.5vh;
 }
 
@@ -82,11 +82,11 @@ textarea {
   justify-content: flex-end;
   gap: 1.5vw;
   position: sticky;
-  bottom: 0; /* קיבוע הכפתורים בתחתית */
+  bottom: 0; 
   background-color: #fff;
   padding-top: 1vh;
   padding-bottom: 1vh;
-  z-index: 1; /* מבטיח שהכפתורים תמיד יהיו מעל התוכן */
+  z-index: 1;
 }
 
 button {
@@ -96,8 +96,8 @@ button {
 }
 
 button:hover {
-  transform: translateY(-2px); /* השפעת ריחוף */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* הצללה כשהכפתור מרחף */
+  transform: translateY(-2px); 
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
 }
 
 .mat-button {
@@ -105,23 +105,21 @@ button:hover {
   padding: 1vh 2vw;
 }
 
-.mat-button:hover {
-  background-color: #007bff;
-  color: white;
+.mat-mdc-button:not(:disabled) {
+  color: #f5c749;
 }
 
-/* סגנון לפס גלילה */
 form::-webkit-scrollbar {
-  width: 6px; /* רוחב דק לפס הגלילה */
+  width: 6px; 
 }
 
 form::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.2); /* צבע עדין לפס הגלילה */
+  background-color: rgba(0, 0, 0, 0.2); 
   border-radius: 10px;
 }
 
 form::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.1); /* צבע עדין למסלול הגלילה */
+  background: rgba(0, 0, 0, 0.1); 
 }
 
 .dialog-container {

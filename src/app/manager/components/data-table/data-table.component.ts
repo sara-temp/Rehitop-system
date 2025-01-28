@@ -54,20 +54,8 @@ export class DataTableComponent implements OnInit {
   selectedCategories!: SubCategory[];
 
   deleteInProgress = false;
-  result: any;
 
-  error = {
-    severity: 'error',
-    summary: 'Error',
-    detail: 'Failed to delete product',
-    life: 3000
-  };
-  success = {
-    severity: 'success',
-    summary: 'Successful',
-    detail: 'Products Deleted',
-    life: 3000
-  };
+  result: any;
 
   constructor(
     private _managerService: ManagerService,
@@ -153,15 +141,13 @@ export class DataTableComponent implements OnInit {
   async deleteSelectedProducts() {
     this.result = await this._managerService.deleteDialog(`${this.selectedProducts?.length} מוצרים  `)
     for (const prod of this.selectedProducts || []) {
-      await this.deleteProduct(prod, false);
+      await this.deleteProduct(prod);
     }
   }
 
-  async deleteProduct(product: Product, showDialog: boolean = true) {
-    if (showDialog) {
+  async deleteProduct(product: Product) {
+    if (!this.result)
       this.result = await this._managerService.deleteDialog(` - ${product.name}`);
-      if (!this.result.isConfirmed) return;
-  }
     if (this.result.isConfirmed) {
       try {
         await this.deleteImage(product.image);
@@ -174,8 +160,8 @@ export class DataTableComponent implements OnInit {
             console.error("שגיאה בעדכון הנתונים", error);
           });
         }, error => {
-          console.error('שגיאה במחיקת הנתונים 1', error);
-          this._managerService.showError('2 !שגיאה במחיקת הנתונים');
+          console.error('שגיאה במחיקת הנתונים', error);
+          this._managerService.showError('!שגיאה במחיקת הנתונים');
         });
       } catch (error) {
         console.error("שגיאה במחיקת התמונה, לא ניתן להמשיך", error);
@@ -186,15 +172,10 @@ export class DataTableComponent implements OnInit {
     this._managerService.deleteImage(imagePath).subscribe(response => {
       console.log('הנתונים נמחקו בהצלחה', response);
     }, error => {
-      console.error('שגיאה במחיקת הנתונים 3', error);
+      console.error('שגיאה במחיקת הנתונים', error);
     });
   }
 
-
-  hideDialog() {
-    this.productDialog = false;
-    this.submitted = false;
-  }
   findIndexById(id: string): number {
     let index = -1;
     for (let i = 0; i < this.products.length; i++) {
