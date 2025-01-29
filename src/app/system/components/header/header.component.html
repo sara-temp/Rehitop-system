@@ -2,38 +2,39 @@
   <div class="logoHeader">
     <img src="assets/logo2.png" alt="logo" routerLink="">
   </div>
+  <div *ngIf="isMobile" class="burger-menu" (click)="toggleMenu()">
+    <i class="bi bi-list"></i>
+  </div>
   <div class="headerBody">
-
-<div class="padding-auth">
-  <button *ngIf="!isLogin" class="auth-button" (click)="onLoginClick()">
-    התחברות
-    <i class="bi bi-box-arrow-in-right bi-lg"></i>
-  </button>
-  <button *ngIf="isLogin" class="auth-button" routerLink="/edit">
-    לעריכה
-    <i class="bi bi-pencil-square"></i>
-  </button>
-  <button *ngIf="isLogin" class="auth-button" (click)="onLogoutClick()">
-    התנתקות
-    <i class="bi bi-box-arrow-right"></i>
-  </button>
-</div>    
-
-    <div class="header-container">
+    <div class="padding-auth">
+      <button *ngIf="!isLogin" class="auth-button" (click)="onLoginClick()">
+        התחברות
+        <i class="bi bi-box-arrow-in-right bi-lg"></i>
+      </button>
+      <button *ngIf="isLogin" class="auth-button" routerLink="/edit">
+        לעריכה
+        <i class="bi bi-pencil-square"></i>
+      </button>
+      <button *ngIf="isLogin" class="auth-button" (click)="onLogoutClick()">
+        התנתקות
+        <i class="bi bi-box-arrow-right"></i>
+      </button>
+    </div>
+    <div class="header-container" [ngClass]="{'open': isMenuOpen}">
       <ul class="menu-items">
         <!-- תפריט ראשי -->
-        <li *ngFor="let item of items" [ngClass]="{'selected': selectedTab === item}" 
-            (click)="selectTab(item); executeCommand(item.command!, $event, item)"> 
+        <li *ngFor="let item of items" [ngClass]="{'selected': selectedTab === item}"
+          (click)="selectTab(item); executeCommand(item.command!, $event, item)">
           {{ item.label }}
           <i *ngIf="item.items && item.items[0]?.label" class="bi bi-chevron-down"></i>
           <ul class="submenu" *ngIf="item.items && item.items[0]?.label">
-            <li *ngFor="let subItem of item.items" 
-                (click)="selectTab(item); executeCommand(subItem.command!, $event, subItem)">
+            <li *ngFor="let subItem of item.items"
+              (click)="selectTab(item); executeCommand(subItem.command!, $event, subItem)">
               {{ subItem.label }}
               <i *ngIf="subItem.items && subItem.items[0]?.label" class="bi bi-chevron-left"></i>
               <ul class="submenu" *ngIf="subItem.items && subItem.items[0]?.label">
-                <li *ngFor="let subSubItem of subItem.items" 
-                    (click)="selectTab(item); executeCommand(subSubItem.command!, $event, subSubItem)">
+                <li *ngFor="let subSubItem of subItem.items"
+                  (click)="selectTab(item); executeCommand(subSubItem.command!, $event, subSubItem)">
                   {{ subSubItem.label }}
                 </li>
               </ul>
@@ -42,6 +43,5 @@
         </li>
       </ul>
     </div>
-
   </div>
 </div>

@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
 import { Categories, ChildrensRoom, Closets, companies, DiningAreas, Mattresses, Office, Product, Salon, SCHEMA_RUNTIME, SubCategory } from '../../../models/product.model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
@@ -26,6 +26,7 @@ export class ProductFormComponent {
   imgFiles!: File[];
   images: string[] = [];
   companies = companies;
+  isUploading = false;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: { product: Product }, private _managerService: ManagerService, public dialog: MatDialog) {
     if (data.product) {
@@ -34,6 +35,7 @@ export class ProductFormComponent {
     }
     else
       this.productNew = true;
+    console.log('productNew', this.productNew)
   }
 
   ngOnInit(): void {
@@ -91,7 +93,7 @@ export class ProductFormComponent {
     return new Promise((resolve, reject) => {
       const imageFormData = new FormData();
       imageFormData.append('image', this.imgFile);
-      const productCategories = this.productForm.value.categories; 
+      const productCategories = this.productForm.value.categories;
       this.category = Object.entries(Categories).find(([key, value]) =>
         productCategories.includes(value) // בדיקה אם הערך (עברית) נמצא במערך הקטגוריות
       )?.[0];
@@ -170,18 +172,29 @@ export class ProductFormComponent {
       const reader = new FileReader();
       reader.onload = () => {
         this.img = reader.result as string;
+        if (this.images) {
+          this.images.push(this.img) 
+          this.img = null;
+        }
       };
       reader.readAsDataURL(this.imgFile);
     }
   }
 
   onImageChangeMany(event: any): void {
+    this.isUploading = true;
     const input = event.target as HTMLInputElement;
     if (input?.files) {
       this.imgFiles = Array.from(input.files);
       console.log('this.imgFile: ' + this.imgFiles)
       this.readImagesFromFiles(input.files).then((images) => {
-        this.images = images;
+        if (this.img) {
+          this.images.push(this.img) 
+          this.img = null;
+        }
+        
+        images.forEach(i => this.images.push(i));
+        this.isUploading = false;
       })
     }
   }
@@ -268,10 +281,6 @@ export class ProductFormComponent {
     }
   }
 
-  showErrorMessage() {
-    alert('יש להשלים את כל שדות החובה לפני שליחת הטופס.');
-  }
-
   onCancel() {
     this.dialog.closeAll();
   }
@@ -279,11 +288,13 @@ export class ProductFormComponent {
   deleteImageFromForm(image: any) {
     this.images = this.images.filter(img => img !== image);
   }
-  calculateImageSize(base64String: string): number {
-    console.log('calculateImageSize---');
 
-    const padding = (base64String.match(/=+$/) || [])[0]?.length || 0;
-    const sizeInBytes = (base64String.length * (3 / 4)) - padding;
-    return sizeInBytes / 1024; // גודל בקילובייט
+  get firstImages(): string[] {
+    return this.images.length > 7 ? this.images.slice(0, 5) : this.images;
+  }
+
+  get lastImages(): string[] {
+    return this.images.length > 7 ? this.images.slice(-2) : [];
   }
 }
+

@@ -1,5 +1,4 @@
 .dialog-container {
-  width: 30vw; 
   margin: 0 auto;
   padding: 1vh 2vw; 
   background-color: #fff;
@@ -53,7 +52,7 @@ form {
   color: #333;
 }
 
-input, select, textarea, mat-select {
+input, select, textarea, mat-select p-treeselect{
   border-radius: 8px;
   padding: 0.7vh;
   font-size: 1vw;
@@ -62,9 +61,9 @@ input, select, textarea, mat-select {
   transition: border-color 0.3s, background-color 0.3s ease;
 }
 
-input:focus, textarea:focus, mat-select:focus {
+input:focus, textarea:focus, mat-select:focus p-treeselect:focus{
   outline: none;
-  border-color: #000000;
+  border-color: #f7b70e;
 }
 
 textarea {
@@ -178,30 +177,6 @@ form::-webkit-scrollbar-track {
   overflow-y: auto;
 }
 
-.image-gallery {
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.image-card {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 10px;
-  max-width: 200px;
-  text-align: center;
-  position: relative;
-  background-color: #f9f9f9;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.image-preview {
-  width: 100%;
-  height: auto;
-  border-radius: 4px;
-}
-
 .image-info {
   margin-top: 10px;
 }
@@ -215,7 +190,7 @@ form::-webkit-scrollbar-track {
 }
 
 .status.pending {
-  background-color: #ffeb3b;
+  background-color: #f7b70e;
   color: #000;
 }
 
@@ -223,7 +198,7 @@ form::-webkit-scrollbar-track {
   position: absolute;
   top: 5px;
   right: 5px;
-  background: #ff4d4f;
+  background: #f7b70e;
   border: none;
   color: #fff;
   font-size: 16px;
@@ -236,5 +211,79 @@ form::-webkit-scrollbar-track {
 }
 
 .delete-button:hover {
-  background: #ff7875;
+  background: #f8c129;
 }
+
+.image-gallery {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.image-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
+  max-width: 34vw;
+  justify-content:center;
+}
+
+.image-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  max-width: 8.5vw;
+  text-align: center;
+  position: relative;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.image-preview {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+.dots {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.image-count {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+  color: #555;
+}
+
+.loader {
+  width: 20px;
+  height: 20px;
+  border: 3px solid #ccc;
+  border-top: 3px solid #f7b70e;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
