@@ -189,11 +189,13 @@
 
   .header-container {
     position: absolute;
-    width: 15vw;
-    height: 48vh;
-    border-radius: 0.2vw;
     right: 0;
-    top: 14vh;
+    top: 12vh;
+    width: 25vw;
+    height: 80vh;
+    margin-bottom: 8vh;
+    background-color: #ffffff;
+    border-radius: 0.2vw;
     transform: translateX(100%);
     transition: transform 0.3s ease;
     flex-direction: column;
@@ -216,7 +218,7 @@
     right: 100%;
     min-width: 18vw;
     font-size: 1.2vw;
-
+    margin: 0;
   }
 
   .menu-items>li{
