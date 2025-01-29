@@ -172,7 +172,7 @@ export class ProductFormComponent {
       const reader = new FileReader();
       reader.onload = () => {
         this.img = reader.result as string;
-        if (this.images) {
+        if (this.images.length>0) {
           this.images.push(this.img) 
           this.img = null;
         }
