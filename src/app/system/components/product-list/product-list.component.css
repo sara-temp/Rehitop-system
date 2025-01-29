@@ -230,3 +230,7 @@ mat-card-content {
     left: 2vw;
     width: 8vw;
 }
+
+.custom-dialog-container .mat-dialog-container .mat-mdc-dialog-inner-container{
+    width: 100vw ;
+  }
