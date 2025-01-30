@@ -7,6 +7,7 @@ export class Product {
   describe?: string
   company?: Company
   colors?: string
+  countPriority:number
 
   constructor(
     Id: string,
@@ -25,6 +26,7 @@ export class Product {
     this.describe = describe
     this.company = company
     this.colors = company?.colors
+    this.countPriority = 0;
   }
 }
 
@@ -34,47 +36,54 @@ interface Company {
 }
 
 export const companies: Company[] = [
-  { name: "תבי", colors: "https://tb-wd.co.il/%d7%a6%d7%91%d7%a2%d7%99%d7%9d/" },
-  { name: "רהיטי הארבעה", colors: "https://forbirman.co.il/" },
-  { name: "נועם", colors: "https://forbirman.co.il/" },
-  { name: "מרכז", colors: "להוריד צבעים מאתר מקור הפורמייקה ולקבץ" },
-  { name: "קומותיים", colors: "מניפה מצורפת" },
-  { name: "נגר", colors: "" },
-  { name: "קחטן", colors: "" },
-  { name: "קוקטייל", colors: "אתר" },
-  { name: "גן נוי", colors: "אתר" },
-  { name: "רויה אקסלוסיב", colors: "" },
-  { name: "ספות המלך", colors: "" },
-  { name: "טיב העץ", colors: "" },
-  { name: "ניו קומפורט", colors: "שחור בז חום כהה וקמל + מאתר ולקבץ" },
-  { name: "פולירון", colors: "" },
-  { name: 'ד"ר שדרה', colors: "" },
   { name: "בלנדורה", colors: "" },
-  { name: "משרדנו", colors: "https://tb-wd.co.il/%d7%a6%d7%91%d7%a2%d7%99%d7%9d/" },
-  { name: "שולחנות נגר", colors: "" },
+  { name: "גן נוי", colors: "אתר" },
+  { name: "דניאל", colors: "" },
+  { name: 'ד"ר שדרה', colors: "" },
   { name: "חרבאואי", colors: "לאתר של חרבאואי יש שמה ראשי מיטה ובסיסי מיטה ובדים לפנות למוכרת" },
+  { name: "טיב העץ", colors: "" },
+  { name: "מרכז", colors: "להוריד צבעים מאתר מקור הפורמייקה ולקבץ" },
+  { name: "משרדנו", colors: "https://tb-wd.co.il/%d7%a6%d7%91%d7%a2%d7%99%d7%9d/" },
+  { name: "נגר", colors: "" },
+  { name: "נועם אלי", colors: "https://forbirman.co.il/" },
+  { name: "ניו קומפורט", colors: "שחור בז חום כהה וקמל + מאתר ולקבץ" },
+  { name: "ספות המלך", colors: "" },
+  { name: "פולירון", colors: "" },
+  { name: "קומותיים", colors: "מניפה מצורפת" },
+  { name: "קוקטייל", colors: "אתר" },
+  { name: "קחטן", colors: "" },
+  { name: "רהיטי הארבעה", colors: "https://forbirman.co.il/" },
+  { name: "רויה אקסלוסיב", colors: "" },
+  { name: "שולחנות נגר", colors: "" },
+  { name: "תבי", colors: "https://tb-wd.co.il/%d7%a6%d7%91%d7%a2%d7%99%d7%9d/" },
 ];
 
 export enum Categories {
   SALON = 'ריהוט סלוני',
   BEDROOMS = 'חדרי שינה',
-  MATTRESSES = 'מזרונים',
   CHILDRENSROOMS = 'חדרי ילדים',
   CLOSETS = 'ארונות',
   DININGAREAS = 'פינות אוכל למטבח',
   OFFICE = 'משרדי',
+  MATTRESSES = 'מזרונים',
+  CHESTS_DRESSERS ='שידות וקומודות',
   PLASTER = 'קל גבס',
   SALES = 'מבצעים'
 }
 export enum Salon {
-  TABLES_CHAIRS = 'שולחנות וכסאות',
+  TABLES_SALON = 'שולחנות סלון',
+  CHAIRS_SALON = 'כיסאות סלון',
   LIBRARIES = 'ספריות קודש',
   SOFAS = 'ספות ומערכות ישיבה',
   COMPLEMENTARY_FURNITURE = 'ריהוט משלים לסלון',
 }
-export enum Tables_Chairs {
-  TREE = 'עץ',
-  MODERN = 'מודרני'
+export enum Tables_Salon {
+  TREE_TABLE = 'שולחנות עץ',
+  MODERN_TABLE = 'שולחנות מודרנים'
+}
+export enum  Chairs_Salon{
+  TREE_CHAIR = 'כסאות עץ מלא',
+  MODERN_CHAIR = 'כסאות מודרניים'
 }
 export enum Libraries {
   STANDART = 'ספריות קודש סטנדרט',
@@ -90,8 +99,8 @@ export enum Sofas {
 }
 export enum Bedrooms {
   CARPENTRY = 'חדרי שינה עבודת נגר',
-  PADDED = 'מרופדים',
-  FORMICA = 'פורמייקה'
+  PADDED = 'חדרי שינה מרופדים',
+  FORMICA = 'חדרי שינה פורמייקה'
 }
 export enum Padded {
   STANDART = 'מרופדים סטנדרט',
@@ -106,11 +115,12 @@ export enum ChildrensRoom {
   DESKS = 'מכתביות'
 }
 export enum Youthbeds {
-  FORMICA = 'פורמייקה',
+  FORMICA = 'מיטות נוער פורמייקה',
   REMOVABLE = 'הירייזר מזרונים נשלפים',
   FIXED = 'הירייזר מזרונים קבועים',
   TWO_STORIES = 'מיטות קומותיים',
-  CARPENTER = 'מיטות נוער עבודת נגר'
+  CARPENTER = 'מיטות נוער עבודת נגר',
+  YOUTHBEDS_PADDED = 'מיטות נוער מרופדים'
 }
 export enum Desks {
   STANDARD = 'מכתביות סטנדרט',
@@ -147,7 +157,8 @@ export enum Sales {
 // יצירת אובייקט ריצה
 export const SCHEMA_RUNTIME: Schema = {
   [Categories.SALON]: {
-    [Salon.TABLES_CHAIRS]: Tables_Chairs,
+    [Salon.TABLES_SALON]: Tables_Salon,
+    [Salon.CHAIRS_SALON]: Chairs_Salon,
     [Salon.LIBRARIES]: Libraries,
     [Salon.SOFAS]: Sofas,
     [Salon.COMPLEMENTARY_FURNITURE]: {}
@@ -157,7 +168,6 @@ export const SCHEMA_RUNTIME: Schema = {
     [Bedrooms.PADDED]: Padded,
     [Bedrooms.FORMICA]: {}
   },
-  [Categories.MATTRESSES]: Mattresses,
   [Categories.CHILDRENSROOMS]: {
     [ChildrensRoom.YOUTHBEDS]: Youthbeds,
     [ChildrensRoom.DESKS]: Desks,
@@ -169,13 +179,16 @@ export const SCHEMA_RUNTIME: Schema = {
   },
   [Categories.DININGAREAS]: DiningAreas,
   [Categories.OFFICE]: Office,
+  [Categories.MATTRESSES]: Mattresses,
+  [Categories.CHESTS_DRESSERS]: {} as never,
   [Categories.PLASTER]: {} as never,
   [Categories.SALES]: Sales
 };
 
 export type Schema = {
   [Categories.SALON]: {
-    [Salon.TABLES_CHAIRS]: typeof Tables_Chairs,
+    [Salon.TABLES_SALON]: typeof Tables_Salon,
+    [Salon.CHAIRS_SALON]: typeof Chairs_Salon,
     [Salon.LIBRARIES]: typeof Libraries,
     [Salon.SOFAS]: typeof Sofas,
     [Salon.COMPLEMENTARY_FURNITURE]: {}
@@ -198,6 +211,7 @@ export type Schema = {
   [Categories.DININGAREAS]: typeof DiningAreas,
   [Categories.OFFICE]: typeof Office,
   [Categories.PLASTER]: never,
+  [Categories.CHESTS_DRESSERS]:never,
   [Categories.SALES]: typeof Sales
 }
 
@@ -211,10 +225,14 @@ export type SubCategory =
   | Categories.DININGAREAS
   | Categories.OFFICE
   | Categories.PLASTER
+  | Categories.CHESTS_DRESSERS
   | Categories.SALES
-  | Salon.TABLES_CHAIRS
-  | Tables_Chairs.MODERN
-  | Tables_Chairs.TREE
+  | Salon.TABLES_SALON
+  | Tables_Salon.MODERN_TABLE
+  | Tables_Salon.TREE_TABLE
+  | Salon.CHAIRS_SALON
+  | Chairs_Salon.MODERN_CHAIR
+  | Chairs_Salon.TREE_CHAIR
   | Salon.SOFAS
   | Sofas.ARE_OPENED
   | Sofas.RECLINERS
@@ -234,6 +252,7 @@ export type SubCategory =
   | Padded.STANDART
   | ChildrensRoom.YOUTHBEDS
   | Youthbeds.CARPENTER
+  | Youthbeds.YOUTHBEDS_PADDED
   | Youthbeds.FIXED
   | Youthbeds.FORMICA
   | Youthbeds.REMOVABLE

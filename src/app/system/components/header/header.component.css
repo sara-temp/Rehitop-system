@@ -74,7 +74,7 @@
   position: relative;
   padding: 1.5vh 1.5vw;
   cursor: pointer;
-  font-size: 1.9vh;
+  font-size: 0.8vw;
   /* font-weight: bold; */
   border-radius: 0.2vw;
   color: #000000;
@@ -119,7 +119,7 @@
   padding: 1vh 2vw;
   cursor: pointer;
   color: #333;
-  font-size: 2vh;
+  font-size: 0.8vw;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
