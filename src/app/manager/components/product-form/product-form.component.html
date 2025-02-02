@@ -20,40 +20,40 @@
         accept="image/*" />
       <!-- תיקית תמונות -->
       <button *ngIf="productNew" (click)="imageInputArray.click()">בחר תיקיה</button>
-      <input #imageInputArray type="file"  webkitdirectory mozdirectory multiple
-        (change)="onImageChangeMany($event)" accept="image/*" style="display: none;" />
+      <input #imageInputArray type="file" webkitdirectory mozdirectory multiple (change)="onImageChangeMany($event)"
+        accept="image/*" style="display: none;" />
 
-        <div class="image-gallery">
+      <div class="image-gallery">
 
-          <p class="image-count">נבחרו {{ images.length }} תמונות</p>
-        
-          <!-- הצגת אינדיקציה לטעינה -->
-          <div *ngIf="isUploading" class="loading-container">
-            <span class="loader"></span>
-            <p>מעלה תמונות...</p>
-          </div>
-        
-          <!-- הצגת 5 התמונות הראשונות -->
-          <div class="image-list">
-            <div *ngFor="let image of firstImages" class="image-card">
-              <img [src]="image" alt="Uploaded Image" class="image-preview" />
-              <button class="delete-button" (click)="deleteImageFromForm(image)"> &times; </button>
-            </div>
-          </div>
-        
-          <!-- אם יש יותר מ-7 תמונות, הצגת 3 נקודות -->
-          <div *ngIf="images.length > 7" class="dots">⋮</div>
-        
-          <!-- הצגת 2 התמונות האחרונות -->
-          <div class="image-list">
-            <div *ngFor="let image of lastImages" class="image-card">
-              <img [src]="image" alt="Uploaded Image" class="image-preview" />
-              <button class="delete-button" (click)="deleteImageFromForm(image)"> &times; </button>
-            </div>
-          </div>
-        
+        <p class="image-count">נבחרו {{ images.length }} תמונות</p>
+
+        <!-- הצגת אינדיקציה לטעינה -->
+        <div *ngIf="isUploading" class="loading-container">
+          <span class="loader"></span>
+          <p>מעלה תמונות...</p>
         </div>
-        
+
+        <!-- הצגת 5 התמונות הראשונות -->
+        <div class="image-list">
+          <div *ngFor="let image of firstImages" class="image-card">
+            <img [src]="image" alt="Uploaded Image" class="image-preview" />
+            <button class="delete-button" (click)="deleteImageFromForm(image)"> &times; </button>
+          </div>
+        </div>
+
+        <!-- אם יש יותר מ-7 תמונות, הצגת 3 נקודות -->
+        <div *ngIf="images.length > 7" class="dots">⋮</div>
+
+        <!-- הצגת 2 התמונות האחרונות -->
+        <div class="image-list">
+          <div *ngFor="let image of lastImages" class="image-card">
+            <img [src]="image" alt="Uploaded Image" class="image-preview" />
+            <button class="delete-button" (click)="deleteImageFromForm(image)"> &times; </button>
+          </div>
+        </div>
+
+      </div>
+
 
       <small *ngIf="!img && !images && submitted" class="error-message">
         יש לבחור לפחות תמונה אחת.
@@ -70,11 +70,17 @@
       <label for="describe" class="form-label">תיאור</label>
       <textarea matInput formControlName="describe" id="describe" placeholder="הכנס תיאור" rows="3"></textarea>
     </div>
+    <!-- מידות -->
+    <div class="form-group">
+      <label for="sizes" class="form-label">מידות</label>
+      <textarea matInput formControlName="sizes" id="sizes" placeholder="הכנס מידות" rows="3"></textarea>
+    </div>
+
     <!-- קטגוריות מרובות -->
     <div class="form-group">
       <label for="categories" class="form-label">קטגוריות</label>
-      <p-treeselect class="treeselect" formControlName="categories" id="categories" [options]="categoryOptions" [metaKeySelection]="false"
-        selectionMode="checkbox" placeholder="בחר קטגוריות..." [showClear]="true">
+      <p-treeselect class="treeselect" formControlName="categories" id="categories" [options]="categoryOptions"
+        [metaKeySelection]="false" selectionMode="checkbox" placeholder="בחר קטגוריות..." [showClear]="true">
         <ng-template let-value pTemplate="value">
           <div class="chip-container">
             <div class="cat-container" *ngFor="let category of value">

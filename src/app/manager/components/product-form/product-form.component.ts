@@ -80,10 +80,11 @@ export class ProductFormComponent {
   initializeForm() {
     this.productForm = new FormGroup({
       name: new FormControl(this.product?.name || ''),
-      image: new FormControl(this.product?.image || ''),
+      image: new FormControl(this.product?.image || '', Validators.required),
       categories: new FormControl(this.product?.categories || '', Validators.required),
       price: new FormControl(this.product?.price || '', Validators.min(0)),
       describe: new FormControl(this.product?.describe || ''),
+      sizes: new FormControl(this.product?.sizes || ''),
       company: new FormControl(this.product?.company || ''),
       colors: new FormControl(this.product?.colors || ''),
     });

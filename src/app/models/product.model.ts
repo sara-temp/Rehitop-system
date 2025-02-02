@@ -5,6 +5,7 @@ export class Product {
   categories: SubCategory[]
   price: number
   describe?: string
+  sizes?: string
   company?: Company
   colors?: string
   countPriority:number
@@ -16,6 +17,7 @@ export class Product {
     categories: SubCategory[],
     price: number,
     describe?: string,
+    sizes?:string,
     company?: Company
   ) {
     this.Id = Id
@@ -24,6 +26,7 @@ export class Product {
     this.categories = categories
     this.price = price
     this.describe = describe
+    this.sizes = sizes
     this.company = company
     this.colors = company?.colors
     this.countPriority = 0;
