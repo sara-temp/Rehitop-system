@@ -10,18 +10,19 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    box-sizing: border-box;
+    height: 100%;
+    /* box-sizing: border-box; */
     transition: all 0.3s ease-in-out;
     /* border: 0.01vh solid #000000; */
 }
 
 mat-card img {
     width: 100%;
-    height: 29vh;
-    border-bottom: 0.45vh solid #000000;
-    object-fit: cover;
-    margin-bottom: 1vw;
-    /* transition: all 0.3s ease-in-out; */
+    height: 100%;
+    max-height: 70vh;
+    /* border-bottom: 0.45vh solid #000000; */
+    object-fit: contain;
+    /* margin-bottom: 1vw; */
 }
 
 .example-card:hover {
@@ -123,15 +124,19 @@ mat-card-content {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    font-family: "Rubik", Sans-serif;
+    border: #000;
 }
 
 .details-section h2 {
-    font-size: 4vh;
+    font-size: 2.5vw;
+    font-weight: bold;
     margin-bottom: 1.5vh;
+    color: #f7b70e;
 }
 
 .details-section .price {
-    font-size: 3vh;
+    font-size: 3vw;
     color: #f7b70e;
     font-weight: bold;
 }
@@ -145,6 +150,11 @@ mat-card-content {
     border-radius: 4px;
     font-size: 2vh;
     cursor: pointer;
+}
+
+.describe{
+    font-family: "Rubik", Sans-serif;
+    font-size: 3vw;
 }
 
 .details-section .color-link-button:hover {
