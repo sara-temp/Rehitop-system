@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Product } from '../models/product.model';
+import { Product, SubCategory } from '../models/product.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, Observable, throwError } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
@@ -27,9 +27,9 @@ export class ManagerService {
     return this.http.get<Product[]>(this.jsonUrl).pipe(
       map((products) => {
         if (products) {
-          return products.filter((prod) =>
-            prod.categories.some((cat) => cat === category)
-          );
+          return products
+            .filter((prod) => prod.categories.some((cat) => cat === category))
+            .sort((a, b) => b.countPriority - a.countPriority); // מיון מהגדול לקטן
         } else {
           throw new Error('not found');
         }
@@ -39,7 +39,9 @@ export class ManagerService {
         return throwError(() => new Error('Error fetching products'));
       })
     );
-  }
+  };
+  
+  
 
   getById = (id: string): Observable<Product | undefined> => {
     return this.http.get<Product[]>(`${this.jsonUrl}/${id}`).pipe(
@@ -67,7 +69,7 @@ export class ManagerService {
   }
 
   post = (product: Product): Observable<Product> => {
-    product.Id = uuidv4();
+    product.countPriority = 0;
     return this.http.post<Product>(this.jsonUrl, product, {
       headers: this.getAuthorizationHeader()
     });
