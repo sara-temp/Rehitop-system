@@ -211,6 +211,7 @@ export class ProductFormComponent {
   }
 
   async onSubmitArray() {
+    this.submitted = true;
     console.log('onSubmitArray:: this.img', this.img, '\nthis.images', this.images);
     for (const imgFile of this.imgFiles) {
       this.productForm.patchValue({ image: imgFile.name });
