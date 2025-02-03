@@ -12,26 +12,24 @@ import { MenuItem, MenuItemCommandEvent } from 'primeng/api';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent implements OnInit {
-  [x: string]: any;
   categorySelected: string = '';
   loginSelected: boolean = false;
   isLogin: boolean = false;
   storedValue: string | null | undefined;
   items: MenuItem[] | undefined;
   selectedTab: MenuItem | null = null;
+  selectLike: boolean = false;
   isMenuOpen = false;
   isMobile = false;
-
+  
   constructor(private authService: AuthService, private route: ActivatedRoute, private router: Router) {
   }
 
   ngOnInit(): void {
     if (typeof window !== 'undefined' && window.localStorage)
       this.storedValue = localStorage.getItem('token');
-    console.log("this.storedValue: " + this.storedValue);
     if (this.storedValue)
       this.isLogin = true;
-    console.log("this.isLogin: " + this.isLogin);
 
     this.authService.refresh$.subscribe(
       (value: boolean) => {
@@ -81,7 +79,6 @@ export class HeaderComponent implements OnInit {
   }
 
   onMainCategoryClick(event: MenuItemCommandEvent, mainCategory: string, length: number): any {
-    console.log('onMainCategoryClick:', event, mainCategory, length);
     const originalEvent = event.originalEvent;
     if (!originalEvent) {
       return;
@@ -98,7 +95,6 @@ export class HeaderComponent implements OnInit {
   }
 
   onCategoryClick(category: string) {
-    console.log('onCategoryClick:', category);
     this.router.navigate([`category/${category}`]);
     this.loginSelected = false;
   }
@@ -106,15 +102,12 @@ export class HeaderComponent implements OnInit {
   isLoginFunc() {
     this.authService.isAdmin().subscribe(
       (value) => {
-        this.isLogin = value,
-          console.log('Header', value)
+        this.isLogin = value
       },
       (error) => console.error('Error:', error));
   }
 
   onLoginClick() {
-    console.log("generateMenuItems(): " + this.isLogin);
-
     this.loginSelected = true;
     this.categorySelected = '';
     this.router.navigate(['login']);
@@ -128,7 +121,6 @@ export class HeaderComponent implements OnInit {
   }
 
   executeCommand(command: (event: MenuItemCommandEvent) => void, mouseEvent: MouseEvent, item: any) {
-    console.log('item executeCommand', item)
     mouseEvent.stopPropagation()
     const menuItemEvent: MenuItemCommandEvent = {
       originalEvent: mouseEvent,
@@ -143,13 +135,10 @@ export class HeaderComponent implements OnInit {
   }
   checkScreenSize() {
     this.isMobile = window.innerWidth <= 935; 
-    console.log('isMobile:', this.isMobile); 
-
   }
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
-    console.log('Menu state:', this.isMenuOpen); 
   }
 
 }

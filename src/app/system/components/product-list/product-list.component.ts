@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Input, SimpleChanges } from '@angular/core';
+import { Component, HostListener, Input, SimpleChanges } from '@angular/core';
 import { Product } from '../../../models/product.model';
 import { ManagerService } from '../../../manager/manager.service'
 import { ProductFormComponent } from '../../../manager/components/product-form/product-form.component';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../../../service/auth.service';
 import { ActivatedRoute } from '@angular/router';
+import { SystemService } from '../../system.service';
 
 @Component({
   selector: 'product-list',
@@ -20,13 +21,14 @@ export class ProductListComponent {
   products: Product[] = [];
   pagedProducts: Product[] = [];
   selectedProduct: Product | null = null;
+  selectedProductIndex: number = -1;
   isLogin: boolean = false;
-
+  isFavorite: boolean = false;
   rows: number = 28;
   first: number = 0;
   totalProducts: number = 0;
 
-  constructor(private http: HttpClient, private _managerService: ManagerService, public dialog: MatDialog, private authService: AuthService, private route: ActivatedRoute) { }
+  constructor(private http: HttpClient, private _managerService: ManagerService, public dialog: MatDialog, private authService: AuthService, private route: ActivatedRoute, private _systemService: SystemService) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -75,6 +77,7 @@ export class ProductListComponent {
 
   closeViewer(): void {
     this.selectedProduct = null;
+    this.selectedProductIndex = -1;
   }
 
   closeOnOverlayClick(event: MouseEvent) {
@@ -86,6 +89,12 @@ export class ProductListComponent {
   openViewer(product: Product): void {
     console.log('in open viewer', product)
     this.selectedProduct = product;
+    this.selectedProductIndex = this.pagedProducts.indexOf(product);
+    product.count_priority++;
+    this._managerService.put(product, product.Id).subscribe(
+      (data) => console.log('Product updated:', data),
+      (error) => console.log('Failed to update product:', error)
+    );
   }
 
   editRow(row: any, event: Event) {
@@ -129,5 +138,72 @@ export class ProductListComponent {
     }, error => {
       console.error('שגיאה במחיקת הנתונים 6', error);
     });
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  handleKeyDown(event: KeyboardEvent) {
+    // מתבצע רק אם מוצג כרטיס מלא
+    if (!this.selectedProduct) {
+      return;
+    }
+
+    if (event.key === 'ArrowRight') {
+      // לחיצה על חץ ימין - מעבר למוצר הקודם
+      this.goToPreviousProduct();
+      event.preventDefault();
+    } else if (event.key === 'ArrowLeft') {
+      // לחיצה על חץ שמאל - מעבר למוצר הבא
+      this.goToNextProduct();
+      event.preventDefault();
+    }
+  }
+
+  goToPreviousProduct() {
+    console.log(`goToPreviousProduct: selectedProductIndex:${this.selectedProductIndex}`);
+    if (this.selectedProductIndex > 0) {
+      this.selectedProductIndex--;
+    }
+    else {
+      if (this.first > 0) {
+        console.log(`if (this.first != 0): ${this.first}`)
+        this.first -= this.rows;
+        this.updatePagedProducts();
+        this.selectedProductIndex = this.pagedProducts.length - 1;
+      }
+      else {
+        console.log('else (this.first = 0):');
+      }
+    }
+    this.selectedProduct = this.pagedProducts[this.selectedProductIndex];
+  }
+
+  goToNextProduct() {
+    if (this.selectedProductIndex < this.pagedProducts.length - 1) {
+      this.selectedProductIndex++;
+    }
+    else {
+      if (this.first + this.rows < this.products.length - 1) {
+        console.log(`if (this.first + this.rows < this.products.length): ${this.first + this.rows
+          }`);
+        //התמונה הראשונה בעמוד הבא
+        this.first += this.rows;
+        this.updatePagedProducts();
+        this.selectedProductIndex = 0;
+      }
+      else {
+        console.log('else (this.rows + 1 >= this.products.length):');
+      }
+    }
+    this.selectedProduct = this.pagedProducts[this.selectedProductIndex];
+  }
+
+  isLike(product: Product) {
+    return this._systemService.isExist(product)
+  }
+
+  addToCart(product: Product) {
+    this.isFavorite = this._systemService.isExist(product);
+      this._systemService.addProduct(product);
+      console.log('המוצר נוסף לסל:', product);
   }
 }

@@ -13,7 +13,6 @@
   border-bottom: 0.7vh solid #f7b70e;
 }
 
-
 .headerBody {
   width: 78vw;
   display: flex;
@@ -28,6 +27,19 @@
   height: 4vh;
   margin-bottom: 2vh;
   margin-left: 2vw;
+}
+
+.custom-heart {
+  color: #f7b70e;
+  border-radius: 0.4vw;
+  margin-right: 1.2vw;
+  font-size: 1.3rem;
+}
+
+app-favorite-cart{
+  position: absolute;
+  top: 17vh;
+  left: 1vw;
 }
 
 .auth-button {
@@ -74,7 +86,7 @@
   position: relative;
   padding: 1.5vh 1.5vw;
   cursor: pointer;
-  font-size: 1.9vh;
+  font-size: 0.8vw;
   /* font-weight: bold; */
   border-radius: 0.2vw;
   color: #000000;
@@ -119,7 +131,7 @@
   padding: 1vh 2vw;
   cursor: pointer;
   color: #333;
-  font-size: 2vh;
+  font-size: 0.8vw;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 

@@ -84,6 +84,7 @@ export class ProductFormComponent {
       categories: new FormControl(this.product?.categories || '', Validators.required),
       price: new FormControl(this.product?.price || '', Validators.min(0)),
       describe: new FormControl(this.product?.describe || ''),
+      sizes: new FormControl(this.product?.sizes || ''),
       company: new FormControl(this.product?.company || ''),
       colors: new FormControl(this.product?.colors || ''),
     });
@@ -211,6 +212,7 @@ export class ProductFormComponent {
   }
 
   async onSubmitArray() {
+    this.submitted = true;
     console.log('onSubmitArray:: this.img', this.img, '\nthis.images', this.images);
     for (const imgFile of this.imgFiles) {
       this.productForm.patchValue({ image: imgFile.name });
