@@ -37,6 +37,7 @@ import { SystemRoutingModule } from './system-routing.module';
 import { HomePageComponent } from './components/home-page/home-page.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { PaginatorModule } from 'primeng/paginator';
+import { FavoriteCartComponent } from './components/favorite-cart/favorite-cart.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { PaginatorModule } from 'primeng/paginator';
     ProductComponent,
     HeaderComponent,
     HomePageComponent,
-    FooterComponent
+    FooterComponent,
+    FavoriteCartComponent
   ],
   imports: [
     CommonModule, PaginatorModule, RouterModule, ManagerModule, MaterialModule, Menubar, ButtonModule, CheckboxModule, CommonModule, MaterialModule, MultiSelectModule, TableModule, Dialog, Ripple, SelectModule, ToastModule, ToolbarModule, ConfirmDialog, InputTextModule, TextareaModule, CommonModule, FileUpload, DropdownModule, Tag, RadioButton, Rating, InputTextModule, FormsModule, InputNumber, IconFieldModule, InputIconModule, SystemRoutingModule],
@@ -53,7 +55,8 @@ import { PaginatorModule } from 'primeng/paginator';
     ProductListComponent,
     ProductComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent, 
+    FavoriteCartComponent
   ]
 })
 export class SystemModule { }

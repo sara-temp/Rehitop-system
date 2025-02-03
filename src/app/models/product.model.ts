@@ -8,7 +8,7 @@ export class Product {
   sizes?: string
   company?: Company
   colors?: string
-  countPriority:number
+  count_priority:number
 
   constructor(
     Id: string,
@@ -29,7 +29,7 @@ export class Product {
     this.sizes = sizes
     this.company = company
     this.colors = company?.colors
-    this.countPriority = 0;
+    this.count_priority = 0;
   }
 }
 

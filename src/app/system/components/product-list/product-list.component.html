@@ -1,6 +1,5 @@
 <div class="grid-list">
-  <mat-card class="card" appearance="outlined" *ngFor="let product of pagedProducts"
-    (click)="openViewer(product)">
+  <mat-card class="card" appearance="outlined" *ngFor="let product of pagedProducts" (click)="openViewer(product)">
     <img mat-card-image [src]="product.image" alt="Photo of closet">
     <div class="action-buttons" *ngIf="isLogin">
       <button mat-icon-button color="primary" (click)="editRow(product, $event)" class="edit-button" aria-label="Edit">
@@ -21,7 +20,7 @@
 <div *ngIf="selectedProduct" class="overlay" tabindex="0" (click)="closeOnOverlayClick($event)">
   <div class="card-viewer">
     <!-- כפתור X ולוגו -->
-    <button class="close-button" (click)="closeViewer()"><i class="bi bi-x-circle"></i></button>
+    <i class="bi bi-x-circle close-button" (click)="closeViewer()"></i>
     <img class="logo" src="assets/logo3.png" alt="Logo" />
 
     <!-- חלק התמונה -->
@@ -35,13 +34,18 @@
       <div class="describe">
         <span class="describe-text">{{ selectedProduct.describe }}</span>
       </div>
-      <div *ngIf="selectedProduct.price && selectedProduct.price>0" class="price">{{ selectedProduct.price }} ₪</div>
+      <div class="price-contain">
+        <div *ngIf="selectedProduct.price && selectedProduct.price>0" class="price">{{ selectedProduct.price }} ₪</div>
+      <i *ngIf="isLike(selectedProduct)" class="bi bi-heart-fill favorite-button select" (click)="addToCart(selectedProduct)"></i>
+      <i *ngIf="!isLike(selectedProduct)" class="bi bi-heart favorite-button not-select" (click)="addToCart(selectedProduct)"></i>
+      
+    </div>
       <div *ngIf="selectedProduct.sizes">
         <p class="sizes-display">{{selectedProduct.sizes}}</p>
-      </div>      
-      <button *ngIf="selectedProduct.colors" (click)="openLinkInNewTab(selectedProduct.colors)"
+      </div>
+      <a *ngIf="selectedProduct.colors" (click)="openLinkInNewTab(selectedProduct.colors)"
         class="color-link-button">
-        <i class="bi bi-palette2"></i> לצבעים</button>
+        <i class="bi bi-palette2"></i> לצבעים</a>
       <div class="action-buttons-select" *ngIf="isLogin">
         <button mat-icon-button color="primary" (click)="editRow(selectedProduct, $event)" class="edit-button-select"
           aria-label="Edit">

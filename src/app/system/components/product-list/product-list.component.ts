@@ -6,6 +6,7 @@ import { ProductFormComponent } from '../../../manager/components/product-form/p
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../../../service/auth.service';
 import { ActivatedRoute } from '@angular/router';
+import { SystemService } from '../../system.service';
 
 @Component({
   selector: 'product-list',
@@ -22,12 +23,12 @@ export class ProductListComponent {
   selectedProduct: Product | null = null;
   selectedProductIndex: number = -1;
   isLogin: boolean = false;
-
+  isFavorite: boolean = false;
   rows: number = 28;
   first: number = 0;
   totalProducts: number = 0;
 
-  constructor(private http: HttpClient, private _managerService: ManagerService, public dialog: MatDialog, private authService: AuthService, private route: ActivatedRoute) { }
+  constructor(private http: HttpClient, private _managerService: ManagerService, public dialog: MatDialog, private authService: AuthService, private route: ActivatedRoute, private _systemService: SystemService) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -89,7 +90,7 @@ export class ProductListComponent {
     console.log('in open viewer', product)
     this.selectedProduct = product;
     this.selectedProductIndex = this.pagedProducts.indexOf(product);
-    product.countPriority++;
+    product.count_priority++;
     this._managerService.put(product, product.Id).subscribe(
       (data) => console.log('Product updated:', data),
       (error) => console.log('Failed to update product:', error)
@@ -181,7 +182,7 @@ export class ProductListComponent {
       this.selectedProductIndex++;
     }
     else {
-      if (this.first + this.rows < this.products.length-1) {
+      if (this.first + this.rows < this.products.length - 1) {
         console.log(`if (this.first + this.rows < this.products.length): ${this.first + this.rows
           }`);
         //התמונה הראשונה בעמוד הבא
@@ -196,4 +197,13 @@ export class ProductListComponent {
     this.selectedProduct = this.pagedProducts[this.selectedProductIndex];
   }
 
+  isLike(product: Product) {
+    return this._systemService.isExist(product)
+  }
+
+  addToCart(product: Product) {
+    this.isFavorite = this._systemService.isExist(product);
+      this._systemService.addProduct(product);
+      console.log('המוצר נוסף לסל:', product);
+  }
 }

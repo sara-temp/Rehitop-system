@@ -115,7 +115,7 @@ mat-card-content {
 }
 
 .describe-text {
-    font-size: 2.2vw; /* מגדיל את גודל הטקסט של התיאור */
+    font-size: 1.8vw; /* מגדיל את גודל הטקסט של התיאור */
     font-weight: 500;
     margin: 1vh 0;
     line-height: 1.4;
@@ -130,12 +130,11 @@ mat-card-content {
 .details-section {
     flex: 1;
     padding: 4vh 3vw;
-    text-align: center;
     font-family: "Rubik", Sans-serif;
     display: flex;
     flex-direction: column;
     justify-content: center; /* ממרכז את הכיתוב */
-    align-items: center;
+    align-items: flex-start;
 }
 
 .details-section h2 {
@@ -145,25 +144,35 @@ mat-card-content {
     color: #f7b70e;
 }
 
+.price-contain{
+    display: flex;
+    flex-direction: row;
+    align-items:center;
+}
+
 .details-section .price {
-    font-size: 2.5vw;
+    font-size: 2vw;
     color: #f7b70e;
     font-weight: bold;
     margin: 1vh 0;
 }
 
 .color-link-button {
-    background: linear-gradient(135deg, #fdd465, #f7b70e);
-    border: none;
-    padding: 1vh 2vw;
-    border-radius: 8px;
-    font-size: 1.8vh;
+    /* background: #ededed;
+
+    border: 1px solid #333;
+    padding: 0.5vh;
+    border-radius: 3px;
+    font-size: 1.5vh;
+    transition: transform 0.1s; */
+
+    color: #000000;
     cursor: pointer;
-    transition: transform 0.2s;
 }
 
 .color-link-button:hover {
-    transform: scale(1.05);
+    color: #f7b70e;
+    transform: scale(1.04);
 }
 
 .action-buttons-select {
@@ -192,15 +201,14 @@ mat-card-content {
     position: absolute;
     top: 2vh;
     left: 1vw;
-    background: none;
     border: none;
     cursor: pointer;
-    z-index: 111;
+    font-size: 2rem;
+    color: #333;
 }
 
-.close-button i {
-    font-size: 2vw;
-    color: #333;
+.close-button:hover{
+    color: #252525;
 }
 
 .logo {
@@ -211,3 +219,19 @@ mat-card-content {
     max-width: 100px;
     height: auto;
 }
+
+.favorite-button {
+  border-radius: 0.4vw;
+  margin-right: 1.2vw;
+  font-size: 1.3rem;
+  cursor: pointer;
+  }
+  
+  .not-select  {
+    color: gray;
+  }
+  
+  .select  {
+    color: #f7b70e;
+  }
+  
