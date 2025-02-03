@@ -12,16 +12,16 @@ import { MenuItem, MenuItemCommandEvent } from 'primeng/api';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent implements OnInit {
-  [x: string]: any;
   categorySelected: string = '';
   loginSelected: boolean = false;
   isLogin: boolean = false;
   storedValue: string | null | undefined;
   items: MenuItem[] | undefined;
   selectedTab: MenuItem | null = null;
+  selectLike: boolean = false;
   isMenuOpen = false;
   isMobile = false;
-
+  
   constructor(private authService: AuthService, private route: ActivatedRoute, private router: Router) {
   }
 

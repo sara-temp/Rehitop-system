@@ -29,7 +29,7 @@ export class ManagerService {
         if (products) {
           return products
             .filter((prod) => prod.categories.some((cat) => cat === category))
-            .sort((a, b) => b.countPriority - a.countPriority); // מיון מהגדול לקטן
+            .sort((a, b) => b.count_priority - a.count_priority); // מיון מהגדול לקטן
         } else {
           throw new Error('not found');
         }
@@ -69,7 +69,7 @@ export class ManagerService {
   }
 
   post = (product: Product): Observable<Product> => {
-    product.countPriority = 0;
+    product.count_priority = 0;
     return this.http.post<Product>(this.jsonUrl, product, {
       headers: this.getAuthorizationHeader()
     });
