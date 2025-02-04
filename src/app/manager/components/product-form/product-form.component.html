@@ -107,8 +107,8 @@
     <!-- חברה -->
     <div class="form-group">
       <label for="company" class="form-label">חברה</label>
-      <select formControlName="company" id="company" (change)="onCompanyChange($event)">
-        <option *ngFor="let company of companies" [value]="company.name">{{ company.name }}</option>
+      <select formControlName="company" id="company" (change)="onCompanyChange($event)" [compareWith]="compareCompanies">
+        <option *ngFor="let company of companies" [ngValue]="company">{{ company.name }}</option>
       </select>
     </div>
   </form>

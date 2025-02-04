@@ -1,5 +1,5 @@
 import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
-import { Categories, ChildrensRoom, Closets, companies, DiningAreas, Mattresses, Office, Product, Salon, SCHEMA_RUNTIME, SubCategory } from '../../../models/product.model';
+import { Categories, ChildrensRoom, Closets, companies, Company, DiningAreas, Mattresses, Office, Product, Salon, SCHEMA_RUNTIME, SubCategory } from '../../../models/product.model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { ManagerService } from '../../manager.service';
@@ -117,6 +117,9 @@ export class ProductFormComponent {
     });
   }
 
+  compareCompanies(company1: Company, company2: Company): boolean {
+    return company1 && company2 ? company1.name === company2.name : company1 === company2;
+  }
 
   removeCategory(categoryData: string): void {
     const updatedCategories = this.productForm.controls['categories'].value.filter((c: string) => c !== categoryData);
@@ -205,8 +208,7 @@ export class ProductFormComponent {
     const selectedCompany = this.companies.find(company => company.name === selectedCompanyName);
     if (selectedCompany) {
       this.productForm.patchValue({
-        company: selectedCompany.name,
-        colors: selectedCompany.colors
+        company: selectedCompany
       });
     }
   }
@@ -222,7 +224,7 @@ export class ProductFormComponent {
   }
 
   async onSubmit() {
-    // console.log('onSubmit:: this.img', this.img, '\nthis.images',this.images);
+    console.log('onSubmit', this.productForm.value);
     this.submitted = true;
     let categories = [...new Set(this.productForm.controls['categories'].value.flatMap((category: TreeNode | string) => {
       if (typeof category === 'string') {

@@ -63,6 +63,9 @@
                 <th style="min-width:19rem">
                     תיאור
                 </th>
+                <th style="min-width:19rem">
+                    מידות
+                </th>
                 <th pSortableColumn="company" style="min-width: 11rem">
                     חברה
                     <p-sortIcon field="company" />
@@ -89,8 +92,12 @@
                         <span *ngIf="product.categories.length>1"> | </span></span>
                 </td>
                 <td>{{ product.describe }}</td>
+                <td>{{ product.sizes }}</td>
                 <td>{{ product.company }}</td>
-                <td>{{ product.colors }}</td>
+                <td>
+                <a (click)="openLinkInNewTab(product?.company)" style="cursor: pointer; text-decoration-line: underline;">
+                    {{ matchColor(product.company) }}</a>
+                </td>
                 <td>
                     <p-button icon="pi pi-pencil" class="edit" class="mr-2" [rounded]="true" [outlined]="true"
                         (click)="editRow(product)" />

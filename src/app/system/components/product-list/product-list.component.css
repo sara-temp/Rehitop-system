@@ -26,6 +26,7 @@ mat-card img {
     max-height: 70vh;
     /* border-bottom: 0.45vh solid #000000; */
     object-fit: contain;
+    border-radius: 2vh;
     /* margin-bottom: 1vw; */
 }
 
@@ -40,7 +41,7 @@ mat-card img {
     transition: opacity 0.3s ease;
 }
 
-.example-card:hover .action-buttons {
+.card:hover .action-buttons {
     opacity: 1;
 }
 
@@ -56,7 +57,7 @@ mat-card img {
 }
 
 .edit-button:hover {
-    background-color: rgba(33, 150, 243, 0.8);
+    background-color: rgb(247, 183, 14, 0.8);
 }
 
 .delete-button:hover {
@@ -83,7 +84,8 @@ mat-card-content {
 .card-viewer {
     display: flex;
     width: 75vw;
-    height: 80vh; /* גובה קבוע */
+    height: 80vh;
+    /* גובה קבוע */
     background: #ffffff;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     border-radius: 12px;
@@ -94,8 +96,15 @@ mat-card-content {
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.95); }
-    to { opacity: 1; transform: scale(1); }
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 .image-section {
@@ -106,19 +115,6 @@ mat-card-content {
     padding: 2vh 2vw;
     background: #f9f9f9;
     border-right: 2px solid #eee;
-}
-
-.sizes-display {
-    white-space: pre-line;
-    line-height: 1.6;
-    margin: 1vh 0;
-}
-
-.describe-text {
-    font-size: 1.8vw; /* מגדיל את גודל הטקסט של התיאור */
-    font-weight: 500;
-    margin: 1vh 0;
-    line-height: 1.4;
 }
 
 .image-section img {
@@ -133,7 +129,8 @@ mat-card-content {
     font-family: "Rubik", Sans-serif;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* ממרכז את הכיתוב */
+    justify-content: center;
+    /* ממרכז את הכיתוב */
     align-items: flex-start;
 }
 
@@ -144,28 +141,36 @@ mat-card-content {
     color: #f7b70e;
 }
 
-.price-contain{
-    display: flex;
-    flex-direction: row;
-    align-items:center;
+.describe-text {
+    font-size: 1.8vw;
+    /* מגדיל את גודל הטקסט של התיאור */
+    font-weight: 500;
+    margin: 1vh 0;
+    line-height: 1.4;
 }
 
-.details-section .price {
+.price-contain {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+}
+
+.price-contain .price {
     font-size: 2vw;
     color: #f7b70e;
     font-weight: bold;
     margin: 1vh 0;
 }
 
+.sizes-display {
+    white-space: pre-line;
+    line-height: 1.6;
+    margin: 1vh 0;
+}
+
+
 .color-link-button {
-    /* background: #ededed;
-
-    border: 1px solid #333;
-    padding: 0.5vh;
-    border-radius: 3px;
-    font-size: 1.5vh;
-    transition: transform 0.1s; */
-
     color: #000000;
     cursor: pointer;
 }
@@ -182,33 +187,50 @@ mat-card-content {
     margin-top: 2vh;
 }
 
-.edit-button-select, .delete-button-select {
+.edit-button-select,
+.delete-button-select{
     background: #fff;
-    border-radius: 50%;
-    padding: 10px;
+    border: none;
     transition: 0.3s;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
 }
 
 .edit-button-select:hover {
-    background-color: rgba(33, 149, 243, 0.9);
+    background-color: rgb(247, 183, 14, 0.8);
 }
 
 .delete-button-select:hover {
-    background-color: rgba(244, 67, 54, 0.9);
+    background-color: rgba(244, 67, 54, 0.8);
 }
 
 .close-button {
     position: absolute;
     top: 2vh;
     left: 1vw;
+    background: none;
     border: none;
     cursor: pointer;
-    font-size: 2rem;
-    color: #333;
+    outline: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5vw;
+    /* Adjust size */
+    height: 2.5vw;
+    /* Adjust size */
+    font-size: 1.8rem;
+    color: #2d2b2b;
+    border-radius: 50%;
+    /* Circle shape */
+    transition: background-color 0.2s ease;
 }
 
-.close-button:hover{
-    color: #252525;
+.close-button:hover {
+    background-color: #eeeeee81;
+    /* Light hover effect */
+    transition: background-color 0.2s ease;
 }
 
 .logo {
@@ -221,17 +243,16 @@ mat-card-content {
 }
 
 .favorite-button {
-  border-radius: 0.4vw;
-  margin-right: 1.2vw;
-  font-size: 1.3rem;
-  cursor: pointer;
-  }
-  
-  .not-select  {
+    border-radius: 0.4vw;
+    margin-right: 1.2vw;
+    font-size: 1.3rem;
+    cursor: pointer;
+}
+
+.not-select {
     color: gray;
-  }
-  
-  .select  {
+}
+
+.select {
     color: #f7b70e;
-  }
-  
+}

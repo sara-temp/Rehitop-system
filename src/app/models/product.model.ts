@@ -33,32 +33,32 @@ export class Product {
   }
 }
 
-interface Company {
+export interface Company {
   name: string;
   colors: string;
 }
 
 export const companies: Company[] = [
   { name: "בלנדורה", colors: "" },
-  { name: "גן נוי", colors: "אתר" },
+  { name: "גן נוי", colors: "http://localhost:3001/assets/colors-files/גן נוי.pdf" },
   { name: "דניאל", colors: "" },
   { name: 'ד"ר שדרה', colors: "" },
   { name: "חרבאואי", colors: "לאתר של חרבאואי יש שמה ראשי מיטה ובסיסי מיטה ובדים לפנות למוכרת" },
-  { name: "טיב העץ", colors: "" },
-  { name: "מרכז", colors: "להוריד צבעים מאתר מקור הפורמייקה ולקבץ" },
-  { name: "משרדנו", colors: "https://tb-wd.co.il/%d7%a6%d7%91%d7%a2%d7%99%d7%9d/" },
-  { name: "נגר", colors: "" },
+  { name: "טיב העץ", colors: "פנה למוכרת" },
+  { name: "מרכז", colors: "http://localhost:3001/assets/colors-files/מרכז.pdf" },
+  { name: "משרדנו", colors: "http://localhost:3001/assets/colors-files/תבי.pdf" },
+  { name: "נגר", colors: "פנה למוכרת" },
   { name: "נועם אלי", colors: "https://forbirman.co.il/" },
-  { name: "ניו קומפורט", colors: "שחור בז חום כהה וקמל + מאתר ולקבץ" },
-  { name: "ספות המלך", colors: "" },
+  { name: "ניו קומפורט", colors: "http://localhost:3001/assets/colors-files/ניו-קומפורט.jpg" },
+  { name: "ספות המלך", colors: "פנה למוכרת" },
   { name: "פולירון", colors: "" },
-  { name: "קומותיים", colors: "מניפה מצורפת" },
+  { name: "קומותיים", colors: "http://localhost:3001/assets/colors-files/קומותיים.jpeg" },
   { name: "קוקטייל", colors: "אתר" },
-  { name: "קחטן", colors: "" },
+  { name: "קחטן", colors: "http://localhost:3001/assets/colors-files/קחטן.jpg" },
   { name: "רהיטי הארבעה", colors: "https://forbirman.co.il/" },
   { name: "רויה אקסלוסיב", colors: "" },
-  { name: "שולחנות נגר", colors: "" },
-  { name: "תבי", colors: "https://tb-wd.co.il/%d7%a6%d7%91%d7%a2%d7%99%d7%9d/" },
+  { name: "שולחנות נגר", colors: "פנה למוכרת" },
+  { name: "תבי", colors: "http://localhost:3001/assets/colors-files/תבי.pdf" },
 ];
 
 export enum Categories {
