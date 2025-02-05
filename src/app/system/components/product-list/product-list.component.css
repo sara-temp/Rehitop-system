@@ -134,10 +134,10 @@ mat-card-content {
     align-items: flex-start;
 }
 
-.details-section h2 {
+.details-section .contain h2 {
     font-size: 2vw;
     font-weight: bold;
-    margin-bottom: 1.5vh;
+    margin-bottom: 1vh;
     color: #f7b70e;
 }
 
@@ -149,14 +149,15 @@ mat-card-content {
     line-height: 1.4;
 }
 
-.price-contain {
+.contain {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     align-items: center;
     width: 100%;
 }
 
-.price-contain .price {
+.contain .price {
     font-size: 2vw;
     color: #f7b70e;
     font-weight: bold;
@@ -245,14 +246,14 @@ mat-card-content {
 .favorite-button {
     border-radius: 0.4vw;
     margin-right: 1.2vw;
-    font-size: 1.3rem;
+    font-size: 1.8rem;
     cursor: pointer;
+    margin: 1vh;
 }
 
 .not-select {
     color: gray;
 }
-
 .select {
     color: #f7b70e;
 }

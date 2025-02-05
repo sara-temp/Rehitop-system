@@ -30,17 +30,21 @@
 
     <!-- חלק הפרטים -->
     <div class="details-section" [ngClass]="">
-      <h2>דגם {{ selectedProduct.name }}</h2>
+      <div class="contain">
+        <h2>דגם {{ selectedProduct.name }} </h2>
+        <i *ngIf="!selectedProduct.price && isLike(selectedProduct)" class="bi bi-heart-fill favorite-button select"
+          (click)=" addToCart(selectedProduct)"></i>
+        <i *ngIf="!selectedProduct.price &&!isLike(selectedProduct)" class="bi bi-heart favorite-button select"
+          (click)="addToCart(selectedProduct)"></i></div>
       <div class="describe">
         <span class="describe-text">{{ selectedProduct.describe }}</span>
       </div>
-      <div *ngIf="selectedProduct.price && selectedProduct.price>0" class="price-contain">
+      <div *ngIf="selectedProduct.price && selectedProduct.price>0" class="contain">
         <div class="price">{{ selectedProduct.price }} ₪</div>
         <i *ngIf="isLike(selectedProduct)" class="bi bi-heart-fill favorite-button select"
           (click)="addToCart(selectedProduct)"></i>
         <i *ngIf="!isLike(selectedProduct)" class="bi bi-heart favorite-button not-select"
           (click)="addToCart(selectedProduct)"></i>
-
       </div>
       <div *ngIf="selectedProduct.sizes">
         <p class="sizes-display">{{selectedProduct.sizes}}</p>
