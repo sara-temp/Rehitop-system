@@ -10,8 +10,8 @@
             <p>{{ productObject.describe }}</p>
             <p><strong>קטגוריה:</strong> {{ productObject.categories }}</p>
             <p *ngIf="productObject.company"><strong>חברה:</strong> {{ productObject.company }}</p>
-            <div *ngIf="productObject.colors">
-              <button class="color-link-button" (click)="openLinkInNewTab(productObject.colors)">
+            <div *ngIf="productObject.company">
+              <button class="color-link-button" (click)="openLinkInNewTab(productObject.company.colors)">
                 <i class="bi bi-palette2"></i> צבעים
               </button>
             </div>

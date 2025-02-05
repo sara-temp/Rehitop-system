@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { Table } from 'primeng/table';
-import { Product, SubCategory, ChildrensRoom, Closets, DiningAreas, Mattresses, Office, Salon, Categories } from '../../../models/product.model';
+import { Product, SubCategory, ChildrensRoom, Closets, DiningAreas, Mattresses, Office, Salon, Categories, companies } from '../../../models/product.model';
 import { ManagerService } from '../../manager.service';
 import { ProductFormComponent } from '../product-form/product-form.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -56,6 +56,8 @@ export class DataTableComponent implements OnInit {
   deleteInProgress = false;
 
   result: any;
+
+  companies = companies;
 
   constructor(
     private _managerService: ManagerService,
@@ -188,15 +190,33 @@ export class DataTableComponent implements OnInit {
     return index;
   }
 
-  createId(): string {
-    let id = '';
-    var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    for (var i = 0; i < 5; i++) {
-      id += chars.charAt(Math.floor(Math.random() * chars.length));
+  matchColor(_company: any) {
+    if (typeof _company === 'string') {
+      const selectedCompany = this.companies.find(company =>
+        typeof company.name === 'string' && company.name === _company
+      );
+      return selectedCompany?.colors;
     }
-    return id;
+    return _company.colors;
   }
 
+  openLinkInNewTab(_company: any): string {
+    console.log(_company);
+    let url = "";
+    if (typeof _company === 'string') {
+      const selectedCompany = this.companies.find(company =>
+        typeof company.name === 'string' && company.name === _company
+      );
+      url = selectedCompany?.colors || '';
+      window.open(url, '_blank');
+    }
+
+    else {
+      url = _company.colors;
+    }
+    if (url) window.open(url, '_blank');
+    return url;
+  }
 
   editRow(row: any) {
     const dialogRef = this.dialog.open(ProductFormComponent, {

@@ -29,22 +29,27 @@
     </div>
 
     <!-- חלק הפרטים -->
-    <div class="details-section">
-      <h2>דגם {{ selectedProduct.name }}</h2>
+    <div class="details-section" [ngClass]="">
+      <div class="contain">
+        <h2>דגם {{ selectedProduct.name }} </h2>
+        <i *ngIf="!selectedProduct.price && isLike(selectedProduct)" class="bi bi-heart-fill favorite-button select"
+          (click)=" addToCart(selectedProduct)"></i>
+        <i *ngIf="!selectedProduct.price &&!isLike(selectedProduct)" class="bi bi-heart favorite-button select"
+          (click)="addToCart(selectedProduct)"></i></div>
       <div class="describe">
         <span class="describe-text">{{ selectedProduct.describe }}</span>
       </div>
-      <div class="price-contain">
-        <div *ngIf="selectedProduct.price && selectedProduct.price>0" class="price">{{ selectedProduct.price }} ₪</div>
-      <i *ngIf="isLike(selectedProduct)" class="bi bi-heart-fill favorite-button select" (click)="addToCart(selectedProduct)"></i>
-      <i *ngIf="!isLike(selectedProduct)" class="bi bi-heart favorite-button not-select" (click)="addToCart(selectedProduct)"></i>
-      
-    </div>
+      <div *ngIf="selectedProduct.price && selectedProduct.price>0" class="contain">
+        <div class="price">{{ selectedProduct.price }} ₪</div>
+        <i *ngIf="isLike(selectedProduct)" class="bi bi-heart-fill favorite-button select"
+          (click)="addToCart(selectedProduct)"></i>
+        <i *ngIf="!isLike(selectedProduct)" class="bi bi-heart favorite-button not-select"
+          (click)="addToCart(selectedProduct)"></i>
+      </div>
       <div *ngIf="selectedProduct.sizes">
         <p class="sizes-display">{{selectedProduct.sizes}}</p>
       </div>
-      <a *ngIf="selectedProduct.colors" (click)="openLinkInNewTab(selectedProduct.colors)"
-        class="color-link-button">
+      <a *ngIf="selectedProduct.company" (click)="openLinkInNewTab(selectedProduct.company)" class="color-link-button">
         <i class="bi bi-palette2"></i> לצבעים</a>
       <div class="action-buttons-select" *ngIf="isLogin">
         <button mat-icon-button color="primary" (click)="editRow(selectedProduct, $event)" class="edit-button-select"
