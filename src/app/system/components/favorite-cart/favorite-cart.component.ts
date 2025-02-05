@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+// favorite-cart.component.ts
+import { Component, OnInit } from '@angular/core';
 import { SystemService } from '../../system.service';
+import { Product } from '../../../models/product.model';
 import JSZip from 'jszip';
-
 
 @Component({
   selector: 'app-favorite-cart',
@@ -9,29 +10,32 @@ import JSZip from 'jszip';
   templateUrl: './favorite-cart.component.html',
   styleUrls: ['./favorite-cart.component.css']
 })
-export class FavoriteCartComponent {
-  constructor(protected _systemService: SystemService) { }
+export class FavoriteCartComponent implements OnInit {
+  favoriteProducts: Product[] = [];
 
- 
+  constructor(private systemService: SystemService) { }
+
+  ngOnInit() {
+    // נרשמים לעדכונים של המועדפים
+    this.systemService.favoriteProducts$.subscribe(products => {
+      this.favoriteProducts = products;
+    });
+  }
+
   downloadImagesAsZip() {
-    if (this._systemService.favoriteProducts.length === 0) {
+    if (this.favoriteProducts.length === 0) {
       alert("אין מוצרים בסל");
       return;
     }
-
     const zip = new JSZip();
-
-    this._systemService.favoriteProducts.forEach((product: any, index: number) => {
-      // הורדת התמונה מתוך URL
+    this.favoriteProducts.forEach((product: Product, index: number) => {
       fetch(product.image)
         .then(response => response.blob())
         .then(blob => {
           zip.file(`image_${index + 1}.jpg`, blob);
-
-          // כשכל התמונות נוספו ל-ZIP, נוכל להוריד אותו
-          if (index === this._systemService.favoriteProducts.length - 1) {
+          if (index === this.favoriteProducts.length - 1) {
             zip.generateAsync({ type: 'blob' })
-              .then(function(content) {
+              .then(content => {
                 const link = document.createElement('a');
                 link.href = URL.createObjectURL(content);
                 link.download = 'favorite_images.zip';
@@ -41,13 +45,12 @@ export class FavoriteCartComponent {
         });
     });
   }
-  
-  
+
   removeProduct(productId: string) {
-    this._systemService.favoriteProducts = this._systemService.favoriteProducts.filter(product => product.Id !== productId);
+    this.systemService.removeProduct(productId);
   }
 
   clearCart() {
-    this._systemService.favoriteProducts = [];
+    this.systemService.clearFavorites();
   }
 }
