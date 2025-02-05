@@ -1,39 +1,49 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { Product } from '../models/product.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SystemService {
+  private favoriteProductsSubject = new BehaviorSubject<Product[]>(this.loadFavorites());
+  favoriteProducts$ = this.favoriteProductsSubject.asObservable();
 
-  favoriteProducts: Product[] = [];
+  // במקום להשתמש במערך ישירות, אנחנו עובדים עם ה-BehaviorSubject
+  private loadFavorites(): Product[] {
+    const saved = localStorage.getItem('favoriteProducts');
+    return saved ? JSON.parse(saved) : [];
+  }
 
-  constructor() { 
-    this.loadFavorites();
+  private saveFavorites(favorites: Product[]) {
+    localStorage.setItem('favoriteProducts', JSON.stringify(favorites));
   }
 
   addProduct(product: Product) {
-    const exists = this.favoriteProducts.some(p => p.Id === product.Id);
+    let favorites = this.favoriteProductsSubject.getValue();
+    const exists = favorites.some(p => p.Id === product.Id);
     if (!exists) {
-      this.favoriteProducts.push(product);
+      favorites = [...favorites, product];
     } else {
-      this.favoriteProducts = this.favoriteProducts.filter(p => p.Id !== product.Id);
+      favorites = favorites.filter(p => p.Id !== product.Id);
     }
-    this.saveFavorites(); // עדכון ה-localStorage
+    this.saveFavorites(favorites);
+    this.favoriteProductsSubject.next(favorites);
+  }
+
+  removeProduct(productId: string) {
+    const favorites = this.favoriteProductsSubject.getValue().filter(p => p.Id !== productId);
+    this.saveFavorites(favorites);
+    this.favoriteProductsSubject.next(favorites);
+  }
+
+  clearFavorites() {
+    this.saveFavorites([]);
+    this.favoriteProductsSubject.next([]);
   }
 
   isExist(product: Product): boolean {
-    return this.favoriteProducts.some(p => p.Id === product.Id);
-  }
-
-  private saveFavorites() {
-    localStorage.setItem('favoriteProducts', JSON.stringify(this.favoriteProducts));
-  }
-
-  private loadFavorites() {
-    const savedProducts = localStorage.getItem('favoriteProducts');
-    if (savedProducts) {
-      this.favoriteProducts = JSON.parse(savedProducts);
-    }
+    const favorites = this.favoriteProductsSubject.getValue();
+    return favorites.some(p => p.Id === product.Id);
   }
 }

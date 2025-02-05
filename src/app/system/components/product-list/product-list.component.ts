@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, HostListener, Input, SimpleChanges } from '@angular/core';
-import { Product } from '../../../models/product.model';
+import { companies, Company, Product } from '../../../models/product.model';
 import { ManagerService } from '../../../manager/manager.service'
 import { ProductFormComponent } from '../../../manager/components/product-form/product-form.component';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../../../service/auth.service';
 import { ActivatedRoute } from '@angular/router';
 import { SystemService } from '../../system.service';
+import { url } from 'inspector';
 
 @Component({
   selector: 'product-list',
@@ -27,6 +28,7 @@ export class ProductListComponent {
   rows: number = 28;
   first: number = 0;
   totalProducts: number = 0;
+  companies = companies;
 
   constructor(private http: HttpClient, private _managerService: ManagerService, public dialog: MatDialog, private authService: AuthService, private route: ActivatedRoute, private _systemService: SystemService) { }
 
@@ -102,13 +104,25 @@ export class ProductListComponent {
     const dialogRef = this.dialog.open(ProductFormComponent, {
       data: { product: row }
     });
-    dialogRef.afterClosed().subscribe(res => {
+    dialogRef.afterClosed().subscribe(_res => {
       this.loadProducts();
     });
   }
 
-  openLinkInNewTab(url: string): void {
-    window.open(url, '_blank');
+  openLinkInNewTab(_company:any): void {
+    console.log("_company:", _company);
+    if (typeof _company === 'string') {
+      const selectedCompany = this.companies.find(company =>
+        typeof company.name === 'string' && company.name === _company
+      );
+      const url = selectedCompany?.colors;
+      window.open(url, '_blank');
+    }
+
+    else {
+      const url = _company.colors;
+      window.open(url, '_blank');
+    }
   }
 
   async deleteProduct(product: Product, event: Event) {
@@ -117,7 +131,7 @@ export class ProductListComponent {
     if (result.isConfirmed) {
       try {
         await this.deleteImage(product.image);
-        this._managerService.delete(product.Id).subscribe(response => {
+        this._managerService.delete(product.Id).subscribe(_response => {
           console.log('הנתונים נמחקו בהצלחה');
           this._managerService.showSuccess('!הנתונים נמחקו בהצלחה');
           this.loadProducts();
@@ -203,7 +217,7 @@ export class ProductListComponent {
 
   addToCart(product: Product) {
     this.isFavorite = this._systemService.isExist(product);
-      this._systemService.addProduct(product);
-      console.log('המוצר נוסף לסל:', product);
+    this._systemService.addProduct(product);
+    console.log('המוצר נוסף לסל:', product);
   }
 }
