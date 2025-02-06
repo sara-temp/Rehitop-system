@@ -7,7 +7,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../../../service/auth.service';
 import { ActivatedRoute } from '@angular/router';
 import { SystemService } from '../../system.service';
-import { url } from 'inspector';
 
 @Component({
   selector: 'product-list',

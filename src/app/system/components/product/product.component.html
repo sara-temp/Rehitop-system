@@ -15,17 +15,17 @@
         <div class="contain">
           <h2>דגם {{ productObject.name }} </h2>
           <i *ngIf="!productObject.price && isLike(productObject)" class="bi bi-heart-fill favorite-button select"
-            (click)=" addToCart(productObject)"></i>
-          <i *ngIf="!productObject.price &&!isLike(productObject)" class="bi bi-heart favorite-button select"
-            (click)="addToCart(productObject)"></i>
+            ></i>
+          <i *ngIf="!productObject.price &&!isLike(productObject)" class="bi bi-heart favorite-button not-select"
+            ></i>
         </div>
         <span class="describe-text">{{ productObject.describe }}</span>
         <div *ngIf="productObject.price && productObject.price>0" class="contain">
           <div class="price">{{ productObject.price }} ₪</div>
           <i *ngIf="isLike(productObject)" class="bi bi-heart-fill favorite-button select"
-            (click)="addToCart(productObject)"></i>
+            ></i>
           <i *ngIf="!isLike(productObject)" class="bi bi-heart favorite-button not-select"
-            (click)="addToCart(productObject)"></i>
+            ></i>
         </div>
         <div *ngIf="productObject.sizes">
           <p class="sizes-display">{{productObject.sizes}}</p>
