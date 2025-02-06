@@ -80,6 +80,7 @@ export class ProductListComponent {
   closeViewer(): void {
     this.selectedProduct = null;
     this.selectedProductIndex = -1;
+    this.isFavorite = false;
   }
 
   closeOnOverlayClick(event: MouseEvent) {
@@ -89,10 +90,10 @@ export class ProductListComponent {
   }
 
   openViewer(product: Product): void {
-    console.log('in open viewer', product)
     this.selectedProduct = product;
     this.selectedProductIndex = this.pagedProducts.indexOf(product);
     product.count_priority++;
+  
     this._managerService.put(product, product.Id).subscribe(
       (data) => console.log('Product updated:', data),
       (error) => console.log('Failed to update product:', error)
