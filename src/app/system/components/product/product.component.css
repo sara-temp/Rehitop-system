@@ -149,6 +149,16 @@
   margin: 1vh 0;
 }
 
+.color-link-button {
+  color: #000000;
+  cursor: pointer;
+}
+
+.color-link-button:hover {
+  color: #f7b70e;
+  transform: scale(1.04);
+}
+
 .action-buttons-select {
   display: flex;
   justify-content: center;
