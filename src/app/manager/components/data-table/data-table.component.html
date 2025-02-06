@@ -93,7 +93,7 @@
                 </td>
                 <td>{{ product.describe }}</td>
                 <td>{{ product.sizes }}</td>
-                <td>{{ product.company }}</td>
+                <td>{{ typeof product.company === "object"?product.company.name : product.company }}</td>
                 <td>
                 <a (click)="openLinkInNewTab(product?.company)" style="cursor: pointer; text-decoration-line: underline;">
                     {{ matchColor(product.company) }}</a>

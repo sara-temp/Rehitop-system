@@ -1,26 +1,49 @@
 <ng-container *ngIf="productObject">
-  <div class="backdrop" (click)="closeImage()">
-    <mat-card class="example-card" appearance="outlined">
-      <div class="card-container">
-        <img class="card-logo" src="assets/logo3.png" alt="Logo" />
-        <div class="card-details">
-          <mat-card-content>
-          <h2>{{ productObject.name }}</h2>
-          <p><strong>מחיר:</strong> ${{ productObject.price }}</p>
-            <p>{{ productObject.describe }}</p>
-            <p><strong>קטגוריה:</strong> {{ productObject.categories }}</p>
-            <p *ngIf="productObject.company"><strong>חברה:</strong> {{ productObject.company }}</p>
-            <div *ngIf="productObject.company">
-              <button class="color-link-button" (click)="openLinkInNewTab(productObject.company.colors)">
-                <i class="bi bi-palette2"></i> צבעים
-              </button>
-            </div>
-          </mat-card-content>
+  <div *ngIf="productObject" class="overlay" tabindex="0" (click)="closeOnOverlayClick($event)">
+    <div class="card-viewer">
+
+      <!-- כפתור X ולוגו -->
+      <i class="bi bi-x-circle close-button" (click)="closeViewerComponent()"></i>
+      <img class="logo" src="assets/logo3.png" alt="Logo" />
+
+      <!-- חלק התמונה -->
+      <div class="image-section">
+        <img [src]="productObject.image" alt="Product Image">
+      </div>
+
+      <div class="details-section">
+        <div class="contain">
+          <h2>דגם {{ productObject.name }} </h2>
+          <i *ngIf="!productObject.price && isLike(productObject)" class="bi bi-heart-fill favorite-button select"
+            (click)=" addToCart(productObject)"></i>
+          <i *ngIf="!productObject.price &&!isLike(productObject)" class="bi bi-heart favorite-button select"
+            (click)="addToCart(productObject)"></i>
         </div>
-        <div class="card-image">
-          <img mat-card-xl-image [src]="productObject.image" alt="Example Image">
+        <span class="describe-text">{{ productObject.describe }}</span>
+        <div *ngIf="productObject.price && productObject.price>0" class="contain">
+          <div class="price">{{ productObject.price }} ₪</div>
+          <i *ngIf="isLike(productObject)" class="bi bi-heart-fill favorite-button select"
+            (click)="addToCart(productObject)"></i>
+          <i *ngIf="!isLike(productObject)" class="bi bi-heart favorite-button not-select"
+            (click)="addToCart(productObject)"></i>
+        </div>
+        <div *ngIf="productObject.sizes">
+          <p class="sizes-display">{{productObject.sizes}}</p>
+        </div>
+        <a *ngIf="productObject.company" (click)="openLinkInNewTab(productObject.company)"
+          class="color-link-button">
+          <i class="bi bi-palette2"></i> לצבעים</a>
+        <div class="action-buttons-select" *ngIf="isLogin">
+          <button mat-icon-button color="primary" (click)="editRow(productObject, $event)" class="edit-button-select"
+            aria-label="Edit">
+            <i class="bi bi-pencil-fill"></i>
+          </button>
+          <button mat-icon-button color="warn" (click)="onDelete(productObject, $event)"
+            class="delete-button-select" aria-label="Delete">
+            <i class="bi bi-trash3-fill"></i>
+          </button>
         </div>
       </div>
-    </mat-card>
+    </div>
   </div>
 </ng-container>

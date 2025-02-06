@@ -16,19 +16,23 @@
   <p-paginator [rows]="rows" [totalRecords]="totalProducts" (onPageChange)="onPageChange($event)"></p-paginator>
 </div>
 
+<product-card
+ [isLogin]="isLogin"
+ [productObject]="selectedProduct" 
+ (deleteProductEvent)="deleteProduct($event.product, $event.event)"
+ (closeViewer)="closeViewer()"
+ ></product-card>
+
 <!-- תצוגה מלאה של הכרטיס -->
-<div *ngIf="selectedProduct" class="overlay" tabindex="0" (click)="closeOnOverlayClick($event)">
+<!-- <div *ngIf="selectedProduct" class="overlay" tabindex="0" (click)="closeOnOverlayClick($event)">
   <div class="card-viewer">
-    <!-- כפתור X ולוגו -->
     <i class="bi bi-x-circle close-button" (click)="closeViewer()"></i>
     <img class="logo" src="assets/logo3.png" alt="Logo" />
 
-    <!-- חלק התמונה -->
     <div class="image-section">
       <img [src]="selectedProduct.image" alt="Product Image">
     </div>
 
-    <!-- חלק הפרטים -->
     <div class="details-section" [ngClass]="">
       <div class="contain">
         <h2>דגם {{ selectedProduct.name }} </h2>
@@ -63,4 +67,4 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
