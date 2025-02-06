@@ -45,6 +45,7 @@
   border-radius: 50%;
   /* Circle shape */
   transition: background-color 0.2s ease;
+
 }
 
 .close-button:hover {
@@ -179,6 +180,7 @@
 .edit-button-select:hover {
   background-color: rgb(247, 183, 14, 0.8);
 }
+
 
 .delete-button-select:hover {
   background-color: rgba(244, 67, 54, 0.8);
