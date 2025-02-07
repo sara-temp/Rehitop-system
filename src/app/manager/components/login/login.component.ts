@@ -37,10 +37,11 @@ export class LoginComponent {
   }
 
   onCancel() {
-    this.dialog.closeAll();
+    // this.dialog.closeAll();
+    this.router.navigate([''])
   }
  
   togglePasswordVisibility() {
-    this.showPassword = !this.showPassword; // החלפת המצב
+    this.showPassword = !this.showPassword; 
   }
 }

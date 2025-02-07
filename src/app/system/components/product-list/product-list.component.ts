@@ -30,6 +30,13 @@ export class ProductListComponent {
   totalProducts: number = 0;
   companies = companies;
 
+  selectedSortOption: string = 'priority';
+  sortOptions = [
+    { value: 'priority', label: 'הפופולרי ביותר' },
+    { value: 'priceAsc', label: 'מחיר נמוך לגבוה' },
+    { value: 'priceDesc', label: 'מחיר גבוה לנמוך' }
+  ];
+  
   constructor(private http: HttpClient, private _managerService: ManagerService, public dialog: MatDialog, private authService: AuthService, private route: ActivatedRoute, private _systemService: SystemService) { }
 
   ngOnInit() {
@@ -109,7 +116,7 @@ export class ProductListComponent {
     });
   }
 
-  openLinkInNewTab(_company:any): void {
+  openLinkInNewTab(_company: any): void {
     console.log("_company:", _company);
     if (typeof _company === 'string') {
       const selectedCompany = this.companies.find(company =>
@@ -220,4 +227,21 @@ export class ProductListComponent {
     this._systemService.addProduct(product);
     console.log('המוצר נוסף לסל:', product);
   }
+
+  sortProducts() {
+    switch (this.selectedSortOption) {
+      case 'priceAsc':
+        this.products.sort((a, b) => a.price - b.price);
+        break;
+      case 'priceDesc':
+        this.products.sort((a, b) => b.price - a.price);
+        break;
+      case 'priority':
+        this.products.sort((a, b) => b.count_priority - a.count_priority);
+        break;
+    }
+    this.first = 0;
+    this.updatePagedProducts();
+  }
+  
 }

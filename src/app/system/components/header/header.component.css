@@ -8,7 +8,6 @@
   top: 0;
   background-color: #000;
   height: 18vh;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
   direction: rtl;
   border-bottom: 0.7vh solid #f7b70e;
 }
@@ -80,6 +79,7 @@ app-favorite-cart{
   margin: 0;
   display: flex;
   direction: rtl;
+  /* font-family: 'MyCustomFont', serif; */
 }
 
 .menu-items>li {
