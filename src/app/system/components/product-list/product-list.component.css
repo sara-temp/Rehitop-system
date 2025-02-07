@@ -189,7 +189,7 @@ mat-card-content {
 }
 
 .edit-button-select,
-.delete-button-select{
+.delete-button-select {
     background: #fff;
     border: none;
     transition: 0.3s;
@@ -254,6 +254,61 @@ mat-card-content {
 .not-select {
     color: gray;
 }
+
 .select {
     color: #f7b70e;
+}
+
+.sort-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+    margin: 2.5vw;
+    margin-bottom: 0;
+}
+
+/* mat-form-field {
+    width: 200px;
+} */
+
+.sort-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    direction: rtl;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.sort-label {
+    margin-right: 10px;
+    font-size: 16px;
+    color: #333;
+}
+
+.sort-select {
+    padding: 8px 26px;
+    font-size: 1vw;
+    width: 15vw;
+    border: 2px solid #f7b70e;
+    /* צהוב */
+    border-radius: 4px;
+    background-color: #fff;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.sort-select:hover {
+    border-color: #f7b70e;
+    /* צהוב כהה */
+    box-shadow: 0 0 5px rgba(35, 35, 34, 0.4);
+}
+
+.sort-select:focus {
+    outline: none;
+    border-color: #f7b70e;
+    box-shadow: 0 0 8px rgba(35, 35, 34, 0.4);
 }
