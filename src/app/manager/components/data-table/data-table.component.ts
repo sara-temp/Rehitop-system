@@ -4,7 +4,7 @@ import { Table } from 'primeng/table';
 import { Product, SubCategory, ChildrensRoom, Closets, DiningAreas, Mattresses, Office, Salon, Categories, companies } from '../../../models/product.model';
 import { ManagerService } from '../../manager.service';
 import { ProductFormComponent } from '../product-form/product-form.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TreeSelectModule } from 'primeng/treeselect';
 import { catchError, forkJoin, of } from 'rxjs';
@@ -31,27 +31,17 @@ interface TreeNode {
 })
 export class DataTableComponent implements OnInit {
 
-
-  getSeverity(arg0: any): "success" | "info" | "warn" | "danger" | "secondary" | "contrast" | undefined {
-    throw new Error('Method not implemented.');
-  }
-  productDialog: boolean = false;
-
   products!: Product[];
 
   product!: Product;
 
   selectedProducts!: Product[] | null;
 
-  submitted: boolean = false;
-
   @ViewChild('dt') dt!: Table;
 
   cols!: Column[];
 
   categoryEnum!: TreeNode[];
-
-  selectedCategories!: SubCategory[];
 
   deleteInProgress = false;
 
@@ -62,7 +52,6 @@ export class DataTableComponent implements OnInit {
   constructor(
     private _managerService: ManagerService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService,
     private dialog: MatDialog,
   ) { }
 
@@ -220,6 +209,9 @@ export class DataTableComponent implements OnInit {
 
   editRow(row: any) {
     const dialogRef = this.dialog.open(ProductFormComponent, {
+    disableClose: true,
+      width: '40vw',
+      maxWidth:'100vw',
       data: { product: row }
     });
     dialogRef.afterClosed().subscribe(res => {

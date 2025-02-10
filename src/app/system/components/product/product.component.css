@@ -9,6 +9,7 @@
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  font-family: Afek, sans-serif;
 }
 
 .card-viewer {
@@ -82,7 +83,7 @@
 .details-section {
   flex: 1;
   padding: 4vh 3vw;
-  font-family: "Rubik", Sans-serif;
+  font-family: "Afek", Sans-serif;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -112,7 +113,7 @@
   color: #f7b70e;
 }
 
-
+/* 
 .favorite-button {
   border-radius: 0.4vw;
   margin-right: 1.2vw;
@@ -127,7 +128,7 @@
 
 .select {
   color: #f7b70e;
-}
+} */
 
 .describe-text {
   font-size: 1.8vw;
