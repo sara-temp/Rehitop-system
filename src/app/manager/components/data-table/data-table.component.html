@@ -10,7 +10,7 @@
 
     </p-toolbar>
 
-    <p-table #dt1 [value]="products" [rows]="10" [columns]="cols" [paginator]="true"
+    <p-table #dt1 [value]="products" [rows]="20" [columns]="cols" [paginator]="true"
         [globalFilterFields]="['Id', 'name', 'categories', 'price']" [tableStyle]="{ 'min-width': '75rem' }"
         [(selection)]="selectedProducts" [rowHover]="true" dataKey="Id"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
@@ -20,26 +20,6 @@
                 <h3 class="m-0">ניהול מוצרים
                     <span class="pi pi-user"></span>
                 </h3>
-                <!-- <div class="flex justify-between items-center all-filter" style="min-width:15rem;">
-                    <div class="mr-2 font-bold">סינון לפי קטגוריות</div>
-                    <p-columnFilter field="categories" matchMode="contains" display="raw" [showMatchModes]="false"
-                        [showOperator]="false" [showAddButton]="false" class="ml-auto">
-                        <ng-template #filter let-value let-filter="filterCallback">
-                            <p-treeselect dir="rtl" [filter]="true" [(ngModel)]="selectedCategories" display="chip"
-                                [options]="categoryEnum" [metaKeySelection]="false" selectionMode="checkbox"
-                                placeholder="בחר קטגוריות..." (onChange)="filter($event)" class="w-full md:w-80"
-                                containerStyleClass="w-full">
-                                <ng-template let-category #item>
-                                    <div class="flex items-center gap-6">
-                                        <span>{{ category }}</span>
-                                    </div>
-                                </ng-template>
-                            </p-treeselect>
-                        </ng-template>
-                    </p-columnFilter>
-                </div> -->
-
-
             </div>
         </ng-template>
         <ng-template #header>
@@ -77,14 +57,13 @@
             </tr>
         </ng-template>
         <ng-template #body let-product>
-            <tr>
+            <tr style="height: 11vh;">
                 <td style="width: 3rem">
                     <p-tableCheckbox [value]="product" />
                 </td>
                 <td style="min-width: 10rem">{{ product.name }}</td>
                 <td>
-                    <img [src]="product.image" [alt]="product.name" style="width: 64px; height: 40px;"
-                        class="rounded" />
+                    <img [src]="product.image" [alt]="product.name" style="height: 7vh;" class="rounded" />
                 </td>
                 <td>{{ product.price | currency: 'ILS' }}</td>
                 <td>
@@ -95,8 +74,9 @@
                 <td>{{ product.sizes }}</td>
                 <td>{{ typeof product.company === "object"?product.company.name : product.company }}</td>
                 <td>
-                <a (click)="openLinkInNewTab(product?.company)" style="cursor: pointer; text-decoration-line: underline;">
-                    {{ matchColor(product.company) }}</a>
+                    <a (click)="openLinkInNewTab(product?.company)"
+                        style="cursor: pointer; text-decoration-line: underline;">
+                        {{ matchColor(product.company) }}</a>
                 </td>
                 <td>
                     <p-button icon="pi pi-pencil" class="edit" class="mr-2" [rounded]="true" [outlined]="true"
@@ -104,6 +84,9 @@
                     <p-button icon="pi pi-trash" class="delete" severity="danger" [rounded]="true" [outlined]="true"
                         (click)="deleteProduct(product)" />
                 </td>
+
+                <p-scrolltop target="parent" [threshold]="100" icon="pi pi-arrow-up"
+                    [buttonProps]="{ severity: 'contrast', raised: true, rounded: true }" />
             </tr>
         </ng-template>
         <ng-template #summary>

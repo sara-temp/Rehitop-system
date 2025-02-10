@@ -4,6 +4,7 @@
   margin: 0 auto 2rem auto;
   display: block;
 }
+
 .p-multiselect {
   display: block !important; 
 }
@@ -16,7 +17,7 @@
 .all-filter{
   display: flex;
   align-items: center;
-  background-color: var(--p-yellow-200);
+  background-color: var(--p-primary.500);
   border-radius: 10px;
   padding: 10px;
   max-width: 4rem;
@@ -38,4 +39,19 @@
 
 .delete{
   margin: 5px;
+}
+
+.card{
+  display: flex;
+  align-items: center
+}
+
+p-table{
+  width: 95vw;
+  /* border-collapse: collapse; */
+}
+
+p-table ::ng-deep th,
+p-table ::ng-deep td {
+  border-bottom: 1px solid rgb(178, 176, 176) !important;
 }

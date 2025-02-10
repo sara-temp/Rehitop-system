@@ -1,5 +1,5 @@
-import { Component, OnDestroy, OnInit, Output, EventEmitter, HostListener } from '@angular/core';
-import { Schema, Categories, ChildrensRoom, Closets, DiningAreas, MainCategory, Mattresses, Office, Salon, SubCategory, SCHEMA_RUNTIME } from '../../../models/product.model';
+import { Component, OnInit, HostListener } from '@angular/core';
+import { SCHEMA_RUNTIME } from '../../../models/product.model';
 import { AuthService } from '../../../service/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MenuItem, MenuItemCommandEvent } from 'primeng/api';

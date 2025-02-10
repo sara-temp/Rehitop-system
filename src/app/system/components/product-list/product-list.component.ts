@@ -7,7 +7,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../../../service/auth.service';
 import { ActivatedRoute } from '@angular/router';
 import { SystemService } from '../../system.service';
-import { url } from 'inspector';
 
 @Component({
   selector: 'product-list',
@@ -110,6 +109,9 @@ export class ProductListComponent {
   editRow(row: any, event: Event) {
     event.stopPropagation();
     const dialogRef = this.dialog.open(ProductFormComponent, {
+      disableClose: true,
+      width: '40vw',
+      maxWidth:'100vw',
       data: { product: row }
     });
     dialogRef.afterClosed().subscribe(_res => {

@@ -25,7 +25,7 @@
 
       <div class="image-gallery">
 
-        <p class="image-count">נבחרו {{ images.length }} תמונות</p>
+        <p class="image-count">נבחרו {{ images.length?images.length:img?1:0}} תמונות</p>
 
         <!-- הצגת אינדיקציה לטעינה -->
         <div *ngIf="isUploading" class="loading-container">
@@ -82,15 +82,13 @@
       <p-treeselect class="treeselect" formControlName="categories" id="categories" [options]="categoryOptions"
         [metaKeySelection]="false" selectionMode="checkbox" placeholder="בחר קטגוריות..." [showClear]="true">
         <ng-template let-value pTemplate="value">
-          <div class="chip-container">
-            <div class="cat-container" *ngFor="let category of value">
-              <div class="cat">
+          <div class="cat-container">
+              <div class="cat" *ngFor="let category of value">
                 <span>{{ category["label"]?category["label"]:category }}</span>
                 <button class="remove-category" (click)="onCategoryRemove(category, $event)">
                   <i class="pi pi-times" style="font-size: 0.5rem"></i>
                 </button>
               </div>
-            </div>
           </div>
         </ng-template>
       </p-treeselect>
@@ -111,6 +109,7 @@
         <option *ngFor="let company of companies" [ngValue]="company">{{ company.name }}</option>
       </select>
     </div>
+    <p-scrolltop target="parent" [threshold]="100" icon="pi pi-arrow-up" [buttonProps]="{ severity: 'contrast', raised: true, rounded: true }" />
   </form>
   <mat-dialog-actions>
     <button mat-button (click)="onCancel()" class="cancel">ביטול</button>

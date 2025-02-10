@@ -318,9 +318,9 @@ export const MyPreset = definePreset(Material, {
             100: "#fffad0",
             200: "#fff6ab",
             300: "#fff385",
-            400: "#ffef60",
-            500: "#ffeb3b",
-            600: "#d9c832",
+            400: "#f5c749e8",
+            500: "#f5c749",
+            600: "#ffc934",
             700: "#b3a529",
             800: "#8c8120",
             900: "#665e18",
@@ -416,7 +416,7 @@ export const MyPreset = definePreset(Material, {
                     200: "#ffeb3b6e",
                     300: "#cbd5e1",
                     400: "#94a3b8",
-                    500: "#64748b",
+                    500: "#f5c749",
                     600: "#475569",
                     700: "#334155",
                     800: "#1e293b",
@@ -427,7 +427,7 @@ export const MyPreset = definePreset(Material, {
                     color: "{primary.500}",
                     contrastColor: "#ffffff",
                     hoverColor: "{primary.600}",
-                    activeColor: "{primary.700}"
+                    activeColor: "{primary.500}"
                 },
                 highlight: {
                     background: "{primary.50}",
