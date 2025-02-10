@@ -9,6 +9,8 @@ export class Product {
   company?: Company
   colors?: string
   count_priority:number
+  date?: Date
+  nice_img?: boolean
 
   constructor(
     Id: string,
@@ -18,7 +20,8 @@ export class Product {
     price: number,
     describe?: string,
     sizes?:string,
-    company?: Company
+    company?: Company,
+    nice_img?: boolean
   ) {
     this.Id = Id
     this.image = image
@@ -29,7 +32,9 @@ export class Product {
     this.sizes = sizes
     this.company = company
     this.colors = company?.colors
-    this.count_priority = 0;
+    this.count_priority = 0
+    this.date = new Date()
+    this.nice_img = nice_img
   }
 }
 
