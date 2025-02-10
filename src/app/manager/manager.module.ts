@@ -33,11 +33,11 @@ import { LoginComponent } from './components/login/login.component';
 import { RouterModule } from '@angular/router';
 import { ChipModule } from 'primeng/chip';
 import { ScrollingModule } from '@angular/cdk/scrolling';
-
+import { ScrollTopModule } from 'primeng/scrolltop';
 
 @NgModule({
   declarations: [DataTableComponent, ProductFormComponent, LoginComponent],
-  imports: [ScrollingModule, ChipModule,RouterModule ,ButtonModule, CheckboxModule, CommonModule, ReactiveFormsModule,TreeSelectModule, MaterialModule, MultiSelectModule, TableModule, Dialog, Ripple, SelectModule, ToastModule, ToolbarModule, ConfirmDialog, InputTextModule, TextareaModule, CommonModule, FileUpload, DropdownModule, Tag, RadioButton, Rating, InputTextModule, FormsModule, InputNumber, IconFieldModule, InputIconModule],
+  imports: [ScrollTopModule, ScrollingModule, ChipModule,RouterModule ,ButtonModule, CheckboxModule, CommonModule, ReactiveFormsModule,TreeSelectModule, MaterialModule, MultiSelectModule, TableModule, Dialog, Ripple, SelectModule, ToastModule, ToolbarModule, ConfirmDialog, InputTextModule, TextareaModule, CommonModule, FileUpload, DropdownModule, Tag, RadioButton, Rating, InputTextModule, FormsModule, InputNumber, IconFieldModule, InputIconModule],
   providers: [MessageService, ConfirmationService],
   exports: [DataTableComponent, ProductFormComponent, LoginComponent]
 })

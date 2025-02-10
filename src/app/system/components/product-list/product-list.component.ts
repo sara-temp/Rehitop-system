@@ -102,6 +102,9 @@ export class ProductListComponent {
   editRow(row: any, event: Event) {
     event.stopPropagation();
     const dialogRef = this.dialog.open(ProductFormComponent, {
+      disableClose: true,
+      width: '40vw',
+      maxWidth:'100vw',
       data: { product: row }
     });
     dialogRef.afterClosed().subscribe(_res => {

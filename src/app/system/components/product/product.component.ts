@@ -40,7 +40,7 @@ export class ProductComponent {
       this.productObject = null;
     }
   }
-  
+
 
   @Output() closeViewer: EventEmitter<void> = new EventEmitter<void>();
 
@@ -75,17 +75,20 @@ export class ProductComponent {
     }
   }
 
-   editRow(row: any, event: Event) {
-      event.stopPropagation();
-      const dialogRef = this.dialog.open(ProductFormComponent, {
-        data: { product: row }
-      });
+  editRow(row: any, event: Event) {
+    event.stopPropagation();
+    const dialogRef = this.dialog.open(ProductFormComponent, {
+      disableClose: true,
+      width: '40vw',
+      maxWidth: '100vw',
+      data: { product: row }
+    });
   }
 
   updatePagedProducts() {
     this.pagedProducts = this.products.slice(this.first, this.first + this.rows);
   }
-  
+
   @Output() deleteProductEvent: EventEmitter<{ product: Product, event: Event }> = new EventEmitter<{ product: Product, event: Event }>();
 
   onDelete(product: Product, event: Event) {
