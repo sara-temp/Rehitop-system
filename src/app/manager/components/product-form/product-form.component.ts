@@ -87,6 +87,8 @@ export class ProductFormComponent {
       sizes: new FormControl(this.product?.sizes || ''),
       company: new FormControl(this.product?.company || ''),
       colors: new FormControl(this.product?.colors || ''),
+      nice_img: new FormControl(this.product?.nice_img || false),
+      date: new FormControl(new Date()) 
     });
   }
 

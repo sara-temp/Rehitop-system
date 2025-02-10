@@ -11,7 +11,6 @@
     <!-- תמונה -->
     <div class="form-group">
       <label class="form-label">תמונה</label>
-
       <!-- תמונה בודדת -->
       <button (click)="imageInput.click()">בחר תמונה/תמונות</button>
       <br>
@@ -51,20 +50,21 @@
             <button class="delete-button" (click)="deleteImageFromForm(image)"> &times; </button>
           </div>
         </div>
-
       </div>
-
-
       <small *ngIf="!img && !images && submitted" class="error-message">
         יש לבחור לפחות תמונה אחת.
       </small>
+      <!-- תמונה אהובה -->
+      <div class="form-group nice-img-container">
+        <label for="nice_img">האם התמונה אהובה?</label>
+        <input type="checkbox" id="nice_img" formControlName="nice_img">
+      </div>
     </div>
     <!-- שם המוצר -->
     <div class="form-group">
       <label for="name" class="form-label">שם המוצר</label>
       <input matInput formControlName="name" id="name" placeholder="הכנס שם מוצר" autofocus />
     </div>
-
     <!-- תיאור -->
     <div class="form-group">
       <label for="describe" class="form-label">תיאור</label>
@@ -83,12 +83,12 @@
         [metaKeySelection]="false" selectionMode="checkbox" placeholder="בחר קטגוריות..." [showClear]="true">
         <ng-template let-value pTemplate="value">
           <div class="cat-container">
-              <div class="cat" *ngFor="let category of value">
-                <span>{{ category["label"]?category["label"]:category }}</span>
-                <button class="remove-category" (click)="onCategoryRemove(category, $event)">
-                  <i class="pi pi-times" style="font-size: 0.5rem"></i>
-                </button>
-              </div>
+            <div class="cat" *ngFor="let category of value">
+              <span>{{ category["label"]?category["label"]:category }}</span>
+              <button class="remove-category" (click)="onCategoryRemove(category, $event)">
+                <i class="pi pi-times" style="font-size: 0.5rem"></i>
+              </button>
+            </div>
           </div>
         </ng-template>
       </p-treeselect>
@@ -105,11 +105,13 @@
     <!-- חברה -->
     <div class="form-group">
       <label for="company" class="form-label">חברה</label>
-      <select formControlName="company" id="company" (change)="onCompanyChange($event)" [compareWith]="compareCompanies">
+      <select formControlName="company" id="company" (change)="onCompanyChange($event)"
+        [compareWith]="compareCompanies">
         <option *ngFor="let company of companies" [ngValue]="company">{{ company.name }}</option>
       </select>
     </div>
-    <p-scrolltop target="parent" [threshold]="100" icon="pi pi-arrow-up" [buttonProps]="{ severity: 'contrast', raised: true, rounded: true }" />
+    <p-scrolltop target="parent" [threshold]="100" icon="pi pi-arrow-up"
+      [buttonProps]="{ severity: 'contrast', raised: true, rounded: true }" />
   </form>
   <mat-dialog-actions>
     <button mat-button (click)="onCancel()" class="cancel">ביטול</button>

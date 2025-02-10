@@ -50,6 +50,25 @@ form {
   color: #333;
 }
 
+.nice-img-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center
+}
+
+.nice-img-container input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+  margin-right: 8px;
+  cursor: pointer;
+  accent-color: #f7b70e; 
+  transition: transform 0.2s ease;
+}
+
+.nice-img-container input[type="checkbox"]:hover {
+  transform: scale(1.1);
+}
+
 .treeselect{
   display: inline-grid;
   background-color: #f8f8f8;

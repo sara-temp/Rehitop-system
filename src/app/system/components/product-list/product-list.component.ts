@@ -33,10 +33,12 @@ export class ProductListComponent {
   sortOptions = [
     { value: 'priority', label: 'הפופולרי ביותר' },
     { value: 'priceAsc', label: 'מחיר נמוך לגבוה' },
-    { value: 'priceDesc', label: 'מחיר גבוה לנמוך' }
+    { value: 'priceDesc', label: 'מחיר גבוה לנמוך' },
+    { value: 'dateDesc', label: 'מחדש לישן' },
+    { value: 'dateAsc', label: 'מישן לחדש' },
   ];
-  
-  constructor(private http: HttpClient, private _managerService: ManagerService, public dialog: MatDialog, private authService: AuthService, private route: ActivatedRoute, private _systemService: SystemService) { }
+
+  constructor(private _managerService: ManagerService, public dialog: MatDialog, private authService: AuthService, private route: ActivatedRoute, private _systemService: SystemService) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -99,7 +101,7 @@ export class ProductListComponent {
     this.selectedProduct = product;
     this.selectedProductIndex = this.pagedProducts.indexOf(product);
     product.count_priority++;
-  
+
     this._managerService.put(product, product.Id).subscribe(
       (data) => console.log('Product updated:', data),
       (error) => console.log('Failed to update product:', error)
@@ -111,7 +113,7 @@ export class ProductListComponent {
     const dialogRef = this.dialog.open(ProductFormComponent, {
       disableClose: true,
       width: '40vw',
-      maxWidth:'100vw',
+      maxWidth: '100vw',
       data: { product: row }
     });
     dialogRef.afterClosed().subscribe(_res => {
@@ -242,9 +244,25 @@ export class ProductListComponent {
       case 'priority':
         this.products.sort((a, b) => b.count_priority - a.count_priority);
         break;
+      case 'dateAsc':
+        this.products.sort((a, b) => {
+          if (a.date && b.date) {
+            return new Date(a.date).getTime() - new Date(b.date).getTime();
+          }
+          return 0;
+        });
+        break;
+      case 'dateDesc':
+        this.products.sort((a, b) => {
+          if (a.date && b.date) {
+            return new Date(b.date).getTime() - new Date(a.date).getTime();
+          }
+          return 0;
+        });
+        break;
     }
     this.first = 0;
     this.updatePagedProducts();
   }
-  
+
 }
