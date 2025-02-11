@@ -66,6 +66,10 @@ mat-dialog-actions {
   padding-left: 0;
 }
 
+.mat-mdc-dialog-actions .mat-button-base+.mat-button-base, .mat-mdc-dialog-actions .mat-mdc-button-base+.mat-mdc-button-base {
+  margin-left: 0px;
+}
+
 button {
   font-size: 16px;
   padding: 8px 20px;

@@ -29,6 +29,50 @@
   align-items: center;
 }
 
+.search-container {
+  display: flex;
+  align-items: center;
+  border: 0.3vh solid #000; 
+  border-radius: 1vw; 
+  overflow: hidden;
+  background-color: white;
+  width: 12vw; 
+  height: 4vh; 
+}
+
+.search-icon {
+  background-color: black; 
+  color: white;
+  padding: 1.5vh;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 0.9em;
+  height: 0.9em;
+  min-width: 24px;
+  min-height: 24px;
+  font-size: 1em;
+  margin: 0.5vh;
+  cursor: pointer;
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 0.8vh;
+  font-size: 1.5vh;
+  direction: rtl;
+  text-align: right;
+  height: 100%;
+}
+
+.search-input::placeholder {
+  color: gray;
+  font-size: 1.3vh;
+}
+
 .padding-auth {
   /* padding: 1vw; */
   height: 4vh;
