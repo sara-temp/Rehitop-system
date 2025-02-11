@@ -67,13 +67,9 @@ export class ProductListComponent {
   }
 
   loadProducts() {
-    this._managerService.getByCategory(this.category).subscribe(
-      (data) => {
-        this.products = data;
-        this.totalProducts = data.length;
-        this.updatePagedProducts(); // עדכון המוצרים בעמוד הנוכחי
-      }, (error) => console.log('Failed to load products:', error)
-    );
+    this.products = this._systemService.productList;
+    this.totalProducts = this.products.length;
+    this.updatePagedProducts(); 
   }
 
   updatePagedProducts() {
