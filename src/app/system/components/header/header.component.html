@@ -9,7 +9,10 @@
     <div class="topHeader">
       <div class="search-container">
         <input type="text" placeholder="חפש מוצר..." [(ngModel)]="searchQuery" class="search-input"
-          (keydown.enter)="onSearch()" required/>
+          (keydown.enter)="onSearch()" required />
+        <div class="search-icon">
+          <i class="bi bi-search" (click)="onSearch()"></i>
+        </div>
       </div>
       <div class="padding-auth">
         <button *ngIf="!isLogin" class="auth-button" (click)="onLoginClick()">

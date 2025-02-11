@@ -30,7 +30,7 @@ export class ProductListComponent {
   totalProducts: number = 0;
   companies = companies;
 
-  selectedSortOption: string = 'priority';
+  selectedSortOption: string = '';
   sortOptions = [
     { value: 'priority', label: 'הפופולרי ביותר' },
     { value: 'priceAsc', label: 'מחיר נמוך לגבוה' },
@@ -67,9 +67,13 @@ export class ProductListComponent {
   }
 
   loadProducts() {
-    this.products = this._systemService.productList;
-    this.totalProducts = this.products.length;
-    this.updatePagedProducts(); 
+    this._managerService.getByCategory(this.category).subscribe(
+      (data) => {
+        this.products = data;
+        this.totalProducts = data.length;
+        this.updatePagedProducts(); // עדכון המוצרים בעמוד הנוכחי
+      }, (error) => console.log('Failed to load products:', error)
+    );
   }
 
   updatePagedProducts() {
