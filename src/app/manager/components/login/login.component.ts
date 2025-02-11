@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'login',
   standalone: false,
-  
+
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -26,22 +26,21 @@ export class LoginComponent {
       username: new FormControl(this.Login?.username || '', Validators.required),
       password: new FormControl(this.Login?.password || '', Validators.required)
     });
-    }
-  
-  
+  }
+
+
   onlogin() {
     this.authService.login(this.LoginForm.value).subscribe((response) => {
-      this.router.navigate([''])
+      this.dialog.closeAll();
     },
-    (err)=> alert('ההתחברות נכשלה'))
+      (err) => alert('ההתחברות נכשלה'))
   }
 
   onCancel() {
-    // this.dialog.closeAll();
-    this.router.navigate([''])
+    this.dialog.closeAll();
   }
- 
+
   togglePasswordVisibility() {
-    this.showPassword = !this.showPassword; 
+    this.showPassword = !this.showPassword;
   }
 }

@@ -18,6 +18,7 @@ import { SystemService } from '../../system.service';
 export class ProductListComponent {
   @Input()
   category: string = '';
+  searchQuery: string = '';
   products: Product[] = [];
   pagedProducts: Product[] = [];
   selectedProduct: Product | null = null;
@@ -66,13 +67,9 @@ export class ProductListComponent {
   }
 
   loadProducts() {
-    this._managerService.getByCategory(this.category).subscribe(
-      (data) => {
-        this.products = data;
-        this.totalProducts = data.length;
-        this.updatePagedProducts(); // עדכון המוצרים בעמוד הנוכחי
-      }, (error) => console.log('Failed to load products:', error)
-    );
+    this.products = this._systemService.productList;
+    this.totalProducts = this.products.length;
+    this.updatePagedProducts(); 
   }
 
   updatePagedProducts() {
@@ -172,7 +169,6 @@ export class ProductListComponent {
     if (!this.selectedProduct) {
       return;
     }
-
     if (event.key === 'ArrowRight') {
       // לחיצה על חץ ימין - מעבר למוצר הקודם
       this.goToPreviousProduct();

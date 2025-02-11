@@ -40,8 +40,49 @@ export class ManagerService {
       })
     );
   };
-  
-  
+
+  getBySearchQuery = (searchQuery: string): Observable<Product[]> => {
+    return this.http.get<Product[]>(this.jsonUrl).pipe(
+      map((products) => {
+        if (!products) throw new Error('not found');
+        const normalizedQuery = this.normalizeString(searchQuery);
+        const isExactMatch = normalizedQuery.length <= 3;
+        return products.filter((prod) =>
+          ['Id', 'name', 'categories', 'company', 'describe'].some((key) => {
+            const value = prod[key as keyof Product];
+            if (typeof value === 'string') {
+              const normalizedValue = this.normalizeString(value);
+              if (isExactMatch) {
+                // בדיקה אם אחת המילים שווה בדיוק למילת החיפוש
+                return normalizedValue.split(' ').some((word) => word === normalizedQuery);
+              } else {
+                return normalizedValue.includes(normalizedQuery);
+              }
+            } else if (Array.isArray(value)) {
+              return value.some(
+                (val) =>
+                  typeof val === 'string' &&
+                  (isExactMatch
+                    ? this.normalizeString(val).split(' ').some((word) => word === normalizedQuery)
+                    : this.normalizeString(val).includes(normalizedQuery))
+              );
+            }
+            return false;
+          })
+        );
+      }),
+      catchError((error) => {
+        console.error(error);
+        return throwError(() => new Error('Error fetching products'));
+      })
+    );
+  };
+  normalizeString(str: string): string {
+    return str
+      .toLowerCase()
+      .replace(/[\u0591-\u05C7]/g, '') 
+      .trim();
+  }  
 
   getById = (id: string): Observable<Product | undefined> => {
     return this.http.get<Product[]>(`${this.jsonUrl}/${id}`).pipe(

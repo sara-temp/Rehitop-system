@@ -21,11 +21,24 @@
   margin-top: 1vh;
 }
 
+.topHeader {
+  display: flex;
+  align-content: stretch;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .padding-auth {
   /* padding: 1vw; */
   height: 4vh;
   margin-bottom: 2vh;
   margin-left: 2vw;
+}
+
+.custom-dialog {
+  border: 1px #000000;
+  border-radius: 1vw;
 }
 
 .custom-heart {
@@ -35,7 +48,7 @@
   font-size: 1.3rem;
 }
 
-app-favorite-cart{
+app-favorite-cart {
   position: absolute;
   top: 17vh;
   left: 1vw;
@@ -233,9 +246,10 @@ app-favorite-cart{
     margin: 0;
   }
 
-  .menu-items>li{
+  .menu-items>li {
     font-size: 1.2vw;
   }
+
   .submenu>li {
     font-size: 1.2vw;
   }
