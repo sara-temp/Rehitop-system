@@ -9,6 +9,8 @@ export class SystemService {
   private favoriteProductsSubject = new BehaviorSubject<Product[]>(this.loadFavorites());
   favoriteProducts$ = this.favoriteProductsSubject.asObservable();
 
+  productList: Product[] = [];
+
   // במקום להשתמש במערך ישירות, אנחנו עובדים עם ה-BehaviorSubject
   private loadFavorites(): Product[] {
     const saved = localStorage.getItem('favoriteProducts');
