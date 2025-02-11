@@ -3,6 +3,8 @@ import { SCHEMA_RUNTIME } from '../../../models/product.model';
 import { AuthService } from '../../../service/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MenuItem, MenuItemCommandEvent } from 'primeng/api';
+import { MatDialog } from '@angular/material/dialog';
+import { LoginComponent } from '../../../manager/components/login/login.component';
 
 @Component({
   selector: 'header',
@@ -22,7 +24,7 @@ export class HeaderComponent implements OnInit {
   isMenuOpen = false;
   isMobile = false;
   
-  constructor(private authService: AuthService, private route: ActivatedRoute, private router: Router) {
+  constructor(private authService: AuthService, private route: ActivatedRoute, private router: Router, public dialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -110,7 +112,7 @@ export class HeaderComponent implements OnInit {
   onLoginClick() {
     this.loginSelected = true;
     this.categorySelected = '';
-    this.router.navigate(['login']);
+    this.dialog.open(LoginComponent)
   }
 
   onLogoutClick() {
