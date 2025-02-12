@@ -312,3 +312,10 @@ mat-card-content {
     border-color: #f7b70e;
     box-shadow: 0 0 8px rgba(35, 35, 34, 0.4);
 }
+
+.no-results {
+    text-align: center;
+    font-size: 18px;
+    color: #888;
+    margin-top: 20px;
+}

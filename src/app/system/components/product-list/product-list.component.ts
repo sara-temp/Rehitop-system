@@ -18,6 +18,7 @@ import { SystemService } from '../../system.service';
 export class ProductListComponent {
   @Input()
   category: string = '';
+  searchQuery: string = '';
   products: Product[] = [];
   pagedProducts: Product[] = [];
   selectedProduct: Product | null = null;
@@ -29,7 +30,7 @@ export class ProductListComponent {
   totalProducts: number = 0;
   companies = companies;
 
-  selectedSortOption: string = 'priority';
+  selectedSortOption: string = '';
   sortOptions = [
     { value: 'priority', label: 'הפופולרי ביותר' },
     { value: 'priceAsc', label: 'מחיר נמוך לגבוה' },
@@ -66,14 +67,10 @@ export class ProductListComponent {
   }
 
   loadProducts() {
-    this._managerService.getByCategory(this.category).subscribe(
-      (data) => {
-        console.log('sort products:', data);
-        this.products = data;
-        this.totalProducts = data.length;
-        this.updatePagedProducts(); // עדכון המוצרים בעמוד הנוכחי
-      }, (error) => console.log('Failed to load products:', error)
-    );
+    this.products = this._systemService.productList;
+    console.log('sort products:', this.products);
+    this.totalProducts = this.products.length;
+    this.updatePagedProducts(); 
   }
 
   updatePagedProducts() {
@@ -173,7 +170,6 @@ export class ProductListComponent {
     if (!this.selectedProduct) {
       return;
     }
-
     if (event.key === 'ArrowRight') {
       // לחיצה על חץ ימין - מעבר למוצר הקודם
       this.goToPreviousProduct();

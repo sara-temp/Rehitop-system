@@ -6,22 +6,31 @@
     <i class="bi bi-list"></i>
   </div>
   <div class="headerBody">
-    <div class="padding-auth">
-      <button *ngIf="!isLogin" class="auth-button" (click)="onLoginClick()">
-        התחברות
-        <i class="bi bi-box-arrow-in-right bi-lg"></i>
-      </button>
-      <button *ngIf="isLogin" class="auth-button" routerLink="/edit">
-        לעריכה
-        <i class="bi bi-pencil-square"></i>
-      </button>
-      <button *ngIf="isLogin" class="auth-button" (click)="onLogoutClick()">
-        התנתקות
-        <i class="bi bi-box-arrow-right"></i>
-      </button>
-      <i class="bi bi-heart custom-heart" *ngIf="!selectLike" (click)="selectLike=!selectLike"></i>
-      <i class="bi bi-heart-fill custom-heart" *ngIf="selectLike" (click)="selectLike=!selectLike"></i>
-      <app-favorite-cart *ngIf="selectLike"></app-favorite-cart>
+    <div class="topHeader">
+      <div class="search-container">
+        <input type="text" placeholder="חפש מוצר..." [(ngModel)]="searchQuery" class="search-input"
+          (keydown.enter)="onSearch()" required />
+        <div class="search-icon">
+          <i class="bi bi-search" (click)="onSearch()"></i>
+        </div>
+      </div>
+      <div class="padding-auth">
+        <button *ngIf="!isLogin" class="auth-button" (click)="onLoginClick()">
+          התחברות
+          <i class="bi bi-box-arrow-in-right bi-lg"></i>
+        </button>
+        <button *ngIf="isLogin" class="auth-button" routerLink="/edit">
+          לעריכה
+          <i class="bi bi-pencil-square"></i>
+        </button>
+        <button *ngIf="isLogin" class="auth-button" (click)="onLogoutClick()">
+          התנתקות
+          <i class="bi bi-box-arrow-right"></i>
+        </button>
+        <i class="bi bi-heart custom-heart" *ngIf="!selectLike" (click)="selectLike=!selectLike"></i>
+        <i class="bi bi-heart-fill custom-heart" *ngIf="selectLike" (click)="selectLike=!selectLike"></i>
+        <app-favorite-cart *ngIf="selectLike"></app-favorite-cart>
+      </div>
     </div>
     <div class="header-container" [ngClass]="{'open': isMenuOpen}">
       <ul class="menu-items">

@@ -1,14 +1,8 @@
-<!-- <div class="sort-container">
-  <mat-form-field appearance="fill" class="sort-field">
-    <mat-label><i class="bi bi-filter"></i> מיין לפי</mat-label>
-    <mat-select [(value)]="selectedSortOption" (selectionChange)="sortProducts()">
-      <mat-option *ngFor="let option of sortOptions" [value]="option.value">
-        {{ option.label }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-</div> -->
-<div class="sort-container" *ngIf="pagedProducts.length > 0">
+<div *ngIf="pagedProducts.length == 0" class="no-results">
+  לא נמצאו מוצרים תואמים
+</div>
+
+<div class="sort-container" *ngIf="pagedProducts.length > 1">
   <select id="sort-select" [(ngModel)]="selectedSortOption" (change)="sortProducts()" class="sort-select">
     <option value="" disabled selected>מיין לפי</option> 
     <option *ngFor="let option of sortOptions" [value]="option.value">

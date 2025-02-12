@@ -1,12 +1,14 @@
-/* עיצוב כללי */
-form {
-  max-width: 400px;
-  margin: 50px auto;
-  padding: 20px;
+.container {
   border: 1px solid #ddd;
   border-radius: 8px;
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1vw;
+
+}
+
+form {
+  padding: 1vw;
   direction: rtl; /* מימין לשמאל */
 }
 
@@ -56,12 +58,16 @@ input:focus {
   font-size: 16px;
 }
 
-/* עיצוב כפתורים */
 mat-dialog-actions {
   display: flex;
   justify-content: flex-end; /* יישור כפתורים לצד שמאל */
   margin-top: 20px;
-  gap: 10px; /* ריווח בין הכפתורים */
+  gap: 10px; 
+  padding-left: 0;
+}
+
+.mat-mdc-dialog-actions .mat-button-base+.mat-button-base, .mat-mdc-dialog-actions .mat-mdc-button-base+.mat-mdc-button-base {
+  margin-left: 0px;
 }
 
 button {
@@ -99,7 +105,6 @@ button.save:hover {
   border-color: #e0b339;
 }
 
-/* עיצוב שדה הטופס */
 .form-group {
   position: relative; /* למיקום הכפתור */
   margin-bottom: 15px;

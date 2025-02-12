@@ -3,6 +3,11 @@ import { SCHEMA_RUNTIME } from '../../../models/product.model';
 import { AuthService } from '../../../service/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MenuItem, MenuItemCommandEvent } from 'primeng/api';
+import { MatDialog } from '@angular/material/dialog';
+import { LoginComponent } from '../../../manager/components/login/login.component';
+import { ManagerService } from '../../../manager/manager.service';
+import { SystemService } from '../../system.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'header',
@@ -18,11 +23,13 @@ export class HeaderComponent implements OnInit {
   storedValue: string | null | undefined;
   items: MenuItem[] | undefined;
   selectedTab: MenuItem | null = null;
+  searchQuery: string = '';
+  errorMessage: string = ''; 
   selectLike: boolean = false;
   isMenuOpen = false;
   isMobile = false;
-  
-  constructor(private authService: AuthService, private route: ActivatedRoute, private router: Router) {
+
+  constructor(private authService: AuthService, private route: ActivatedRoute, private router: Router, public dialog: MatDialog, public _managerService: ManagerService, public _systemService: SystemService) {
   }
 
   ngOnInit(): void {
@@ -66,10 +73,9 @@ export class HeaderComponent implements OnInit {
       return {
         label: mainCategory,
         items: subItems,
-        command: (event: any) => this.onMainCategoryClick(event, mainCategory, subItems?.length ?? 0)
+        command: (event: any) => this.onCategoryClick(mainCategory)
       };
     });
-
     // menu.push(loginObject, logoutObject, editObject)
     return menu;
   }
@@ -78,25 +84,27 @@ export class HeaderComponent implements OnInit {
     this.selectedTab = tab;
   }
 
-  onMainCategoryClick(event: MenuItemCommandEvent, mainCategory: string, length: number): any {
-    const originalEvent = event.originalEvent;
-    if (!originalEvent) {
+  async onSearch(): Promise<void> {
+    if (/^[\s]*$/.test(this.searchQuery)) {
       return;
     }
-    const targetElement = originalEvent.target as HTMLElement;
-
-    targetElement.addEventListener('dblclick', () => {
-      this.onCategoryClick(mainCategory);
-    });
-    if (event.originalEvent?.type == 'click' && length) {
-      return;
+    try {
+      this._systemService.productList = await firstValueFrom(this._managerService.getBySearchQuery(this.searchQuery));
+      console.log(this._systemService.productList);
+      this.router.navigate([`category/${this.searchQuery}`]);
+    } catch (error) {
+      console.log('Failed to load products:', error);
     }
-    return this.onCategoryClick(mainCategory);
   }
 
-  onCategoryClick(category: string) {
-    this.router.navigate([`category/${category}`]);
-    this.loginSelected = false;
+  async onCategoryClick(category: string) {
+    try {
+      this._systemService.productList = await firstValueFrom(this._managerService.getByCategory(category));
+      console.log(this._systemService.productList);
+      this.router.navigate([`category/${category}`]);
+    } catch (error) {
+      console.log('Failed to load products:', error);
+    }
   }
 
   isLoginFunc() {
@@ -110,7 +118,11 @@ export class HeaderComponent implements OnInit {
   onLoginClick() {
     this.loginSelected = true;
     this.categorySelected = '';
-    this.router.navigate(['login']);
+    this.dialog.open(LoginComponent, {
+      width: '25vw',
+      maxWidth: '100vw',
+      panelClass: 'custom-dialog',
+    })
   }
 
   onLogoutClick() {
@@ -134,11 +146,12 @@ export class HeaderComponent implements OnInit {
     this.checkScreenSize();
   }
   checkScreenSize() {
-    this.isMobile = window.innerWidth <= 935; 
+    this.isMobile = window.innerWidth <= 935;
   }
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
   }
+
 
 }
