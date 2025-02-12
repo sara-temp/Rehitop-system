@@ -79,7 +79,7 @@ export class ProductComponent {
     event.stopPropagation();
     const dialogRef = this.dialog.open(ProductFormComponent, {
       disableClose: true,
-      width: '40vw',
+      width: '35vw',
       maxWidth: '100vw',
       data: { product: row }
     });

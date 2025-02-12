@@ -68,6 +68,7 @@ export class ProductListComponent {
   loadProducts() {
     this._managerService.getByCategory(this.category).subscribe(
       (data) => {
+        console.log('sort products:', data);
         this.products = data;
         this.totalProducts = data.length;
         this.updatePagedProducts(); // עדכון המוצרים בעמוד הנוכחי
@@ -112,7 +113,7 @@ export class ProductListComponent {
     event.stopPropagation();
     const dialogRef = this.dialog.open(ProductFormComponent, {
       disableClose: true,
-      width: '40vw',
+      width: '35vw',
       maxWidth: '100vw',
       data: { product: row }
     });

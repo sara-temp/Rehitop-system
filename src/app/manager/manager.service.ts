@@ -29,7 +29,21 @@ export class ManagerService {
         if (products) {
           return products
             .filter((prod) => prod.categories.some((cat) => cat === category))
-            .sort((a, b) => b.count_priority - a.count_priority); // מיון מהגדול לקטן
+            .sort((a, b) => {
+              const aNiceImg = a.nice_img ?? false;
+              const bNiceImg = b.nice_img ?? false;
+  
+              // מיון לפי nice_img תחילה (true לפני false)
+              if (aNiceImg !== bNiceImg) {
+                return bNiceImg ? 1 : -1;
+              }
+  
+              // מיון לפי count_priority (אם חסר - מתייחסים כ- 0)
+              const aPriority = a.count_priority ?? 0;
+              const bPriority = b.count_priority ?? 0;
+  
+              return bPriority - aPriority;
+            });
         } else {
           throw new Error('not found');
         }
@@ -40,6 +54,7 @@ export class ManagerService {
       })
     );
   };
+  
   
   
 
