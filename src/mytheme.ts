@@ -316,7 +316,7 @@ export const MyPreset = definePreset(Material, {
         primary: {
             50: "#fffef5",
             100: "#fffad0",
-            200: "#fff6ab",
+            200: "#f2f1f1",
             300: "#fff385",
             400: "#f5c749e8",
             500: "#f5c749",
@@ -430,10 +430,10 @@ export const MyPreset = definePreset(Material, {
                     activeColor: "{primary.500}"
                 },
                 highlight: {
-                    background: "{primary.50}",
+                    background: "{#fff}",
                     focusBackground: "{primary.100}",
-                    color: "{primary.700}",
-                    focusColor: "{primary.800}"
+                    color: "{primary.500}",
+                    focusColor: "{primary.500}"
                 },
                 mask: {
                     background: "rgba(0,0,0,0.4)",

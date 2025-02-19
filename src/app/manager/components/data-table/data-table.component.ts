@@ -1,26 +1,21 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { Table } from 'primeng/table';
-import { Product, SubCategory, ChildrensRoom, Closets, DiningAreas, Mattresses, Office, Salon, Categories, companies } from '../../../models/product.model';
+import { Product, SubCategory, ChildrensRoom, Closets, DiningAreas, Mattresses, Office, Salon, Categories, companies, SCHEMA_RUNTIME, Company } from '../../../models/product.model';
 import { ManagerService } from '../../manager.service';
 import { ProductFormComponent } from '../product-form/product-form.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TreeSelectModule } from 'primeng/treeselect';
 import { catchError, forkJoin, of } from 'rxjs';
-
+import { TreeNode } from 'primeng/api';
+import { FilterService } from 'primeng/api';
 
 interface Column {
   field: string;
   header: string;
   customExportHeader?: string;
 }
-
-interface TreeNode {
-  label: string;
-  value: SubCategory;
-  children?: TreeNode[];
-};
 
 @Component({
   selector: 'data-table',
@@ -37,11 +32,9 @@ export class DataTableComponent implements OnInit {
 
   selectedProducts!: Product[] | null;
 
-  @ViewChild('dt') dt!: Table;
-
   cols!: Column[];
 
-  categoryEnum!: TreeNode[];
+  categoryOptions!: TreeNode[];
 
   deleteInProgress = false;
 
@@ -49,79 +42,50 @@ export class DataTableComponent implements OnInit {
 
   companies = companies;
 
+  // search
+  searchValue: string | undefined;
+
+  @ViewChild('dt', { static: false }) dt!: Table;
+
+  selectedCategory: any = null; // משתנה חדש לשמירת הבחירה
+
+  ngAfterViewInit() {
+    console.log(this.dt);
+  }
   constructor(
     private _managerService: ManagerService,
-    private messageService: MessageService,
     private dialog: MatDialog,
+    private filterService: FilterService,
+    // private primengConfig: PRIME_NG_CONFIG
   ) { }
 
   ngOnInit(): void {
     this._managerService.getAll().subscribe((products) => {
-      this.products = products;
+      this.products = products.map(product =>
+      ({...product,
+        date:new Date(product.date?product.date:'')})
+        
+      );
     });
 
     this.cols = [
-      { field: 'Id', header: 'Id', customExportHeader: 'Product Id' },
       { field: 'name', header: 'Name' },
       { field: 'image', header: 'Image' },
       { field: 'price', header: 'Price' },
       { field: 'categories', header: 'Categories' },
       { field: 'describe', header: 'Describe' },
+      { field: 'size', header: 'Sizes' },
+      { field: 'company', header: 'Company' },
+      { field: 'date', header: 'Date' },
+      { field: 'catalog_img', header: 'Catalog_img' },
       { field: 'colors', header: 'Colors' },
-      { field: 'company', header: 'Company' }
     ];
 
-    this.categoryEnum = [
-      {
-        label: Categories.SALON,
-        value: Categories.SALON,
-        children: Object.values(Salon).map((salon) => ({
-          label: salon,
-          value: salon,
-        })),
-      },
-      {
-        label: Categories.MATTRESSES,
-        value: Categories.MATTRESSES,
-        children: Object.values(Mattresses).map((mattress) => ({
-          label: mattress,
-          value: mattress,
-        })),
-      },
-      {
-        label: Categories.CHILDRENSROOMS,
-        value: Categories.CHILDRENSROOMS,
-        children: Object.values(ChildrensRoom).map((room) => ({
-          label: room,
-          value: room,
-        })),
-      },
-      {
-        label: Categories.CLOSETS,
-        value: Categories.CLOSETS,
-        children: Object.values(Closets).map((closet) => ({
-          label: closet,
-          value: closet,
-        })),
-      },
-      {
-        label: Categories.DININGAREAS,
-        value: Categories.DININGAREAS,
-        children: Object.values(DiningAreas).map((dining) => ({
-          label: dining,
-          value: dining,
-        })),
-      },
-      {
-        label: Categories.OFFICE,
-        value: Categories.OFFICE,
-        children: Object.values(Office).map((office) => ({
-          label: office,
-          value: office,
-        })),
-      },
-    ];
+    this.categoryOptions = this.generateCategoryOptions()
+    console.log('categoryOptions', this.categoryOptions);
+    this.registerCustomCategoryFilter();
   }
+  
 
   onSearch(event: any) {
     if (this.dt) {
@@ -129,10 +93,26 @@ export class DataTableComponent implements OnInit {
     }
   }
 
+  onCategoryRemove(currentProduct: Product, category: any, event: Event): void {
+    event.stopPropagation(); // מונע את פתיחת ה-`p-treeselect`
+    // לוגיקה להסרת הקטגוריה
+    console.log('Removing category:', category);
+    const updatedCategories = currentProduct.categories.filter((c: string) => c !== category);
+    currentProduct.categories = updatedCategories;
+  }
+
   async deleteSelectedProducts() {
     this.result = await this._managerService.deleteDialog(`${this.selectedProducts?.length} מוצרים  `)
     for (const prod of this.selectedProducts || []) {
       await this.deleteProduct(prod);
+    }
+  }
+
+  onCompanyChange(currentProduct: Product, event: any): void {
+    const selectedCompanyName = event.target.value;
+    const selectedCompany = this.companies.find(company => company.name === selectedCompanyName);
+    if (selectedCompany) {
+      currentProduct.company = selectedCompany;
     }
   }
 
@@ -209,9 +189,9 @@ export class DataTableComponent implements OnInit {
 
   editRow(row: any) {
     const dialogRef = this.dialog.open(ProductFormComponent, {
-    disableClose: true,
+      disableClose: true,
       width: '35vw',
-      maxWidth:'100vw',
+      maxWidth: '100vw',
       data: { product: row }
     });
     dialogRef.afterClosed().subscribe(res => {
@@ -226,5 +206,70 @@ export class DataTableComponent implements OnInit {
         console.error("שגיאה בעדכון הנתונים", error);
       });
     });
+  }
+  // search
+
+  generateCategoryOptions(): TreeNode[] {
+    const schemaData = SCHEMA_RUNTIME;
+  
+    const buildSubItems = (subCategories: Record<string, any>, parent?: TreeNode): TreeNode[] | undefined => {
+      if (!subCategories || typeof subCategories !== 'object') return undefined;
+  
+      return Object.entries(subCategories).map(([subCategory, nestedSubCategories]) => {
+        const node: TreeNode = {
+          label: typeof nestedSubCategories === 'string' ? nestedSubCategories : subCategory,
+          parent
+        };
+        node.children = typeof nestedSubCategories === 'object' ? buildSubItems(nestedSubCategories, node) : undefined;
+        return node;
+      });
+    };
+  
+    const categoryOptions: TreeNode[] = Object.entries(schemaData).map(([mainCategory, subCategories]) => {
+      const node: TreeNode = {
+        label: mainCategory,
+        children: buildSubItems(subCategories as Record<string, any>)
+      };
+      return node;
+    });
+  
+    return categoryOptions;
+  }
+
+  onFilter(event: any) {
+    setTimeout(() => {
+      this.dt?.filterGlobal(event.target.value, 'contains');
+    });
+  }
+
+  filter(event: any) {
+    this.dt.filter(this.selectedCategory, 'categories', 'in');
+  }
+
+  private registerCustomCategoryFilter(): void {
+    this.filterService.register('customCategory', (value: any, filter: any): boolean => {
+      // אם לא הוגדר פילטר – מציגים את השורה
+      if (!filter || (Array.isArray(filter) && filter.length === 0)) {
+        return true;
+      }
+      // אם הערך בשורה אינו מערך – לא ניתן לסנן
+      if (!value || !Array.isArray(value)) {
+        return false;
+      }
+      // נניח ש-"filter" הוא מערך של מיתרים (הקטגוריות שנבחרו)
+      // בודקים אם לפחות קטגוריה אחת מתוך השורה (value) כוללת אחת מהקטגוריות שבפילטר (case-insensitive)
+      return filter.some((f: string) =>
+        value.some((cat: string) => cat.toLowerCase().includes(f.toLowerCase()))
+      );
+    });
+  }
+  
+  clear(table: Table) {
+    table.clear();
+    this.searchValue = ''
+  }
+
+  compareCompanies(company1: Company, company2: Company): boolean {
+    return company1 && company2 ? company1.name === company2.name : company1 === company2;
   }
 }

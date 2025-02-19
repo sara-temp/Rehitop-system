@@ -1,97 +1,112 @@
-<div class="card" dir="rtl">
-    <p-toast />
+<div class="table-container">
+    <div class="card" dir="rtl" style="width: 95vw; overflow-x: auto;">
+        <p-toast />
 
-    <p-toolbar styleClass="mb-6">
-        <ng-template #start>
-            <p-button label="חדש" icon="pi pi-plus" class="mr-2" (click)="editRow(product)" />
-            <p-button severity="danger" label="מחיקה" icon="pi pi-trash" outlined (onClick)="deleteSelectedProducts()"
-                [disabled]="!selectedProducts || !selectedProducts.length" />
-        </ng-template>
 
-    </p-toolbar>
-
-    <p-table #dt1 [value]="products" [rows]="20" [columns]="cols" [paginator]="true"
-        [globalFilterFields]="['Id', 'name', 'categories', 'price']" [tableStyle]="{ 'min-width': '75rem' }"
-        [(selection)]="selectedProducts" [rowHover]="true" dataKey="Id"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
-
-        <ng-template #caption>
-            <div class="flex items-center justify-between header">
-                <h3 class="m-0">ניהול מוצרים
-                    <span class="pi pi-user"></span>
-                </h3>
+        <div class="toolbar">
+            <h3 class="m-0" style="margin-right: auto;">ניהול מוצרים
+                <span class="pi pi-user"></span>
+            </h3>
+            <div class="left-group">
+            <p-iconfield iconPosition="left" class="search-field">
+                <p-inputicon>
+                    <i class="pi pi-search"></i>
+                </p-inputicon>
+                <input pInputText type="text" (input)="onFilter($event)" placeholder="Search keyword" />
+            </p-iconfield>
+            <div class="button-group">
+                <p-button class="new-botton" label="חדש" icon="pi pi-plus" (click)="editRow(product)" />
+                <p-button severity="danger" label="מחיקה" icon="pi pi-trash" outlined
+                    (onClick)="deleteSelectedProducts()" [disabled]="!selectedProducts || !selectedProducts.length" />
+                <p-button label="Clear" [outlined]="true" icon="pi pi-filter-slash" (click)="clear(dt)" />
             </div>
-        </ng-template>
-        <ng-template #header>
-            <tr>
-                <th style="width: 2rem">
-                    <p-tableHeaderCheckbox />
-                </th>
-                <th pSortableColumn="name" style="min-width:10rem">
-                    שם
-                    <p-sortIcon field="name" />
-                </th>
-                <th>תמונה</th>
-                <th pSortableColumn="price" style="min-width: 7rem">
-                    מחיר
-                    <p-sortIcon field="price" />
-                </th>
-                <th pSortableColumn="categories" style="min-width:9rem">
-                    קטגריות
-                    <p-sortIcon field="category" />
-                </th>
-                <th style="min-width:19rem">
-                    תיאור
-                </th>
-                <th style="min-width:19rem">
-                    מידות
-                </th>
-                <th pSortableColumn="company" style="min-width: 11rem">
-                    חברה
-                    <p-sortIcon field="company" />
-                </th>
-                <th style="min-width: 11rem">
-                    צבעים
-                </th>
-                <th style="min-width:11rem"></th>
-            </tr>
-        </ng-template>
-        <ng-template #body let-product>
-            <tr style="height: 11vh;">
-                <td style="width: 3rem">
-                    <p-tableCheckbox [value]="product" />
-                </td>
-                <td style="min-width: 10rem">{{ product.name }}</td>
-                <td>
-                    <img [src]="product.image" [alt]="product.name" style="height: 7vh;" class="rounded" />
-                </td>
-                <td>{{ product.price | currency: 'ILS' }}</td>
-                <td>
-                    <span *ngFor="let category of product.categories">{{ category }}
-                        <span *ngIf="product.categories.length>1"> | </span></span>
-                </td>
-                <td>{{ product.describe }}</td>
-                <td>{{ product.sizes }}</td>
-                <td>{{ typeof product.company === "object"?product.company.name : product.company }}</td>
-                <td>
-                    <a (click)="openLinkInNewTab(product?.company)"
-                        style="cursor: pointer; text-decoration-line: underline;">
-                        {{ matchColor(product.company) }}</a>
-                </td>
-                <td>
-                    <p-button icon="pi pi-pencil" class="edit" class="mr-2" [rounded]="true" [outlined]="true"
-                        (click)="editRow(product)" />
-                    <p-button icon="pi pi-trash" class="delete" severity="danger" [rounded]="true" [outlined]="true"
-                        (click)="deleteProduct(product)" />
-                </td>
+        </div>
+        </div>
 
-                <p-scrolltop target="parent" [threshold]="100" icon="pi pi-arrow-up"
-                    [buttonProps]="{ severity: 'contrast', raised: true, rounded: true }" />
-            </tr>
-        </ng-template>
-        <ng-template #summary>
-            <div class="flex items-center justify-between">בסך הכל ישנם {{ products ? products.length : 0 }}
-                מוצרים.</div>
-        </ng-template>
-    </p-table>
+        <p-table #dt [value]="products" [rows]="20" [columns]="cols" [paginator]="true"
+            [globalFilterFields]="['name', 'categories', 'price', 'describe', 'sizes', 'company', 'count_priority', 'date', 'nice_img']"
+            [(selection)]="selectedProducts" [rowHover]="true" dataKey="Id"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true"
+            [tableStyle]="{ 'width': '100%' }">
+
+            <ng-template #header>
+                <tr>
+                    <th style="max-width: 2rem; width: 2rem;">
+                        <p-tableHeaderCheckbox />
+                    </th>
+                    <th pSortableColumn="name">שם
+                        <p-sortIcon field="name" />
+                        <p-columnFilter type="text" field="name" display="menu" />
+                    </th>
+                    <th>תמונה</th>
+                    <th pSortableColumn="price">מחיר
+                        <p-sortIcon field="price" />
+                        <p-columnFilter type="numeric" field="price" display="menu" currency="ILS" />
+                    </th>
+                    <th pSortableColumn="categories">קטגוריות
+                        <p-columnFilter field="categories" matchMode="customCategory" display="menu">
+                            <ng-template #filter let-value let-filter="filterCallback">
+                                <p-treeSelect [(ngModel)]="selectedCategory" [options]="categoryOptions" placeholder="הכל"
+                                    selectionMode="checkbox" [filter]="true" (onChange)="filter($event)"
+                                    optionLabel="label">
+                                </p-treeSelect>
+                            </ng-template>
+                        </p-columnFilter>
+                    </th>
+                    <th pSortableColumn="describe">תיאור
+                        <p-columnFilter type="text" field="describe" display="menu" />
+                    </th>
+                    <th>מידות</th>
+                    <th pSortableColumn="company">חברה
+                        <p-sortIcon field="company" />
+                    </th>
+                    <th pSortableColumn="date">
+                        <div class="flex items-center">
+                            תאריך הכנסה
+                            <p-sortIcon field="date" />
+                            <p-columnFilter type="date" field="date" display="menu" />
+                        </div>    
+                    </th>
+                    <th pSortableColumn="nice_img">תמונת קטלוג
+                        <p-columnFilter type="boolean" field="nice_img" display="menu" />
+                    </th>
+                    <th>צבעים</th>
+                    <th class="sticky-actions"></th>
+                </tr>
+            </ng-template>
+            <ng-template #body let-product>
+                <tr>
+                    <td>
+                        <p-tableCheckbox [value]="product" />
+                    </td>
+                    <td>{{ product.name }}</td>
+                    <td>
+                        <img [src]="product.image" [alt]="product.name" style="height: 7vh;" class="rounded" />
+                    </td>
+                    <td>{{ product.price | currency: 'ILS' }}</td>
+                    <td>
+                         <span>{{product.categories.join(' | ')}}</span>
+                    </td>
+                    <td>{{ product.describe }}</td>
+                    <td>{{ product.sizes }}</td>
+                    <td>{{ typeof product.company === "object" ? product.company.name : product.company }}</td>
+                    <td>{{ product.date | date: 'dd/MM/yyyy' }}</td>
+                    <td><i class="bi" [ngClass]="{'bi-check2-circle': product.nice_img, 'bi-x-circle': !product.nice_img}"></i>
+                    </td>
+                    <td>
+                        <a (click)="openLinkInNewTab(product?.company)" style="cursor: pointer; text-decoration-line: underline;">
+                            {{ matchColor(product.company) }}</a>
+                    </td>
+                    <td class="sticky-actions">
+                            <i (click)="editRow(product)" class="bi bi-pencil edit"></i>
+                            <i (click)="deleteProduct(product)" class="bi bi-trash3 delete"></i>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template #summary>
+                <div class="flex items-center justify-between">בסך הכל ישנם {{ products ? products.length : 0 }} מוצרים.</div>
+            </ng-template>
+        </p-table>
+        <p-calendar></p-calendar>
+    </div>
 </div>

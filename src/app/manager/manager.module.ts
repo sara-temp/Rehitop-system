@@ -34,10 +34,14 @@ import { RouterModule } from '@angular/router';
 import { ChipModule } from 'primeng/chip';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { ScrollTopModule } from 'primeng/scrolltop';
+import { SharedModule } from 'primeng/api';
+import { CalendarModule } from 'primeng/calendar'; 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // ייבוא מודול האנימציות
+
 
 @NgModule({
   declarations: [DataTableComponent, ProductFormComponent, LoginComponent],
-  imports: [ScrollTopModule, ScrollingModule, ChipModule,RouterModule ,ButtonModule, CheckboxModule, CommonModule, ReactiveFormsModule,TreeSelectModule, MaterialModule, MultiSelectModule, TableModule, Dialog, Ripple, SelectModule, ToastModule, ToolbarModule, ConfirmDialog, InputTextModule, TextareaModule, CommonModule, FileUpload, DropdownModule, Tag, RadioButton, Rating, InputTextModule, FormsModule, InputNumber, IconFieldModule, InputIconModule],
+  imports: [BrowserAnimationsModule, CalendarModule, SharedModule, ScrollTopModule, ScrollingModule, ChipModule,RouterModule ,ButtonModule, CheckboxModule, CommonModule, ReactiveFormsModule,TreeSelectModule, MaterialModule, MultiSelectModule, TableModule, Dialog, Ripple, SelectModule, ToastModule, ToolbarModule, ConfirmDialog, InputTextModule, TextareaModule, CommonModule, FileUpload, DropdownModule, Tag, RadioButton, Rating, FormsModule, InputNumber, IconFieldModule, InputIconModule],
   providers: [MessageService, ConfirmationService],
   exports: [DataTableComponent, ProductFormComponent, LoginComponent]
 })
