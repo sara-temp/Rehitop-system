@@ -3,13 +3,13 @@
 
   <ul *ngIf="favoriteProducts.length > 0; else emptyCart">
     <li *ngFor="let product of favoriteProducts">
-      <img [src]="product.image" alt="Product Image">
+      <img [src]="product.image" alt="Product Image" (click)="openViewer(product)" style="cursor: pointer;">
       <div class="contain-price">
-      <div style="font-weight: bold;">{{ product.name }}</div>
-      <div *ngFor="let price of product.price">
-         <span>{{ price.description }} {{price.amount | currency:'ILS'}} </span>
+        <div style="font-weight: bold;">{{ product.name }}</div>
+        <div *ngFor="let price of product.price">
+          <span>{{ price.description }} {{price.amount | currency:'ILS'}} </span>
+        </div>
       </div>
-    </div>
       <button (click)="removeProduct(product.Id)" class="remove-btn"><i class="bi bi-x-lg" style="color: #f7b70e;"></i>
         הסר</button>
     </li>
@@ -24,3 +24,9 @@
   <!-- <button *ngIf="_systemService.favoriteProducts.length > 0" (click)="sendImagesToEmail()">שליחת כל התמונות כ-ZIP </button> -->
 
 </div>
+
+<product-card 
+[isLogin]="false" 
+[productObject]="selectedProduct" 
+(closeViewer)="closeViewer()">
+</product-card>

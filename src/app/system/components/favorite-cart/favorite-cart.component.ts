@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { SystemService } from '../../system.service';
 import { Product } from '../../../models/product.model';
 import JSZip from 'jszip';
+import { ManagerService } from '../../../manager/manager.service';
 
 @Component({
   selector: 'app-favorite-cart',
@@ -13,7 +14,10 @@ import JSZip from 'jszip';
 export class FavoriteCartComponent implements OnInit {
   favoriteProducts: Product[] = [];
 
-  constructor(private systemService: SystemService) { }
+  selectedProduct: Product | null = null;
+  selectedProductIndex: number = -1;
+
+  constructor(private _managerService: ManagerService, private systemService: SystemService) { }
 
   ngOnInit() {
     // נרשמים לעדכונים של המועדפים
@@ -52,5 +56,29 @@ export class FavoriteCartComponent implements OnInit {
 
   clearCart() {
     this.systemService.clearFavorites();
+  } 
+
+  
+  closeViewer(): void {
+    this.selectedProduct = null;
+    this.selectedProductIndex = -1;
+  }
+
+  closeOnOverlayClick(event: MouseEvent) {
+    if (event.target === event.currentTarget) {
+      this.closeViewer();
+    }
+  }
+
+  openViewer(product: Product): void {
+    this.selectedProduct = product;
+    this.selectedProductIndex = this.favoriteProducts.indexOf(product);
+    
+    product.count_priority++;
+
+    this._managerService.put(product, product.Id).subscribe(
+      (data) => console.log('Product updated:', data),
+      (error) => console.log('Failed to update product:', error)
+    );
   }
 }
