@@ -84,7 +84,7 @@
                         <img [src]="product.image" [alt]="product.name" style="height: 7vh;" class="rounded" />
                     </td>
                     <td>
-                        <span *ngFor="let price of product.price">{{price?.describe}} {{ price?.amount | currency: 'ILS' }}</span>
+                        <span *ngFor="let price of product.price">{{price.describe}} {{ price.amount | currency: 'ILS' }}</span>
                         </td>
                     <td>
                          <span>{{product.categories.join(' | ')}}</span>
