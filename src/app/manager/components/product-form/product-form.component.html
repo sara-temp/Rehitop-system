@@ -98,10 +98,37 @@
       </small>
     </div>
     <!-- מחיר -->
-    <div class="form-group">
+    <!-- <div class="form-group">
       <label for="price" class="form-label">מחיר</label>
       <input matInput formControlName="price" id="price" placeholder="הכנס מחיר" type="number" />
+    </div> -->
+    <div formArrayName="price" class="price-table">
+      <table>
+        <thead>
+          <tr>
+            <th>תיאור מחיר</th>
+            <th>מחיר</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let price of prices.controls; let i = index" [formGroupName]="i">
+            <td>
+              <input formControlName="description" class="price-input description-input" id="description{{i}}" placeholder="תיאור מחיר" />
+            </td>
+            <td>
+              <input formControlName="amount" class="price-input amount-input" id="amount{{i}}" type="number" placeholder="מחיר" />
+            </td>
+            <td>
+              <button class="button-price remove-button" type="button" (click)="removePrice(i)">הסר מחיר</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+    
+    <button class="button-price add-button" type="button" (click)="addPrice()">הוסף מחיר</button>
+        
     <!-- חברה -->
     <div class="form-group">
       <label for="company" class="form-label">חברה</label>

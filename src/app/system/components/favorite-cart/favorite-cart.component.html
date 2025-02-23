@@ -1,21 +1,26 @@
 <div class="cart-container">
-    <h2>🛒 סל המוצרים שאהבתי</h2>
-  
-    <ul  *ngIf="favoriteProducts.length > 0; else emptyCart">
-      <li *ngFor="let product of favoriteProducts">
-        <img [src]="product.image" alt="Product Image">
-        <span>{{ product.name }} - ₪{{ product.price }}</span>
-        <button (click)="removeProduct(product.Id)" class="remove-btn"><i class="bi bi-x-lg" style="color: #f7b70e;"></i> הסר</button>
-      </li>
-    </ul>
-  
-    <ng-template #emptyCart>
-      <p class="empty-message">🛍️ אין מוצרים בסל</p>
-    </ng-template>
-  
-    <button *ngIf="favoriteProducts.length > 0" (click)="clearCart()" class="clear-btn">🗑️ מחק הכל</button>
-    <button *ngIf="favoriteProducts.length > 0" (click)="downloadImagesAsZip()">הורד את התמונות כ-ZIP </button>
-    <!-- <button *ngIf="_systemService.favoriteProducts.length > 0" (click)="sendImagesToEmail()">שליחת כל התמונות כ-ZIP </button> -->
+  <h2>🛒 סל המוצרים שאהבתי</h2>
 
-  </div>
-  
+  <ul *ngIf="favoriteProducts.length > 0; else emptyCart">
+    <li *ngFor="let product of favoriteProducts">
+      <img [src]="product.image" alt="Product Image">
+      <div class="contain-price">
+      <div style="font-weight: bold;">{{ product.name }}</div>
+      <div *ngFor="let price of product.price">
+         <span>{{ price.description }} {{price.amount | currency:'ILS'}} </span>
+      </div>
+    </div>
+      <button (click)="removeProduct(product.Id)" class="remove-btn"><i class="bi bi-x-lg" style="color: #f7b70e;"></i>
+        הסר</button>
+    </li>
+  </ul>
+
+  <ng-template #emptyCart>
+    <p class="empty-message">🛍️ אין מוצרים בסל</p>
+  </ng-template>
+
+  <button *ngIf="favoriteProducts.length > 0" (click)="clearCart()" class="clear-btn">🗑️ מחק הכל</button>
+  <button *ngIf="favoriteProducts.length > 0" (click)="downloadImagesAsZip()">הורד את התמונות כ-ZIP </button>
+  <!-- <button *ngIf="_systemService.favoriteProducts.length > 0" (click)="sendImagesToEmail()">שליחת כל התמונות כ-ZIP </button> -->
+
+</div>

@@ -233,10 +233,10 @@ export class ProductListComponent {
   sortProducts() {
     switch (this.selectedSortOption) {
       case 'priceAsc':
-        this.products.sort((a, b) => a.price - b.price);
+        this.products.sort((a, b) => a.price[0].amount - b.price[0].amount );
         break;
       case 'priceDesc':
-        this.products.sort((a, b) => b.price - a.price);
+        this.products.sort((a, b) => b.price[0].amount  - a.price[0].amount );
         break;
       case 'priority':
         this.products.sort((a, b) => b.count_priority - a.count_priority);

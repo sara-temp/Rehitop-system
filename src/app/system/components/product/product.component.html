@@ -14,18 +14,19 @@
       <div class="details-section">
         <div class="contain">
           <h2>דגם {{ productObject.name }} 
-          <i *ngIf="!productObject.price && isLike(productObject)" class="bi bi-heart-fill favorite-button select"
+          <i *ngIf="isLike(productObject)" class="bi bi-heart-fill favorite-button select"
             (click)=" addToCart(productObject)"></i>
-          <i *ngIf="!productObject.price &&!isLike(productObject)" class="bi bi-heart favorite-button select"
+          <i *ngIf="!isLike(productObject)" class="bi bi-heart favorite-button select"
             (click)="addToCart(productObject)"></i></h2>
         </div>
         <span class="describe-text">{{ productObject.describe }}</span>
-        <div *ngIf="productObject.price && productObject.price>0" class="contain">
-          <div class="price">{{ productObject.price }} ₪
-          <i *ngIf="isLike(productObject)" class="bi bi-heart-fill favorite-button select"
+        <div *ngIf="productObject.price[0] && productObject.price[0].amount" class="contain">
+          <div *ngFor="let price of productObject.price" class="price">{{ price.description }} {{price.amount}} ₪
+          <!-- <i *ngIf="isLike(productObject)" class="bi bi-heart-fill favorite-button select"
             (click)="addToCart(productObject)"></i>
           <i *ngIf="!isLike(productObject)" class="bi bi-heart favorite-button not-select"
-            (click)="addToCart(productObject)"></i></div>
+            (click)="addToCart(productObject)"></i> -->
+          </div>
         </div>
         <div *ngIf="productObject.sizes">
           <p class="sizes-display">{{productObject.sizes}}</p>

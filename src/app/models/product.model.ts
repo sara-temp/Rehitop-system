@@ -1,9 +1,11 @@
+import { Price } from "./price.model"
+
 export class Product {
   Id: string
   image: string
   name: string
   categories: SubCategory[]
-  price: number
+  price: Price[]
   describe?: string
   sizes?: string
   company?: Company
@@ -17,7 +19,7 @@ export class Product {
     image: string,
     name: string,
     categories: SubCategory[],
-    price: number,
+    price: Price[],
     describe?: string,
     sizes?:string,
     company?: Company,

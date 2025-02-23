@@ -1,6 +1,6 @@
 import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
 import { Categories, ChildrensRoom, Closets, companies, Company, DiningAreas, Mattresses, Office, Product, Salon, SCHEMA_RUNTIME, SubCategory } from '../../../models/product.model';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { ManagerService } from '../../manager.service';
 import Swal from 'sweetalert2';
@@ -28,7 +28,7 @@ export class ProductFormComponent {
   companies = companies;
   isUploading = false;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: { product: Product }, private _managerService: ManagerService, public dialog: MatDialog) {
+  constructor(private fb: FormBuilder, @Inject(MAT_DIALOG_DATA) public data: { product: Product }, private _managerService: ManagerService, public dialog: MatDialog) {
     if (data.product) {
       this.product = data.product;
       this.img = data.product.image;
@@ -76,13 +76,22 @@ export class ProductFormComponent {
 
     return categoryOptions;
   }
-
   initializeForm() {
+
+    const price = this.fb.array(
+      (this.product?.price || []).map(p => 
+        this.fb.group({
+          description: new FormControl(p.description || '', Validators.required),
+          amount: new FormControl(p.amount || 0, [Validators.required, Validators.min(0)]),
+        })
+      )
+    )
+
     this.productForm = new FormGroup({
       name: new FormControl(this.product?.name || ''),
       image: new FormControl(this.product?.image || ''),
       categories: new FormControl(this.product?.categories || '', Validators.required),
-      price: new FormControl(this.product?.price || '', Validators.min(0)),
+      price: this.fb.array(this.product?.price?.map(p => this.createPriceFormGroup(p)) || []),  // ממירים את המחירים ל-FormArray
       describe: new FormControl(this.product?.describe || ''),
       sizes: new FormControl(this.product?.sizes || ''),
       company: new FormControl(this.product?.company || ''),
@@ -301,6 +310,29 @@ export class ProductFormComponent {
 
   get lastImages(): string[] {
     return this.images.length > 7 ? this.images.slice(-2) : [];
+  }
+  
+  createPriceFormGroup(price = { description: '', amount: 0 }) {
+    return this.fb.group({
+      description: [price.description, Validators.required],
+      amount: [price.amount, [Validators.required, Validators.min(0)]]
+    });
+  }
+
+  // פונקציה להוספת שורה של מחיר
+  addPrice() {
+    const priceFormGroup = this.createPriceFormGroup();
+    (this.productForm.get('price') as FormArray).push(priceFormGroup);  // הוספת שורת מחיר חדשה
+  }
+
+  // פונקציה להסרת שורה של מחיר
+  removePrice(index: number) {
+    (this.productForm.get('price') as FormArray).removeAt(index);  // הסרת שורת מחיר
+  }
+
+  // פונקציה למעבר למחירים
+  get prices(): FormArray {
+    return this.productForm.get('price') as FormArray;
   }
 }
 

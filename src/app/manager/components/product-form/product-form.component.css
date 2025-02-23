@@ -306,3 +306,95 @@ form::-webkit-scrollbar-track {
   to { transform: rotate(360deg); }
 }
 
+/* סגנון עבור הטבלה */
+.price-table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+/* כותרות הטבלה */
+.price-table thead {
+  background-color: #f1f1f1;
+}
+
+.price-table th {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 2px solid #ddd;
+  font-weight: bold;
+}
+
+/* שורות הנתונים */
+.price-table tbody tr {
+  background-color: #fff;
+}
+
+.price-table td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.price-table td input {
+  width: 100%;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.price-table td input:focus {
+  border-color: #4CAF50;
+}
+
+/* סגנון עבור כפתור ההסרה */
+.button-price.remove-button {
+  padding: 6px 12px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.button-price.remove-button:hover {
+  background-color: #e53935;
+}
+
+/* סגנון עבור כפתור ההוספה */
+.button-price.add-button {
+  padding: 8px 15px;
+  margin-top: 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.button-price.add-button:hover {
+  background-color: #45a049;
+}
+
+/* סגנון עבור שדות הטקסט */
+.price-input {
+  width: 100%;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.price-input:focus {
+  border-color: #4CAF50;
+}
+
+/* סגנון עבור שדה תיאור */
+.description-input {
+  background-color: #f9f9f9;
+}
+
+/* סגנון עבור שדה מחיר */
+.amount-input {
+  background-color: #f0f8ff;
+}
