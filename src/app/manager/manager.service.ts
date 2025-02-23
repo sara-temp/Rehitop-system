@@ -32,16 +32,16 @@ export class ManagerService {
             .sort((a, b) => {
               const aNiceImg = a.nice_img ?? false;
               const bNiceImg = b.nice_img ?? false;
-  
+
               // מיון לפי nice_img תחילה (true לפני false)
               if (aNiceImg !== bNiceImg) {
                 return bNiceImg ? 1 : -1;
               }
-  
+
               // מיון לפי count_priority (אם חסר - מתייחסים כ- 0)
               const aPriority = a.count_priority ?? 0;
               const bPriority = b.count_priority ?? 0;
-  
+
               return bPriority - aPriority;
             });
         } else {
@@ -94,9 +94,9 @@ export class ManagerService {
   normalizeString(str: string): string {
     return str
       .toLowerCase()
-      .replace(/[\u0591-\u05C7]/g, '') 
+      .replace(/[\u0591-\u05C7]/g, '')
       .trim();
-  }  
+  }
 
   getById = (id: string): Observable<Product | undefined> => {
     return this.http.get<Product[]>(`${this.jsonUrl}/${id}`).pipe(
@@ -112,7 +112,7 @@ export class ManagerService {
 
   uploadImage(formData: FormData, folderPath: string): Observable<{ imagePath: string }> {
     return this.http.post<{ imagePath: string }>(`${this.jsonUrl}/upload-image?folder=${folderPath}`, formData, {
-    // return this.http.post<{ imagePath: string }>(this.jsonUrl + '/upload-image', formData, {
+      // return this.http.post<{ imagePath: string }>(this.jsonUrl + '/upload-image', formData, {
       headers: this.getAuthorizationHeader()
     });
   }
@@ -160,7 +160,7 @@ export class ManagerService {
   }
   deleteDialog(massege: String) {
     return Swal.fire({
-      title: `?למחוק ${massege}`, 
+      title: `?למחוק ${massege}`,
       text: "!לא תוכל לשחזר פעולה זו",
       icon: 'warning',
       showCancelButton: true,
